@@ -1,214 +1,168 @@
 import React from "react";
 import { 
-  GraduationCap, BookOpen, Building2, Calendar, Award, 
-  ArrowRight, Users, PlayCircle, ShieldCheck 
+  GraduationCap, ArrowRight, PlayCircle, ShieldCheck, CheckCircle2 
 } from "lucide-react";
 
 export default function WelcomeScreen({ onSelect }) {
-  const handleScrollToCTA = () => {
-    const ctaSec = document.getElementById("cta-section");
-    if (ctaSec) {
-      ctaSec.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
   return (
-    <div style={{ backgroundColor: "var(--bg-primary)", color: "var(--text-primary)", minHeight: "100vh", overflowX: "hidden", position: "relative" }}>
+    <div style={{ 
+      backgroundColor: "var(--bg-primary)", 
+      color: "var(--text-primary)", 
+      minHeight: "100vh", 
+      display: "flex", 
+      alignItems: "center", 
+      justifyContent: "center",
+      padding: "40px",
+      position: "relative",
+      overflow: "hidden" 
+    }}>
       
-      {/* Background Video */}
-      <div style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "600px", overflow: "hidden", zIndex: 0 }}>
-        <video 
-          src="/bg-video.mp4" 
-          autoPlay 
-          loop 
-          muted 
-          playsInline 
-          style={{ width: "100%", height: "100%", objectFit: "cover" }}
-        />
+      {/* Background Glow */}
+      <div className="radial-glow" style={{ top: "-10%", left: "70%", opacity: 0.7 }}></div>
+
+      {/* Main Split Container */}
+      <div style={{ 
+        maxWidth: "1280px", 
+        width: "100%", 
+        display: "flex", 
+        gap: "60px", 
+        alignItems: "center", 
+        justifyContent: "space-between",
+        zIndex: 2,
+        flexWrap: "wrap"
+      }}>
+        
+        {/* Left Content Column */}
         <div style={{ 
-          position: "absolute", 
-          top: 0, left: 0, width: "100%", height: "100%", 
-          background: "linear-gradient(180deg, rgba(11, 15, 25, 0.75) 0%, rgba(11, 15, 25, 1) 100%)" 
-        }} />
+          flex: "1 1 480px", 
+          display: "flex", 
+          flexDirection: "column", 
+          alignItems: "flex-start",
+          textAlign: "left"
+        }}>
+          {/* Logo Badge */}
+          <div style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "10px",
+            backgroundColor: "var(--primary-light)",
+            padding: "8px 16px",
+            borderRadius: "100px",
+            color: "var(--primary)",
+            marginBottom: "28px"
+          }}>
+            <GraduationCap size={18} />
+            <span style={{ fontSize: "0.85rem", fontWeight: 700, letterSpacing: "0.05em", textTransform: "uppercase" }}>
+              Placement Hub
+            </span>
+          </div>
+
+          {/* Title and Tagline */}
+          <h1 style={{ 
+            fontSize: "4.5rem", 
+            fontWeight: 950, 
+            lineHeight: 0.95, 
+            letterSpacing: "-0.05em",
+            textTransform: "uppercase", 
+            margin: "0 0 12px 0",
+            background: "linear-gradient(135deg, #ffffff 60%, #a5b4fc 100%)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent"
+          }}>
+            PLACIFY
+          </h1>
+          
+          <h2 style={{ 
+            color: "var(--primary)", 
+            fontSize: "1.5rem", 
+            fontWeight: 800, 
+            letterSpacing: "0.15em", 
+            textTransform: "uppercase", 
+            margin: "0 0 24px 0" 
+          }}>
+            Success is just next step
+          </h2>
+
+          <p style={{ 
+            color: "var(--text-secondary)", 
+            fontSize: "1.1rem", 
+            lineHeight: 1.6, 
+            margin: "0 0 32px 0",
+            maxWidth: "520px" 
+          }}>
+            PLACIFY is a unified prep environment containing customized study routines, local compilers, drive calendars, and company interview archives.
+          </p>
+
+          {/* Bullets List */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "12px", marginBottom: "40px" }}>
+            {[
+              "Dynamic language playlists (C++, Java, Python, JS)",
+              "Weekly mock exams (20 MCQs + 3 coding tasks)",
+              "Teammate finder & placement drive calendar",
+              "Interactive 3D algorithm execution visualizers"
+            ].map((text, idx) => (
+              <div key={idx} style={{ display: "flex", gap: "10px", alignItems: "center", fontSize: "0.95rem", color: "var(--text-primary)" }}>
+                <CheckCircle2 size={16} style={{ color: "var(--success)" }} />
+                <span>{text}</span>
+              </div>
+            ))}
+          </div>
+
+          {/* Action CTAs */}
+          <div style={{ display: "flex", gap: "16px", width: "100%", maxWidth: "480px" }}>
+            <button 
+              className="btn btn-secondary" 
+              style={{ padding: "14px 28px", fontSize: "0.95rem", flex: 1, justifyContent: "center" }}
+              onClick={() => onSelect("guest")}
+            >
+              <PlayCircle size={18} /> Explore as Guest
+            </button>
+
+            <button 
+              className="btn btn-primary" 
+              style={{ padding: "14px 28px", fontSize: "0.95rem", flex: 1, justifyContent: "center" }}
+              onClick={() => onSelect("premium")}
+            >
+              <ShieldCheck size={18} /> Setup Tailored Plan
+            </button>
+          </div>
+        </div>
+
+        {/* Right Video Mockup Column */}
+        <div style={{ 
+          flex: "1 1 540px", 
+          display: "flex", 
+          justifyContent: "center",
+          alignItems: "center"
+        }}>
+          {/* Framed Video Player */}
+          <div style={{ 
+            width: "100%", 
+            maxWidth: "600px",
+            aspectRatio: "16/9", 
+            borderRadius: "20px", 
+            overflow: "hidden", 
+            border: "1px solid rgba(255, 255, 255, 0.1)", 
+            boxShadow: "0 25px 60px -15px rgba(99, 102, 241, 0.35)",
+            backgroundColor: "#020617",
+            position: "relative"
+          }}>
+            <video 
+              src="/bg-video.mp4" 
+              autoPlay 
+              loop 
+              muted 
+              playsInline 
+              style={{ 
+                width: "100%", 
+                height: "100%", 
+                objectFit: "cover" 
+              }} 
+            />
+          </div>
+        </div>
+
       </div>
-
-      {/* radial background glow */}
-      <div className="radial-glow" style={{ zIndex: 1 }}></div>
-
-      {/* Hero Section */}
-      <header className="landing-hero" style={{ position: "relative", zIndex: 2 }}>
-        <div style={{
-          width: "56px",
-          height: "56px",
-          borderRadius: "14px",
-          backgroundColor: "var(--primary-light)",
-          color: "var(--primary)",
-          display: "inline-flex",
-          alignItems: "center",
-          justifyContent: "center",
-          marginBottom: "20px"
-        }}>
-          <GraduationCap size={30} />
-        </div>
-        <h1 style={{ fontSize: "4.25rem", fontWeight: 900, marginBottom: "8px", letterSpacing: "-0.04em", textTransform: "uppercase" }}>
-          PLACIFY
-        </h1>
-        <p style={{ color: "var(--primary)", fontSize: "1.35rem", fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "24px" }}>
-          Success is just next step
-        </p>
-        <p style={{ color: "var(--text-secondary)", fontSize: "1.20rem", maxWidth: "680px", margin: "0 auto 32px auto", lineHeight: 1.6 }}>
-          PLACIFY orchestrates your DSA prep checklists, company eligibility databases, drive calendars, and weekly coding assessments in a premium dark dashboard.
-        </p>
-        
-        <div style={{ display: "flex", justifyContent: "center", gap: "16px" }}>
-          <button className="btn btn-primary" style={{ padding: "12px 24px" }} onClick={handleScrollToCTA}>
-            Get Started <ArrowRight size={18} />
-          </button>
-          <button className="btn btn-secondary" style={{ padding: "12px 24px" }} onClick={handleScrollToCTA}>
-            Explore Modules
-          </button>
-        </div>
-
-        {/* Hero Stats */}
-        <div style={{
-          display: "flex",
-          justifyContent: "center",
-          gap: "60px",
-          marginTop: "60px",
-          borderTop: "1px solid var(--border-color)",
-          paddingTop: "32px"
-        }}>
-          <div>
-            <h3 style={{ fontSize: "1.75rem", color: "var(--primary)" }}>4</h3>
-            <span style={{ fontSize: "0.85rem", color: "var(--text-secondary)" }}>Curated Streams</span>
-          </div>
-          <div>
-            <h3 style={{ fontSize: "1.75rem", color: "var(--success)" }}>15+</h3>
-            <span style={{ fontSize: "0.85rem", color: "var(--text-secondary)" }}>Company Profiles</span>
-          </div>
-          <div>
-            <h3 style={{ fontSize: "1.75rem", color: "var(--warning)" }}>100%</h3>
-            <span style={{ fontSize: "0.85rem", color: "var(--text-secondary)" }}>Personalized Schedules</span>
-          </div>
-        </div>
-      </header>
-
-      {/* Feature Showcase Grid */}
-      <main style={{ position: "relative", zIndex: 1 }}>
-        <h2 className="feature-showcase-title">Core Modules Built inside PLACIFY</h2>
-        
-        <div className="landing-features-grid">
-          {/* Card 1: Learning Hub */}
-          <div className="landing-feature-card">
-            <div style={{
-              width: "44px",
-              height: "44px",
-              borderRadius: "10px",
-              backgroundColor: "var(--primary-light)",
-              color: "var(--primary)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center"
-            }}>
-              <BookOpen size={20} />
-            </div>
-            <h3>Learning Hub</h3>
-            <p style={{ fontSize: "0.95rem", color: "var(--text-secondary)", margin: 0, lineHeight: 1.5 }}>
-              Access structured playlists by language (C++, Java, Python, JavaScript) covering DSA and CS Fundamentals (OOPs, DBMS, Networks) with checkboxes to keep track of watch progress.
-            </p>
-          </div>
-
-          {/* Card 2: Company Intelligence */}
-          <div className="landing-feature-card">
-            <div style={{
-              width: "44px",
-              height: "44px",
-              borderRadius: "10px",
-              backgroundColor: "var(--success-light)",
-              color: "var(--success)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center"
-            }}>
-              <Building2 size={20} />
-            </div>
-            <h3>Company Database</h3>
-            <p style={{ fontSize: "0.95rem", color: "var(--text-secondary)", margin: 0, lineHeight: 1.5 }}>
-              Check out recruitment cutoffs, CTC details, and hiring rounds for companies. Read through crowdsourced interview experiences and share your own interview reports in-memory.
-            </p>
-          </div>
-
-          {/* Card 3: Drives Calendar */}
-          <div className="landing-feature-card">
-            <div style={{
-              width: "44px",
-              height: "44px",
-              borderRadius: "10px",
-              backgroundColor: "var(--warning-light)",
-              color: "var(--warning)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center"
-            }}>
-              <Calendar size={20} />
-            </div>
-            <h3>Exam & Drives Calendar</h3>
-            <p style={{ fontSize: "0.95rem", color: "var(--text-secondary)", margin: 0, lineHeight: 1.5 }}>
-              Track registration deadlines for competitive exams and hackathons. Use our teammate board to recruit coders matching specific skill sets for national hackathons.
-            </p>
-          </div>
-
-          {/* Card 4: Weekly Mock Tests */}
-          <div className="landing-feature-card">
-            <div style={{
-              width: "44px",
-              height: "44px",
-              borderRadius: "10px",
-              backgroundColor: "var(--danger-light)",
-              color: "var(--danger)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center"
-            }}>
-              <Award size={20} />
-            </div>
-            <h3>Weekly Mock Assessments</h3>
-            <p style={{ fontSize: "0.95rem", color: "var(--text-secondary)", margin: 0, lineHeight: 1.5 }}>
-              Take timed technical assessments simulating actual recruitment. Sectional timers, 20 Aptitude/CS MCQs, 3-question coding environment, and tab-switch anti-cheat validation.
-            </p>
-          </div>
-        </div>
-
-        {/* CTA Section at bottom */}
-        <section className="cta-section" id="cta-section">
-          <div style={{ maxWidth: "600px", margin: "0 auto" }}>
-            <h2 style={{ fontSize: "2.25rem", marginBottom: "12px", letterSpacing: "-0.02em" }}>Ready to Start Preparing?</h2>
-            <p style={{ color: "var(--text-secondary)" }}>
-              Choose your path to enter. Access normal features directly, or register to generate your daily preparation routine.
-            </p>
-
-            <div className="cta-buttons-container">
-              {/* Option A: Guest */}
-              <button 
-                className="btn btn-secondary" 
-                style={{ padding: "14px 28px", fontSize: "1rem", flex: 1, justifyContent: "center" }}
-                onClick={() => onSelect("guest")}
-              >
-                <PlayCircle size={18} /> Explore as Guest
-              </button>
-
-              {/* Option B: Premium Login */}
-              <button 
-                className="btn btn-primary" 
-                style={{ padding: "14px 28px", fontSize: "1rem", flex: 1, justifyContent: "center" }}
-                onClick={() => onSelect("premium")}
-              >
-                <ShieldCheck size={18} /> Setup Tailored Plan
-              </button>
-            </div>
-          </div>
-        </section>
-      </main>
     </div>
   );
 }
