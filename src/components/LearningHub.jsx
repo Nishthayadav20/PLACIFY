@@ -274,62 +274,64 @@ export default function LearningHub({ playlists, playlistState, toggleVideoWatch
               </button>
             </div>
             
-            {/* Quick search keywords by B.Tech CS Subjects */}
-            <div style={{ display: "flex", flexDirection: "column", gap: "10px", marginTop: "16px" }}>
-              {/* DSA Category */}
-              <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", alignItems: "center" }}>
-                <span style={{ fontSize: "0.75rem", color: "var(--primary)", fontWeight: "600", width: "130px" }}>DSA (Algorithms):</span>
-                {["Arrays & Hashing", "Linked Lists", "Recursion", "Trees & BST", "Graphs Algorithms", "Dynamic Programming"].map(topic => (
-                  <button
-                    key={topic}
-                    className="btn btn-secondary"
-                    style={{ padding: "4px 8px", fontSize: "0.7rem", backgroundColor: "#000000", border: "1px solid var(--border-color)", color: "#ffffff" }}
-                    onClick={() => {
-                      setLiveQuery(topic + " striver");
-                      setYtSearchQuery(topic + " striver");
-                    }}
-                  >
-                    {topic}
-                  </button>
-                ))}
-              </div>
+            {/* Quick search keywords by B.Tech CS Subjects (Visible only when user types in search bar) */}
+            {liveQuery.trim() !== "" && (
+              <div style={{ display: "flex", flexDirection: "column", gap: "10px", marginTop: "16px", animation: "fadeIn 0.2s ease" }}>
+                {/* DSA Category */}
+                <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", alignItems: "center" }}>
+                  <span style={{ fontSize: "0.75rem", color: "var(--primary)", fontWeight: "600", width: "130px" }}>DSA (Algorithms):</span>
+                  {["Arrays & Hashing", "Linked Lists", "Recursion", "Trees & BST", "Graphs Algorithms", "Dynamic Programming"].map(topic => (
+                    <button
+                      key={topic}
+                      className="btn btn-secondary"
+                      style={{ padding: "4px 8px", fontSize: "0.7rem", backgroundColor: "#000000", border: "1px solid var(--border-color)", color: "#ffffff" }}
+                      onClick={() => {
+                        setLiveQuery(topic + " striver");
+                        setYtSearchQuery(topic + " striver");
+                      }}
+                    >
+                      {topic}
+                    </button>
+                  ))}
+                </div>
 
-              {/* Core CSE Theory Category */}
-              <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", alignItems: "center" }}>
-                <span style={{ fontSize: "0.75rem", color: "var(--success)", fontWeight: "600", width: "130px" }}>Core Theory:</span>
-                {["OOPs Concepts", "DBMS Normalization", "OS Process Scheduling", "OS Deadlocks", "OS Paging", "TOC Automata", "Computer Networks TCP/UDP"].map(topic => (
-                  <button
-                    key={topic}
-                    className="btn btn-secondary"
-                    style={{ padding: "4px 8px", fontSize: "0.7rem", backgroundColor: "#000000", border: "1px solid var(--border-color)", color: "#ffffff" }}
-                    onClick={() => {
-                      setLiveQuery(topic);
-                      setYtSearchQuery(topic);
-                    }}
-                  >
-                    {topic}
-                  </button>
-                ))}
-              </div>
+                {/* Core CSE Theory Category */}
+                <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", alignItems: "center" }}>
+                  <span style={{ fontSize: "0.75rem", color: "var(--success)", fontWeight: "600", width: "130px" }}>Core Theory:</span>
+                  {["OOPs Concepts", "DBMS Normalization", "OS Process Scheduling", "OS Deadlocks", "OS Paging", "TOC Automata", "Computer Networks TCP/UDP"].map(topic => (
+                    <button
+                      key={topic}
+                      className="btn btn-secondary"
+                      style={{ padding: "4px 8px", fontSize: "0.7rem", backgroundColor: "#000000", border: "1px solid var(--border-color)", color: "#ffffff" }}
+                      onClick={() => {
+                        setLiveQuery(topic);
+                        setYtSearchQuery(topic);
+                      }}
+                    >
+                      {topic}
+                    </button>
+                  ))}
+                </div>
 
-              {/* System Design & Cloud Category */}
-              <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", alignItems: "center" }}>
-                <span style={{ fontSize: "0.75rem", color: "var(--danger)", fontWeight: "600", width: "130px" }}>System & Cloud:</span>
-                {["System Design HLD", "Load Balancers", "Database Sharding", "AWS Cloud", "Docker & Kubernetes", "Git & GitHub"].map(topic => (
-                  <button
-                    key={topic}
-                    className="btn btn-secondary"
-                    style={{ padding: "4px 8px", fontSize: "0.7rem", backgroundColor: "#000000", border: "1px solid var(--border-color)", color: "#ffffff" }}
-                    onClick={() => {
-                      setLiveQuery(topic);
-                      setYtSearchQuery(topic);
-                    }}
-                  >
-                    {topic}
-                  </button>
-                ))}
+                {/* System Design & Cloud Category */}
+                <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", alignItems: "center" }}>
+                  <span style={{ fontSize: "0.75rem", color: "var(--danger)", fontWeight: "600", width: "130px" }}>System & Cloud:</span>
+                  {["System Design HLD", "Load Balancers", "Database Sharding", "AWS Cloud", "Docker & Kubernetes", "Git & GitHub"].map(topic => (
+                    <button
+                      key={topic}
+                      className="btn btn-secondary"
+                      style={{ padding: "4px 8px", fontSize: "0.7rem", backgroundColor: "#000000", border: "1px solid var(--border-color)", color: "#ffffff" }}
+                      onClick={() => {
+                        setLiveQuery(topic);
+                        setYtSearchQuery(topic);
+                      }}
+                    >
+                      {topic}
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
           </div>
 
           {/* YouTube Live Player Window Panel */}
