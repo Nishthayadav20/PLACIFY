@@ -249,6 +249,8 @@ export default function App() {
             companies={companies}
             events={mockCalendarEvents}
             onNavigate={handleNavigate}
+            toggleVideoWatched={toggleVideoWatched}
+            toggleProblemCompleted={toggleProblemCompleted}
           />
         );
       case "learning":

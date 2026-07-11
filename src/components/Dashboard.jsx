@@ -12,7 +12,9 @@ export default function Dashboard({
   playlistState, 
   companies, 
   events, 
-  onNavigate 
+  onNavigate,
+  toggleVideoWatched,
+  toggleProblemCompleted
 }) {
   const [syncing, setSyncing] = useState({ github: false, leetcode: false, coding: false });
   const [todayTasks, setTodayTasks] = useState(() => {
@@ -21,16 +23,39 @@ export default function Dashboard({
   });
   const [showCelebration, setShowCelebration] = useState(false);
 
-  useEffect(() => {
-    localStorage.setItem(`dashboard_tasks_completed_day_${profile.currentDay}`, JSON.stringify(todayTasks));
-  }, [todayTasks, profile.currentDay]);
+  // Load routine recommendations based on level, current day, and preferred language
+  const routine = generateDailyRoutine(profile.dsaLevel, profile.currentDay, profile.timelineDays, profile.language);
+
+  const isTheoryCompleted = !!playlistState[routine.video?.id] || !!playlistState[routine.video?.youtubeId];
+  const isCodingCompleted = !!dsaState[routine.problem?.id]?.completed;
+  const isSyncCompleted = !!todayTasks.sync;
 
   useEffect(() => {
-    const saved = localStorage.getItem(`dashboard_tasks_completed_day_${profile.currentDay}`);
+    const updated = {
+      theory: isTheoryCompleted,
+      coding: isCodingCompleted,
+      sync: isSyncCompleted
+    };
+    localStorage.setItem(`dashboard_tasks_completed_day_${profile.currentDay}`, JSON.stringify(updated));
+    setTodayTasks(updated);
+  }, [isTheoryCompleted, isCodingCompleted, isSyncCompleted, profile.currentDay]);
+
+  const [activeQuestionIdx, setActiveQuestionIdx] = useState(null);
+  const [answersState, setAnswersState] = useState(() => {
+    const saved = localStorage.getItem(`dashboard_answers_day_${profile.currentDay}`);
+    return saved ? JSON.parse(saved) : {};
+  });
+
+  useEffect(() => {
+    localStorage.setItem(`dashboard_answers_day_${profile.currentDay}`, JSON.stringify(answersState));
+  }, [answersState, profile.currentDay]);
+
+  useEffect(() => {
+    const saved = localStorage.getItem(`dashboard_answers_day_${profile.currentDay}`);
     if (saved) {
-      setTodayTasks(JSON.parse(saved));
+      setAnswersState(JSON.parse(saved));
     } else {
-      setTodayTasks({ theory: false, coding: false, sync: false });
+      setAnswersState({});
     }
   }, [profile.currentDay]);
 
@@ -101,7 +126,6 @@ export default function Dashboard({
   };
 
   // Load routine recommendations based on level, current day, and preferred language
-  const routine = generateDailyRoutine(profile.dsaLevel, profile.currentDay, profile.timelineDays, profile.language);
   const dailyQuestions = getPastYearQuestions(routine.topic);
   const solvedCount = Object.values(completedQuestions).filter(Boolean).length;
 
@@ -265,9 +289,9 @@ export default function Dashboard({
                 <input 
                   type="checkbox" 
                   checked={todayTasks.theory} 
-                  onChange={() => setTodayTasks(prev => ({ ...prev, theory: !prev.theory }))} 
+                  disabled
                 />
-                <div className="custom-checkbox">
+                <div className="custom-checkbox" style={{ cursor: "not-allowed" }}>
                   {todayTasks.theory && <Play size={10} fill="var(--primary)" style={{ color: "var(--primary)" }} />}
                 </div>
               </label>
@@ -283,7 +307,7 @@ export default function Dashboard({
               rel="noopener noreferrer"
               className="btn btn-secondary"
               style={{ padding: "6px 12px", fontSize: "0.8rem" }}
-              onClick={() => setTodayTasks(prev => ({ ...prev, theory: true }))}
+              onClick={() => toggleVideoWatched(routine.video.id || routine.video.youtubeId)}
             >
               Start Lecture <Play size={12} />
             </a>
@@ -304,9 +328,9 @@ export default function Dashboard({
                 <input 
                   type="checkbox" 
                   checked={todayTasks.coding} 
-                  onChange={() => setTodayTasks(prev => ({ ...prev, coding: !prev.coding }))} 
+                  disabled
                 />
-                <div className="custom-checkbox">
+                <div className="custom-checkbox" style={{ cursor: "not-allowed" }}>
                   {todayTasks.coding && <CheckCircle size={10} style={{ color: "var(--primary)" }} />}
                 </div>
               </label>
@@ -332,7 +356,7 @@ export default function Dashboard({
                 rel="noopener noreferrer"
                 className="btn btn-secondary"
                 style={{ padding: "6px 12px", fontSize: "0.8rem" }}
-                onClick={() => setTodayTasks(prev => ({ ...prev, coding: true }))}
+                onClick={() => toggleProblemCompleted(routine.problem.id, routine.problem.title)}
               >
                 Solve on LeetCode <ExternalLink size={12} />
               </a>
@@ -409,36 +433,92 @@ export default function Dashboard({
 
         {/* 5 Questions Checklist */}
         <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-          {dailyQuestions.map((qObj, index) => (
-            <div 
-              key={index} 
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "12px",
-                padding: "10px 14px",
-                backgroundColor: completedQuestions[index] ? "var(--success-light)" : "var(--bg-primary)",
-                borderRadius: "var(--radius-sm)",
-                border: "1px solid var(--border-color)",
-                transition: "background-color 0.2s ease"
-              }}
-            >
-              <label className="checkbox-container">
-                <input 
-                  type="checkbox" 
-                  checked={completedQuestions[index] || false} 
-                  onChange={() => setCompletedQuestions(prev => ({ ...prev, [index]: !prev[index] }))} 
-                />
-                <div className="custom-checkbox">
-                  {completedQuestions[index] && <CheckCircle size={10} style={{ color: "var(--success)" }} />}
+          {dailyQuestions.map((qObj, index) => {
+            const isCompleted = completedQuestions[index];
+            const isActive = activeQuestionIdx === index;
+            const textAnswer = answersState[index] || "";
+
+            return (
+              <div 
+                key={index} 
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  padding: "12px 16px",
+                  backgroundColor: isCompleted ? "var(--success-light)" : "var(--bg-primary)",
+                  borderRadius: "var(--radius-sm)",
+                  border: "1px solid var(--border-color)",
+                  transition: "background-color 0.2s ease"
+                }}
+              >
+                <div 
+                  style={{ display: "flex", alignItems: "center", gap: "12px", cursor: "pointer", width: "100%" }}
+                  onClick={() => setActiveQuestionIdx(isActive ? null : index)}
+                >
+                  <label className="checkbox-container" onClick={(e) => e.stopPropagation()}>
+                    <input 
+                      type="checkbox" 
+                      checked={isCompleted || false} 
+                      disabled
+                    />
+                    <div className="custom-checkbox" style={{ cursor: "not-allowed" }}>
+                      {isCompleted && <CheckCircle size={10} style={{ color: "var(--success)" }} />}
+                    </div>
+                  </label>
+                  <div style={{ flex: 1 }}>
+                    <span style={{ fontSize: "0.75rem", color: "var(--success)", fontWeight: 600 }}>{qObj.type}</span>
+                    <p style={{ margin: "2px 0 0 0", fontSize: "0.9rem", color: "var(--text-primary)" }}>{qObj.q}</p>
+                  </div>
+                  <span style={{ fontSize: "0.75rem", color: "var(--text-muted)" }}>{isActive ? "Collapse ▴" : "Solve ▾"}</span>
                 </div>
-              </label>
-              <div>
-                <span style={{ fontSize: "0.75rem", color: "var(--success)", fontWeight: 600 }}>{qObj.type}</span>
-                <p style={{ margin: "2px 0 0 0", fontSize: "0.9rem", color: "var(--text-primary)" }}>{qObj.q}</p>
+
+                {/* Submissions form (no manual checkbox tick) */}
+                {isActive && (
+                  <div style={{ marginTop: "12px", borderTop: "1px solid var(--border-color)", paddingTop: "12px", display: "flex", flexDirection: "column", gap: "8px" }}>
+                    <label style={{ fontSize: "0.8rem", color: "var(--text-secondary)" }}>
+                      Provide your solution writeup or code explanation to complete this task (min 10 characters):
+                    </label>
+                    <textarea
+                      rows={3}
+                      style={{
+                        width: "100%",
+                        backgroundColor: "#000000",
+                        border: "1px solid var(--border-color)",
+                        borderRadius: "4px",
+                        color: "#ffffff",
+                        padding: "8px",
+                        fontSize: "0.85rem",
+                        fontFamily: "var(--font-body)",
+                        resize: "vertical"
+                      }}
+                      placeholder="Type your explanation or pseudocode here..."
+                      value={textAnswer}
+                      onChange={(e) => setAnswersState(prev => ({ ...prev, [index]: e.target.value }))}
+                    />
+                    <button
+                      className="btn btn-primary"
+                      style={{
+                        alignSelf: "flex-end",
+                        padding: "6px 12px",
+                        fontSize: "0.85rem",
+                        backgroundColor: textAnswer.trim().length >= 10 ? "var(--success)" : "var(--border-color)",
+                        borderColor: textAnswer.trim().length >= 10 ? "var(--success)" : "var(--border-color)",
+                        color: "#ffffff",
+                        cursor: textAnswer.trim().length >= 10 ? "pointer" : "not-allowed"
+                      }}
+                      disabled={textAnswer.trim().length < 10}
+                      onClick={() => {
+                        setCompletedQuestions(prev => ({ ...prev, [index]: true }));
+                        setActiveQuestionIdx(null);
+                      }}
+                    >
+                      Verify & Complete Task
+                    </button>
+                  </div>
+                )}
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
 
