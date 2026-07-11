@@ -270,7 +270,7 @@ export default function App() {
           </span>
           <span style={{ display: "flex", alignItems: "center", fontSize: "1.35rem", fontWeight: "900", fontFamily: "var(--font-headings)", gap: "1px", marginLeft: "4px" }}>
             <span style={{ color: "var(--danger)" }}>&lt;</span>
-            <span style={{ color: "var(--warning)" }}>/</span>
+            <span style={{ color: "#ffffff" }}>/</span>
             <span style={{ color: "var(--danger)" }}>&gt;</span>
           </span>
         </div>
