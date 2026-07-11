@@ -16,6 +16,27 @@ export default function LearningHub({ playlists, playlistState, toggleVideoWatch
     return matchesTopic && matchesSearch;
   });
 
+  // Topic-wise matching videos search
+  const matchedVideos = [];
+  if (searchQuery.trim() !== "") {
+    playlists.forEach(playlist => {
+      playlist.videos.forEach(video => {
+        if (
+          video.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          playlist.language.toLowerCase().includes(searchQuery.toLowerCase())
+        ) {
+          matchedVideos.push({
+            ...video,
+            playlistId: playlist.id,
+            playlistTitle: playlist.title,
+            playlistCreator: playlist.creator,
+            youtubePlaylists: playlist.youtubePlaylists
+          });
+        }
+      });
+    });
+  }
+
   const getPlaylistProgress = (playlist) => {
     const totalVideos = playlist.videos.length;
     const completedVideos = playlist.videos.filter(v => playlistState[v.id]).length;
@@ -65,6 +86,99 @@ export default function LearningHub({ playlists, playlistState, toggleVideoWatch
           })}
         </div>
       </div>
+
+      {/* Topic-wise Search Results */}
+      {matchedVideos.length > 0 && (
+        <div style={{
+          backgroundColor: "#0d1117",
+          border: "1px solid var(--border-color)",
+          borderRadius: "6px",
+          padding: "20px",
+          marginBottom: "32px",
+          boxShadow: "var(--shadow-md)"
+        }}>
+          <h2 style={{ fontSize: "1.2rem", fontWeight: "700", marginBottom: "16px", color: "var(--success)" }}>
+            Topic-wise Lessons Found ({matchedVideos.length})
+          </h2>
+          <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+            {matchedVideos.map((video) => (
+              <div 
+                key={video.id} 
+                style={{ 
+                  display: "flex", 
+                  justifyContent: "space-between", 
+                  alignItems: "center", 
+                  padding: "12px", 
+                  backgroundColor: "#000000", 
+                  border: "1px solid var(--border-color)", 
+                  borderRadius: "4px" 
+                }}
+              >
+                <div>
+                  <h4 style={{ margin: "0 0 4px 0", fontSize: "0.95rem", color: "#ffffff" }}>
+                    {video.title}
+                  </h4>
+                  <span style={{ fontSize: "0.75rem", color: "var(--text-muted)" }}>
+                    From Course: {video.playlistTitle} ({video.playlistCreator})
+                  </span>
+                </div>
+                <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+                  {/* Renowned Course Dropdown */}
+                  <div className="youtube-hover-menu-container">
+                    <span className="youtube-subheading" style={{ fontSize: "0.8rem", color: "var(--danger)", fontWeight: "600", cursor: "pointer", borderBottom: "1px dashed var(--danger)" }}>
+                      Renowned Playlists ▾
+                    </span>
+                    <div className="youtube-dropdown-links" style={{ right: 0, left: "auto" }}>
+                      {video.youtubePlaylists && video.youtubePlaylists.map((yt, i) => (
+                        <a 
+                          key={i} 
+                          href={yt.url} 
+                          target="_blank" 
+                          rel="noopener noreferrer" 
+                          style={{ 
+                            fontSize: "0.75rem", 
+                            color: "var(--text-secondary)", 
+                            textDecoration: "none",
+                            padding: "4px 6px",
+                            borderRadius: "2px",
+                            display: "block"
+                          }}
+                          onMouseEnter={(e) => e.target.style.color = "#ffffff"}
+                          onMouseLeave={(e) => e.target.style.color = "var(--text-secondary)"}
+                        >
+                          {yt.name}
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                  
+                  {/* Watch Button */}
+                  <a 
+                    href={`https://www.youtube.com/watch?v=${video.youtubeId}`} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="btn btn-primary"
+                    style={{ 
+                      padding: "6px 12px", 
+                      fontSize: "0.8rem", 
+                      borderRadius: "4px",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "6px",
+                      backgroundColor: "#ffffff",
+                      color: "#000000",
+                      border: "none",
+                      fontWeight: "bold"
+                    }}
+                  >
+                    <ExternalLink size={12} /> Watch Video
+                  </a>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Playlists Grid */}
       <div className="grid-cols-2">
