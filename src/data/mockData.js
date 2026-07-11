@@ -117,6 +117,22 @@ export const mockPlaylists = [
       { id: "v-cn-3", title: "Routing Protocols (RIP, OSPF, BGP)", duration: "36:20", youtubeId: "cn-3" },
       { id: "v-cn-4", title: "Application Layer Protocols: HTTP, DNS, SMTP", duration: "28:10", youtubeId: "cn-4" }
     ]
+  },
+  // SQL Practice Track
+  {
+    id: "pl-sql",
+    title: "SQL Practice Sheet Video Playlist",
+    creator: "Ankit Bansal",
+    topic: "CS Fundamentals",
+    language: "SQL",
+    difficulty: "Beginner to Advanced",
+    upvotes: 985,
+    videos: [
+      { id: "v-sql-1", title: "Top 50 SQL Queries Interview Questions", duration: "1:02:15", youtubeId: "sql-1" },
+      { id: "v-sql-2", title: "Complex SQL Joins, Subqueries & CTEs", duration: "48:30", youtubeId: "sql-2" },
+      { id: "v-sql-3", title: "Window Functions: Row_Number, Rank, Dense_Rank", duration: "55:10", youtubeId: "sql-3" },
+      { id: "v-sql-4", title: "SQL Query Tuning, Optimization & Indexes", duration: "36:45", youtubeId: "sql-4" }
+    ]
   }
 ];
 
