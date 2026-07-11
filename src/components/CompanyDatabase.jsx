@@ -125,7 +125,7 @@ export default function CompanyDatabase({ companies, addExperience }) {
               <p style={{ fontSize: "0.85rem", marginBottom: "4px" }}><strong>Eligible Branches:</strong></p>
               <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
                 {company.branchesAllowed.map(branch => (
-                  <span key={branch} style={{ fontSize: "0.75rem", padding: "4px 8px", backgroundColor: "#f1f5f9", borderRadius: "4px", color: "var(--text-secondary)" }}>
+                  <span key={branch} style={{ fontSize: "0.75rem", padding: "4px 8px", backgroundColor: "#000000", border: "1px solid var(--border-color)", borderRadius: "4px", color: "#ffffff" }}>
                     {branch}
                   </span>
                 ))}
