@@ -6,6 +6,7 @@ export default function LearningHub({ playlists, playlistState, toggleVideoWatch
   const [searchQuery, setSearchQuery] = useState("");
   const [activePlaylistId, setActivePlaylistId] = useState(null);
   const [openDropdown, setOpenDropdown] = useState(null);
+  const [hoveredDropdown, setHoveredDropdown] = useState(null);
 
   // Live YouTube search states
   const [liveQuery, setLiveQuery] = useState("");
@@ -522,7 +523,11 @@ export default function LearningHub({ playlists, playlistState, toggleVideoWatch
                   {/* Dropdowns row */}
                   <div style={{ display: "flex", gap: "10px", alignItems: "center", marginTop: "6px" }}>
                     {/* YouTube Hover Menu Subheading */}
-                    <div className="youtube-hover-menu-container">
+                    <div 
+                      className="youtube-hover-menu-container"
+                      onMouseEnter={() => setHoveredDropdown(`${playlist.id}-youtube`)}
+                      onMouseLeave={() => setHoveredDropdown(null)}
+                    >
                       <span 
                         className="youtube-subheading" 
                         style={{ fontSize: "0.8rem", color: "var(--danger)", fontWeight: "600", cursor: "pointer", borderBottom: "1px dashed var(--danger)" }}
@@ -535,7 +540,7 @@ export default function LearningHub({ playlists, playlistState, toggleVideoWatch
                       </span>
                       <div 
                         className="youtube-dropdown-links"
-                        style={{ display: openDropdown === `${playlist.id}-youtube` ? "flex" : undefined }}
+                        style={{ display: (openDropdown === `${playlist.id}-youtube` || hoveredDropdown === `${playlist.id}-youtube`) ? "flex" : "none" }}
                       >
                         {playlist.youtubePlaylists && playlist.youtubePlaylists.map((yt, i) => (
                           <a 
@@ -562,7 +567,11 @@ export default function LearningHub({ playlists, playlistState, toggleVideoWatch
 
                     {/* Docs & Practice Sheets Hover Menu */}
                     {playlist.studyResources && playlist.studyResources.length > 0 && (
-                      <div className="youtube-hover-menu-container">
+                      <div 
+                        className="youtube-hover-menu-container"
+                        onMouseEnter={() => setHoveredDropdown(`${playlist.id}-docs`)}
+                        onMouseLeave={() => setHoveredDropdown(null)}
+                      >
                         <span 
                           className="youtube-subheading" 
                           style={{ fontSize: "0.8rem", color: "var(--success)", fontWeight: "600", cursor: "pointer", borderBottom: "1px dashed var(--success)" }}
@@ -575,7 +584,7 @@ export default function LearningHub({ playlists, playlistState, toggleVideoWatch
                         </span>
                         <div 
                           className="youtube-dropdown-links"
-                          style={{ display: openDropdown === `${playlist.id}-docs` ? "flex" : undefined }}
+                          style={{ display: (openDropdown === `${playlist.id}-docs` || hoveredDropdown === `${playlist.id}-docs`) ? "flex" : "none" }}
                         >
                           {playlist.studyResources.map((res, i) => (
                             <a 
