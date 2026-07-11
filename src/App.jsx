@@ -122,6 +122,18 @@ export default function App() {
         isLoggedIn: true
       });
       setActiveView("dashboard");
+    } else if (mode === "premium") {
+      setProfile({
+        name: "",
+        github: "",
+        leetcode: "",
+        hackerrank: "",
+        codechef: "",
+        dsaLevel: "Beginner",
+        timelineDays: 90,
+        currentDay: 1,
+        isLoggedIn: false
+      });
     }
   };
 
