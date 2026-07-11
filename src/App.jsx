@@ -15,7 +15,7 @@ import WelcomeScreen from "./components/WelcomeScreen";
 import MockTestEngine from "./components/MockTestEngine";
 import AlgoVisualizer from "./components/AlgoVisualizer";
 import { 
-  LayoutDashboard, GraduationCap, Building2, Calendar, Award, Lock, BookOpenCheck, Eye 
+  LayoutDashboard, GraduationCap, Building2, Calendar, Award, Lock, BookOpenCheck, Eye, Code 
 } from "lucide-react";
 
 export default function App() {
@@ -264,8 +264,11 @@ export default function App() {
     <div className="app-container">
       {/* Sidebar Navigation */}
       <aside className="sidebar">
-        <div className="logo-container" style={{ cursor: "pointer" }} onClick={handleLogout}>
-          <span className="logo-text">PLACIFY</span>
+        <div className="logo-container" style={{ cursor: "pointer", display: "flex", alignItems: "center", gap: "8px" }} onClick={handleLogout}>
+          <Code size={22} style={{ color: "var(--success)" }} />
+          <span className="logo-text">
+            <span style={{ color: "var(--success)" }}>P</span>LACIFY
+          </span>
         </div>
 
         <ul className="nav-links">
