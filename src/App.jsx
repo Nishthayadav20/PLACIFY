@@ -265,7 +265,6 @@ export default function App() {
       {/* Sidebar Navigation */}
       <aside className="sidebar">
         <div className="logo-container" style={{ cursor: "pointer" }} onClick={handleLogout}>
-          <img src="/logo.png" className="logo-icon" alt="Logo" />
           <span className="logo-text">PLACIFY</span>
         </div>
 
