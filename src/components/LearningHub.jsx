@@ -8,61 +8,14 @@ export default function LearningHub({ playlists, playlistState, toggleVideoWatch
   const [openDropdown, setOpenDropdown] = useState(null);
 
   // Live YouTube search states
-  const [liveVideos, setLiveVideos] = useState([]);
-  const [isSearchingLive, setIsSearchingLive] = useState(false);
   const [liveQuery, setLiveQuery] = useState("");
-  const [youtubeApiKey, setYoutubeApiKey] = useState(() => localStorage.getItem("yt_api_key") || "");
+  const [ytSearchQuery, setYtSearchQuery] = useState("");
 
   React.useEffect(() => {
     const handleOutsideClick = () => setOpenDropdown(null);
     window.addEventListener("click", handleOutsideClick);
     return () => window.removeEventListener("click", handleOutsideClick);
   }, []);
-
-  const handleLiveSearch = async () => {
-    if (!liveQuery.trim()) return;
-    setIsSearchingLive(true);
-    try {
-      let url = "";
-      if (youtubeApiKey) {
-        url = `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&maxResults=6&q=${encodeURIComponent(liveQuery)}&key=${youtubeApiKey}`;
-      } else {
-        url = `https://pipedapi.kavin.rocks/search?q=${encodeURIComponent(liveQuery)}&filter=videos`;
-      }
-      
-      const res = await fetch(url);
-      if (res.ok) {
-        const data = await res.json();
-        if (youtubeApiKey) {
-          const items = (data.items || []).map(item => ({
-            id: item.id.videoId,
-            title: item.snippet.title,
-            creator: item.snippet.channelTitle,
-            thumbnail: item.snippet.thumbnails?.medium?.url,
-            url: `https://www.youtube.com/watch?v=${item.id.videoId}`
-          }));
-          setLiveVideos(items);
-        } else {
-          // Piped API format
-          const items = (data.items || []).slice(0, 6).map(item => {
-            const videoId = item.url.includes("v=") ? item.url.split("v=")[1] : item.url;
-            return {
-              id: videoId,
-              title: item.title,
-              creator: item.uploaderName,
-              thumbnail: item.thumbnail,
-              url: `https://www.youtube.com${item.url}`
-            };
-          });
-          setLiveVideos(items);
-        }
-      }
-    } catch (err) {
-      console.error("Live search error:", err);
-    } finally {
-      setIsSearchingLive(false);
-    }
-  };
 
   // Filter topics
   const topics = ["All", "DSA", "System Design", "Aptitude", "CS Fundamentals", "Cloud & DevOps", "Project Build"];
@@ -81,7 +34,9 @@ export default function LearningHub({ playlists, playlistState, toggleVideoWatch
       playlist.videos.forEach(video => {
         if (
           video.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          playlist.language.toLowerCase().includes(searchQuery.toLowerCase())
+          playlist.language.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          playlist.topic.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          playlist.title.toLowerCase().includes(searchQuery.toLowerCase())
         ) {
           matchedVideos.push({
             ...video,
@@ -279,108 +234,85 @@ export default function LearningHub({ playlists, playlistState, toggleVideoWatch
         marginBottom: "32px"
       }}>
         <h3 style={{ margin: "0 0 12px 0", color: "#ffffff", display: "flex", alignItems: "center", gap: "8px" }}>
-          Live YouTube Search 🔍
+          Live YouTube Search & Player 🔍
         </h3>
         <p style={{ margin: "0 0 16px 0", fontSize: "0.85rem", color: "var(--text-secondary)" }}>
-          Can't find a topic in our syllabus? Type below to fetch matching tutorials live from YouTube.
+          Search any placement topic. The live YouTube player will instantly load search results next to the input.
         </p>
         
-        <div style={{ display: "flex", gap: "10px", marginBottom: "16px" }}>
-          <input 
-            type="text" 
-            className="search-input" 
-            placeholder="Search any topic on YouTube live (e.g. dynamic programming striver)..." 
-            value={liveQuery}
-            onChange={(e) => setLiveQuery(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && handleLiveSearch()}
-            style={{ 
-              flex: 1, 
-              backgroundColor: "#000000", 
-              color: "#ffffff", 
-              border: "1px solid #ffffff" 
-            }}
-          />
-          <button 
-            onClick={handleLiveSearch} 
-            className="btn btn-primary"
-            style={{ 
-              padding: "10px 20px", 
-              backgroundColor: "#000000", 
-              color: "#ffffff", 
-              border: "1px solid #ffffff" 
-            }}
-            disabled={isSearchingLive}
-          >
-            {isSearchingLive ? "Searching..." : "Search Live"}
-          </button>
-        </div>
-
-        {/* API Key configuration input (Optional) */}
-        <div style={{ marginBottom: "16px", display: "flex", alignItems: "center", gap: "10px" }}>
-          <span style={{ fontSize: "0.75rem", color: "var(--text-muted)" }}>YouTube API Key (Optional):</span>
-          <input 
-            type="password"
-            placeholder="Paste Google Console API Key to avoid limits..." 
-            value={youtubeApiKey}
-            onChange={(e) => {
-              setYoutubeApiKey(e.target.value);
-              localStorage.setItem("yt_api_key", e.target.value);
-            }}
-            style={{ 
-              backgroundColor: "#000000", 
-              border: "1px solid var(--border-color)", 
-              color: "#ffffff", 
-              fontSize: "0.75rem", 
-              padding: "4px 8px", 
-              borderRadius: "4px",
-              width: "240px" 
-            }}
-          />
-        </div>
-
-        {liveVideos.length > 0 && (
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", gap: "16px", marginTop: "16px" }}>
-            {liveVideos.map(video => (
-              <div 
-                key={video.id} 
-                className="card" 
+        <div style={{ display: "flex", gap: "20px", flexWrap: "wrap" }}>
+          {/* Search Input Panel */}
+          <div style={{ flex: 1, minWidth: "280px" }}>
+            <div style={{ display: "flex", gap: "10px", marginBottom: "16px" }}>
+              <input 
+                type="text" 
+                className="search-input" 
+                placeholder="Search topic (e.g. recursion striver, arrays babbar)..." 
+                value={liveQuery}
+                onChange={(e) => setLiveQuery(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && setYtSearchQuery(liveQuery)}
                 style={{ 
-                  padding: "10px", 
+                  flex: 1, 
                   backgroundColor: "#000000", 
-                  border: "1px solid var(--border-color)", 
-                  display: "flex", 
-                  flexDirection: "column", 
-                  justifyContent: "space-between" 
+                  color: "#ffffff", 
+                  border: "1px solid #ffffff",
+                  padding: "10px 14px",
+                  borderRadius: "4px"
+                }}
+              />
+              <button 
+                onClick={() => setYtSearchQuery(liveQuery)} 
+                className="btn btn-primary"
+                style={{ 
+                  padding: "10px 20px", 
+                  backgroundColor: "#000000", 
+                  color: "#ffffff", 
+                  border: "1px solid #ffffff" 
                 }}
               >
-                {video.thumbnail && (
-                  <img 
-                    src={video.thumbnail} 
-                    alt={video.title} 
-                    style={{ width: "100%", height: "120px", objectFit: "cover", borderRadius: "4px", marginBottom: "8px" }} 
-                  />
-                )}
-                <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
-                  <div>
-                    <h5 style={{ margin: "0 0 4px 0", fontSize: "0.85rem", color: "#ffffff", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
-                      {video.title}
-                    </h5>
-                    <p style={{ margin: "0 0 12px 0", fontSize: "0.75rem", color: "var(--text-muted)" }}>{video.creator}</p>
-                  </div>
-                  <a 
-                    href={video.url} 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className="btn btn-primary"
-                    style={{ padding: "6px 12px", fontSize: "0.75rem", width: "100%", textAlign: "center", display: "inline-flex", justifyContent: "center", gap: "6px" }}
-                  >
-                    Watch <ExternalLink size={12} />
-                  </a>
-                </div>
-              </div>
-            ))}
+                Search Live
+              </button>
+            </div>
+            
+            {/* Quick search keywords */}
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginTop: "10px" }}>
+              <span style={{ fontSize: "0.8rem", color: "var(--text-secondary)", display: "flex", alignItems: "center" }}>Quick Search:</span>
+              {["Arrays Striver", "Recursion Babbar", "DP Striver", "SQL Top 50", "Docker Tutorial"].map(kw => (
+                <button
+                  key={kw}
+                  className="btn btn-secondary"
+                  style={{ padding: "4px 8px", fontSize: "0.75rem", backgroundColor: "#000000", border: "1px solid var(--border-color)", color: "#ffffff" }}
+                  onClick={() => {
+                    setLiveQuery(kw);
+                    setYtSearchQuery(kw);
+                  }}
+                >
+                  {kw}
+                </button>
+              ))}
+            </div>
           </div>
-        )}
+
+          {/* YouTube Live Player Window Panel */}
+          <div style={{ flex: 1.2, minWidth: "320px", backgroundColor: "#000000", border: "1px solid var(--border-color)", borderRadius: "6px", overflow: "hidden", minHeight: "260px", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            {ytSearchQuery ? (
+              <iframe
+                title="Live YouTube Search Player"
+                width="100%"
+                height="260px"
+                src={`https://www.youtube.com/embed?listType=search&list=${encodeURIComponent(ytSearchQuery)}`}
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              ></iframe>
+            ) : (
+              <div style={{ padding: "40px", textAlign: "center", color: "var(--text-muted)" }}>
+                <span style={{ fontSize: "2rem", display: "block", marginBottom: "10px" }}>📺</span>
+                <span>Type a topic and click "Search Live" to load the YouTube window here.</span>
+              </div>
+            )}
+          </div>
+        </div>
       </div>
 
       {/* Playlists Grid */}
