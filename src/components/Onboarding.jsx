@@ -31,6 +31,14 @@ export default function Onboarding({ onComplete }) {
       setErrorMsg("Please enter your name.");
       return;
     }
+    if (!github.trim()) {
+      setErrorMsg("Please enter your GitHub username.");
+      return;
+    }
+    if (!leetcode.trim()) {
+      setErrorMsg("Please enter your LeetCode username.");
+      return;
+    }
 
     // Explicit validation rules check
     if ((dsaLevel === "Beginner" || dsaLevel === "Basic") && timelineDays < 90) {
@@ -133,16 +141,19 @@ export default function Onboarding({ onComplete }) {
 
           {/* Social Profiles Grid */}
           <div>
-            <label style={{ fontSize: "0.9rem", fontWeight: 600, display: "block", marginBottom: "8px", color: "#ffffff" }}>Coding profiles (Optional)</label>
+            <label style={{ fontSize: "0.9rem", fontWeight: 600, display: "block", marginBottom: "8px", color: "#ffffff" }}>
+              Coding Profiles (GitHub & LeetCode * required, others optional)
+            </label>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
               <div style={{ display: "flex", alignItems: "center", border: "1px solid #ffffff", borderRadius: "var(--radius-sm)", padding: "0 10px", backgroundColor: "#000000" }}>
                 <Github size={16} style={{ color: "#ffffff", marginRight: "8px" }} />
                 <input 
                   type="text" 
-                  placeholder="GitHub Username" 
+                  placeholder="GitHub Username *" 
                   style={{ border: "none", outline: "none", padding: "10px 0", width: "100%", fontSize: "0.85rem", backgroundColor: "transparent", color: "#ffffff" }}
                   value={github}
                   onChange={(e) => setGithub(e.target.value)}
+                  required
                 />
               </div>
 
@@ -150,10 +161,11 @@ export default function Onboarding({ onComplete }) {
                 <Code size={16} style={{ color: "#ffffff", marginRight: "8px" }} />
                 <input 
                   type="text" 
-                  placeholder="LeetCode Username" 
+                  placeholder="LeetCode Username *" 
                   style={{ border: "none", outline: "none", padding: "10px 0", width: "100%", fontSize: "0.85rem", backgroundColor: "transparent", color: "#ffffff" }}
                   value={leetcode}
                   onChange={(e) => setLeetcode(e.target.value)}
+                  required
                 />
               </div>
 
