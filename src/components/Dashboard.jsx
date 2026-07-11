@@ -18,8 +18,62 @@ export default function Dashboard({
   const [todayTasks, setTodayTasks] = useState({ theory: false, coding: false, sync: false });
   const [showCelebration, setShowCelebration] = useState(false);
 
+  const [completedQuestions, setCompletedQuestions] = useState(() => {
+    const saved = localStorage.getItem(`dashboard_questions_day_${profile.currentDay}`);
+    return saved ? JSON.parse(saved) : { 0: false, 1: false, 2: false, 3: false, 4: false };
+  });
+
+  useEffect(() => {
+    localStorage.setItem(`dashboard_questions_day_${profile.currentDay}`, JSON.stringify(completedQuestions));
+  }, [completedQuestions, profile.currentDay]);
+
+  useEffect(() => {
+    const saved = localStorage.getItem(`dashboard_questions_day_${profile.currentDay}`);
+    if (saved) {
+      setCompletedQuestions(JSON.parse(saved));
+    } else {
+      setCompletedQuestions({ 0: false, 1: false, 2: false, 3: false, 4: false });
+    }
+  }, [profile.currentDay]);
+
+  const getPastYearQuestions = (topic) => {
+    const questions = {
+      "DSA": [
+        { q: "What is the difference between Array and Linked List? (Amazon)", type: "Theory" },
+        { q: "How do you detect a cycle in a Linked List? (Microsoft)", type: "Algorithm" },
+        { q: "Explain the working of Binary Search with time complexity. (Google)", type: "Theory" },
+        { q: "Write code to reverse a Linked List. (Adobe)", type: "Coding" },
+        { q: "What is spaced repetition in DSA preparation? (Generic)", type: "Theory" }
+      ],
+      "CS Fundamentals": [
+        { q: "What are the four pillars of Object-Oriented Programming? (TCS)", type: "Theory" },
+        { q: "Explain normalization and its types (1NF, 2NF, 3NF). (Infosys)", type: "Theory" },
+        { q: "What is the difference between TCP and UDP? (Cisco)", type: "Theory" },
+        { q: "What are ACID properties in a database? (Amazon)", type: "Theory" },
+        { q: "Explain compilation vs interpretation. (Generic)", type: "Theory" }
+      ],
+      "Aptitude": [
+        { q: "A train crosses a pole in 15 seconds. Find its speed... (Wipro)", type: "Quantitative" },
+        { q: "Find the number of ways to arrange the letters of 'LEADER'... (Cognizant)", type: "Logical" },
+        { q: "What is the probability of getting a sum of 9 with two dice? (Capgemini)", type: "Quantitative" },
+        { q: "A sum of money doubles itself in 8 years at simple interest... (Accenture)", type: "Quantitative" },
+        { q: "Logical series deduction: A, C, F, J, ...? (Generic)", type: "Logical" }
+      ],
+      "System Design": [
+        { q: "What is Load Balancing and how does it prevent servers from crashing? (Netflix)", type: "HLD" },
+        { q: "Explain vertical vs horizontal scaling with pros/cons. (Meta)", type: "HLD" },
+        { q: "What is a Content Delivery Network (CDN) and when to use it? (Twitter)", type: "HLD" },
+        { q: "How does Database Sharding differ from Partitioning? (Uber)", type: "HLD" },
+        { q: "Design a URL shortening service like Bit.ly. (Microsoft)", type: "System Design" }
+      ]
+    };
+    return questions[topic] || questions["DSA"];
+  };
+
   // Load routine recommendations based on level, current day, and preferred language
   const routine = generateDailyRoutine(profile.dsaLevel, profile.currentDay, profile.timelineDays, profile.language);
+  const dailyQuestions = getPastYearQuestions(routine.topic);
+  const solvedCount = Object.values(completedQuestions).filter(Boolean).length;
 
   // Compute Stats
   const totalDsa = Object.keys(dsaState).filter(key => dsaState[key].completed).length;
@@ -251,6 +305,56 @@ export default function Dashboard({
         >
           {completedCount < 3 ? "Complete All Tasks to Unlock Next Day" : `Advance to Day ${profile.currentDay + 1}`}
         </button>
+      </div>
+
+      {/* Daily Past Year Interview Questions (5 Tasks) */}
+      <div className="card" style={{ marginBottom: "32px", borderTop: "4px solid var(--success)" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "16px" }}>
+          <div>
+            <span className="badge badge-success" style={{ marginBottom: "6px" }}>Daily Past Year Interview Questions</span>
+            <h2>Topic: {routine.topic} (5 PYQs)</h2>
+          </div>
+          <div style={{ textAlign: "right" }}>
+            <span style={{ fontWeight: 600, fontSize: "0.9rem" }}>Completed: {solvedCount} / 5</span>
+            <div className="progress-track" style={{ width: "150px", height: "6px", marginTop: "4px" }}>
+              <div className="progress-fill" style={{ width: `${Math.round((solvedCount / 5) * 100)}%`, backgroundColor: "var(--success)" }}></div>
+            </div>
+          </div>
+        </div>
+
+        {/* 5 Questions Checklist */}
+        <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+          {dailyQuestions.map((qObj, index) => (
+            <div 
+              key={index} 
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "12px",
+                padding: "10px 14px",
+                backgroundColor: completedQuestions[index] ? "var(--success-light)" : "var(--bg-primary)",
+                borderRadius: "var(--radius-sm)",
+                border: "1px solid var(--border-color)",
+                transition: "background-color 0.2s ease"
+              }}
+            >
+              <label className="checkbox-container">
+                <input 
+                  type="checkbox" 
+                  checked={completedQuestions[index] || false} 
+                  onChange={() => setCompletedQuestions(prev => ({ ...prev, [index]: !prev[index] }))} 
+                />
+                <div className="custom-checkbox">
+                  {completedQuestions[index] && <CheckCircle size={10} style={{ color: "var(--success)" }} />}
+                </div>
+              </label>
+              <div>
+                <span style={{ fontSize: "0.75rem", color: "var(--success)", fontWeight: 600 }}>{qObj.type}</span>
+                <p style={{ margin: "2px 0 0 0", fontSize: "0.9rem", color: "var(--text-primary)" }}>{qObj.q}</p>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* Rest of the Dashboard (Stats & Heatmap) */}

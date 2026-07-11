@@ -109,6 +109,20 @@ export default function App() {
   // Actions
   const handleSelectSession = (mode) => {
     setSessionMode(mode);
+    if (mode === "guest") {
+      setProfile({
+        name: "Guest Explorer",
+        github: "guest",
+        leetcode: "guest",
+        hackerrank: "",
+        codechef: "",
+        dsaLevel: "Beginner",
+        timelineDays: 90,
+        currentDay: 1,
+        isLoggedIn: true
+      });
+      setActiveView("dashboard");
+    }
   };
 
   const handleOnboardingComplete = (profileData) => {
@@ -276,15 +290,13 @@ export default function App() {
         </div>
 
         <ul className="nav-links">
-          {sessionMode === "premium" && (
-            <li 
-              className={`nav-item ${activeView === "dashboard" ? "active" : ""}`}
-              onClick={() => setActiveView("dashboard")}
-            >
-              <LayoutDashboard size={20} />
-              <span>Dashboard</span>
-            </li>
-          )}
+          <li 
+            className={`nav-item ${activeView === "dashboard" ? "active" : ""}`}
+            onClick={() => setActiveView("dashboard")}
+          >
+            <LayoutDashboard size={20} />
+            <span>Dashboard</span>
+          </li>
           <li 
             className={`nav-item ${activeView === "learning" ? "active" : ""}`}
             onClick={() => setActiveView("learning")}
