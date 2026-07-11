@@ -272,7 +272,7 @@ export default function LearningHub({ playlists, playlistState, toggleVideoWatch
 
       {/* Live YouTube Search Section */}
       <div style={{
-        backgroundColor: "#0d1117",
+        backgroundColor: "#000000",
         border: "1px solid var(--border-color)",
         borderRadius: "6px",
         padding: "20px",

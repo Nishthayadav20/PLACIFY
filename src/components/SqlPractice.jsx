@@ -78,7 +78,7 @@ export default function SqlPractice() {
       {/* LeetCode Official SQL Hub Alert Banner */}
       <div style={{
         padding: "16px",
-        backgroundColor: "#0d1117",
+        backgroundColor: "#000000",
         border: "1px solid var(--border-color)",
         borderRadius: "6px",
         marginBottom: "24px",
@@ -104,7 +104,7 @@ export default function SqlPractice() {
       {/* Category Accordion */}
       <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
         {categories.map((cat, catIdx) => (
-          <div key={catIdx} className="card" style={{ borderLeft: "4px solid var(--primary)", backgroundColor: "#0d1117" }}>
+          <div key={catIdx} className="card" style={{ borderLeft: "4px solid var(--primary)", backgroundColor: "#000000" }}>
             <h3 style={{ margin: "0 0 16px 0", fontSize: "1.1rem", color: "#ffffff" }}>{cat.title}</h3>
             <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
               {cat.problems.map((prob) => (
