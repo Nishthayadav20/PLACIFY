@@ -289,8 +289,8 @@ export default function App() {
             className={`nav-item ${activeView === "learning" ? "active" : ""}`}
             onClick={() => setActiveView("learning")}
           >
-            <GraduationCap size={20} style={{ color: "#ffd700" }} />
-            <span style={{ color: "#ffd700", fontWeight: "bold" }}>Never Give Up</span>
+            <GraduationCap size={20} />
+            <span>Never Give Up</span>
           </li>
           <li 
             className={`nav-item ${activeView === "companies" ? "active" : ""}`}

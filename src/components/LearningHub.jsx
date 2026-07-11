@@ -29,7 +29,7 @@ export default function LearningHub({ playlists, playlistState, toggleVideoWatch
   return (
     <div className="learning-hub-view">
       <div className="page-header">
-        <h1 style={{ color: "#ffd700" }}>Never Give Up 🎓</h1>
+        <h1>Never Give Up 🎓</h1>
         <p>Curated playlists tag-filtered by topic, difficulty, and community feedback.</p>
       </div>
 
