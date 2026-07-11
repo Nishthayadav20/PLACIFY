@@ -133,6 +133,38 @@ export const mockPlaylists = [
       { id: "v-sql-3", title: "Window Functions: Row_Number, Rank, Dense_Rank", duration: "55:10", youtubeId: "sql-3" },
       { id: "v-sql-4", title: "SQL Query Tuning, Optimization & Indexes", duration: "36:45", youtubeId: "sql-4" }
     ]
+  },
+  // Aptitude Track
+  {
+    id: "pl-aptitude",
+    title: "Quantitative & Logical Aptitude Playlist",
+    creator: "CareerRide",
+    topic: "Aptitude",
+    language: "All",
+    difficulty: "Beginner to Intermediate",
+    upvotes: 847,
+    videos: [
+      { id: "v-apt-1", title: "Time, Speed and Distance Shortcuts", duration: "35:10", youtubeId: "apt-1" },
+      { id: "v-apt-2", title: "Permutation & Combination Rules & Tricks", duration: "42:15", youtubeId: "apt-2" },
+      { id: "v-apt-3", title: "Probability & Dice Problems for Placements", duration: "38:40", youtubeId: "apt-3" },
+      { id: "v-apt-4", title: "Data Interpretation & Logical Reasoning Cases", duration: "48:50", youtubeId: "apt-4" }
+    ]
+  },
+  // System Design Track
+  {
+    id: "pl-system-design",
+    title: "System Design (HLD & LLD) Crash Course",
+    creator: "Gaurav Sen",
+    topic: "System Design",
+    language: "All",
+    difficulty: "Intermediate to Advanced",
+    upvotes: 1205,
+    videos: [
+      { id: "v-sys-1", title: "Introduction to Scaling & Load Balancers", duration: "28:15", youtubeId: "sys-1" },
+      { id: "v-sys-2", title: "Caching Strategies (Redis, Memcached) & CDN", duration: "35:40", youtubeId: "sys-2" },
+      { id: "v-sys-3", title: "Database Sharding & Replication Masterclass", duration: "44:10", youtubeId: "sys-3" },
+      { id: "v-sys-4", title: "Designing WhatsApp / Messenger Chat System", duration: "52:20", youtubeId: "sys-4" }
+    ]
   }
 ];
 
