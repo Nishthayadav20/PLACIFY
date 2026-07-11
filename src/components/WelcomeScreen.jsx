@@ -57,7 +57,7 @@ export default function WelcomeScreen({ onSelect }) {
         maxWidth: "600px",
         padding: "0 20px"
       }}>
-        {/* Title PLACIFY (Solid White) */}
+        {/* Title PLACIFY (Green 'P' and Solid White) */}
         <h1 
           className="hover-shake-motion"
           style={{ 
@@ -70,14 +70,14 @@ export default function WelcomeScreen({ onSelect }) {
             color: "#ffffff"
           }}
         >
-          PLACIFY
+          <span style={{ color: "var(--success)" }}>P</span>LACIFY
         </h1>
         
-        {/* Tagline (Grey) */}
+        {/* Tagline (Golden) */}
         <h2 
           className="hover-float-motion"
           style={{ 
-            color: "#cbd5e1", 
+            color: "#ffd700", 
             fontSize: "1.25rem", 
             fontWeight: 700, 
             letterSpacing: "0.15em", 
