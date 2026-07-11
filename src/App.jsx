@@ -71,45 +71,6 @@ export default function App() {
     return saved ? JSON.parse(saved) : mockPlaylists;
   });
 
-  // Helper to fetch user progress state from local Express/SQLite server
-  const fetchUserProgress = async (userId) => {
-    try {
-      const res = await fetch(`http://localhost:5000/api/progress/${userId}`);
-      if (res.ok) {
-        const data = await res.json();
-        setPlaylistState(data.playlistState || {});
-        setDsaState(data.dsaState || {});
-      }
-    } catch (err) {
-      console.error("Error fetching user progress from backend:", err);
-    }
-  };
-
-  // Load companies list from SQLite database on mount
-  useEffect(() => {
-    const fetchCompanies = async () => {
-      try {
-        const res = await fetch("http://localhost:5000/api/companies");
-        if (res.ok) {
-          const data = await res.json();
-          setCompanies(data);
-        }
-      } catch (err) {
-        console.error("Error fetching companies from database:", err);
-      }
-    };
-    fetchCompanies();
-  }, []);
-
-  // Fetch progress whenever profile is loaded
-  useEffect(() => {
-    if (sessionMode === "premium" && profile.id) {
-      fetchUserProgress(profile.id);
-    } else if (sessionMode === "guest") {
-      fetchUserProgress("guest-explorer");
-    }
-  }, [sessionMode, profile.id]);
-
   // Default initial active view based on session type
   useEffect(() => {
     if (sessionMode === "premium" && profile.isLoggedIn) {
@@ -177,68 +138,25 @@ export default function App() {
     }
   };
 
-  const handleOnboardingComplete = async (profileData) => {
-    try {
-      const res = await fetch("http://localhost:5000/api/auth/onboard", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(profileData)
-      });
-      if (res.ok) {
-        const data = await res.json();
-        if (data.profile) {
-          setProfile(data.profile);
-          fetchUserProgress(data.profile.id);
-        }
-      } else {
-        setProfile(profileData);
-      }
-    } catch (err) {
-      console.error("Onboarding backend error, falling back locally:", err);
-      setProfile(profileData);
-    }
+  const handleOnboardingComplete = (profileData) => {
+    setProfile(profileData);
   };
 
-  const updateProfile = async (updatedProfile) => {
+  const updateProfile = (updatedProfile) => {
     setProfile(updatedProfile);
-    try {
-      await fetch("http://localhost:5000/api/profile", {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(updatedProfile)
-      });
-    } catch (err) {
-      console.error("Error updating profile:", err);
-    }
   };
 
-  const toggleProblemCompleted = async (problemId, title) => {
-    const currentVal = dsaState[problemId]?.completed || false;
-    const newVal = !currentVal;
-
+  const toggleProblemCompleted = (problemId, title) => {
     setDsaState(prev => {
       const current = prev[problemId] || { id: problemId, title, completed: false, needsSpacedRepetition: false };
       return {
         ...prev,
         [problemId]: {
           ...current,
-          completed: newVal
+          completed: !current.completed
         }
       };
     });
-
-    const userId = sessionMode === "premium" ? profile.id : "guest-explorer";
-    if (userId) {
-      try {
-        await fetch("http://localhost:5000/api/progress", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ userId, itemType: "dsa", itemId: problemId, completed: newVal })
-        });
-      } catch (err) {
-        console.error("Error saving DSA progress:", err);
-      }
-    }
   };
 
   const toggleSpacedRepetition = (problemId, title) => {
@@ -254,27 +172,11 @@ export default function App() {
     });
   };
 
-  const toggleVideoWatched = async (videoId) => {
-    const currentVal = playlistState[videoId] || false;
-    const newVal = !currentVal;
-
+  const toggleVideoWatched = (videoId) => {
     setPlaylistState(prev => ({
       ...prev,
-      [videoId]: newVal
+      [videoId]: !prev[videoId]
     }));
-
-    const userId = sessionMode === "premium" ? profile.id : "guest-explorer";
-    if (userId) {
-      try {
-        await fetch("http://localhost:5000/api/progress", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ userId, itemType: "video", itemId: videoId, completed: newVal })
-        });
-      } catch (err) {
-        console.error("Error saving video progress:", err);
-      }
-    }
   };
 
   const upvotePlaylist = (playlistId) => {
@@ -286,34 +188,16 @@ export default function App() {
     }));
   };
 
-  const addExperience = async (companyId, experience) => {
-    try {
-      const res = await fetch("http://localhost:5000/api/companies/experience", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ companyId, ...experience })
-      });
-      if (res.ok) {
-        // Fetch fresh company records with updated reviews
-        const freshRes = await fetch("http://localhost:5000/api/companies");
-        if (freshRes.ok) {
-          const freshData = await freshRes.json();
-          setCompanies(freshData);
-        }
+  const addExperience = (companyId, experience) => {
+    setCompanies(prev => prev.map(comp => {
+      if (comp.id === companyId) {
+        return {
+          ...comp,
+          experiences: [experience, ...comp.experiences]
+        };
       }
-    } catch (err) {
-      console.error("Error sharing experience with server:", err);
-      // Fallback
-      setCompanies(prev => prev.map(comp => {
-        if (comp.id === companyId) {
-          return {
-            ...comp,
-            experiences: [experience, ...comp.experiences]
-          };
-        }
-        return comp;
-      }));
-    }
+      return comp;
+    }));
   };
 
   const handleLogout = () => {
