@@ -136,7 +136,7 @@ export default function DSATracker({ dsaSheet, dsaState, toggleProblemCompleted,
                             justifyContent: "space-between", 
                             alignItems: "center", 
                             padding: "12px 16px",
-                            backgroundColor: status.completed ? "var(--primary-light)" : "#ffffff"
+                            backgroundColor: status.completed ? "var(--primary-light)" : "#000000"
                           }}
                         >
                           <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>

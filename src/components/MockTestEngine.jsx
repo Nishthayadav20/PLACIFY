@@ -344,7 +344,7 @@ export default function MockTestEngine({ isPremium, profile }) {
       {testMode === "active" && (
         <div style={{ animation: "fadeIn 0.2s ease-out" }}>
           {/* Header Panel */}
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "16px 24px", backgroundColor: "#ffffff", borderBottom: "1px solid var(--border-color)", marginBottom: "20px", borderRadius: "var(--radius-md)" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "16px 24px", backgroundColor: "#000000", border: "1px solid var(--border-color)", marginBottom: "20px", borderRadius: "var(--radius-md)", color: "#ffffff" }}>
             <div>
               <h2 style={{ fontSize: "1.3rem" }}>{activeTest.topic} Test</h2>
               <span style={{ fontSize: "0.75rem", color: "var(--text-secondary)" }}>Anti-Cheat Engine Active • Do not switch tabs</span>
@@ -369,7 +369,7 @@ export default function MockTestEngine({ isPremium, profile }) {
               <p style={{ fontSize: "1.1rem", maxWidth: "600px", margin: "8px 0 24px 0" }}>
                 Switching tabs or minimizing the browser again will force auto-submission of your test answers. Please stay in the viewport.
               </p>
-              <button className="btn btn-primary" style={{ backgroundColor: "white", color: "var(--danger)", fontWeight: 700 }} onClick={() => setShowCheatWarning(false)}>
+              <button className="btn btn-primary" style={{ backgroundColor: "#000000", border: "1px solid var(--danger)", color: "var(--danger)", fontWeight: 700 }} onClick={() => setShowCheatWarning(false)}>
                 I Understand, Return to Test
               </button>
             </div>
@@ -400,7 +400,7 @@ export default function MockTestEngine({ isPremium, profile }) {
                               justifyContent: "flex-start",
                               padding: "10px 14px",
                               fontSize: "0.85rem",
-                              backgroundColor: isChecked ? "var(--primary-light)" : "#ffffff",
+                              backgroundColor: isChecked ? "var(--primary-light)" : "#000000",
                               borderColor: isChecked ? "var(--primary)" : "var(--border-color)",
                               color: isChecked ? "var(--primary)" : "var(--text-secondary)"
                             }}
