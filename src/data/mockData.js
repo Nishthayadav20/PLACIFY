@@ -11,6 +11,11 @@ export const mockPlaylists = [
     language: "C++",
     difficulty: "Beginner to Advanced",
     upvotes: 942,
+    youtubePlaylists: [
+      { name: "Love Babbar C++ DSA (Best)", url: "https://www.youtube.com/playlist?list=PLDzeHZWIZsTryvtKBemfi6Qj5WYjRYnFg" },
+      { name: "Striver A-Z DSA Course", url: "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m21w1dA31T47mjYX" },
+      { name: "CodeWithHarry C++ Tutorial", url: "https://www.youtube.com/playlist?list=PLu0W_9lII9agpFUAlPFe_VNSlXW5uE4YL" }
+    ],
     videos: [
       { id: "v-cpp-1", title: "Introduction to Pointers in C++", duration: "42:15", youtubeId: "05t3_1443_0" },
       { id: "v-cpp-2", title: "Standard Template Library (STL) in C++", duration: "1:15:30", youtubeId: "05t3_1443_1" },
@@ -28,6 +33,11 @@ export const mockPlaylists = [
     language: "Java",
     difficulty: "Beginner to Advanced",
     upvotes: 1104,
+    youtubePlaylists: [
+      { name: "Kunal Kushwaha Java+DSA (Best)", url: "https://www.youtube.com/playlist?list=PL9gnSGHSqcnr_DxHsP7gSn15g30tbkAyi" },
+      { name: "Apni Kaksha Java Placement", url: "https://www.youtube.com/playlist?list=PLfqMhYy_bDFzyODS_Xp-6X9sI7hA9B5_u" },
+      { name: "Telusko Core Java Lectures", url: "https://www.youtube.com/playlist?list=PLsyeobzWly7oAZgDccGgqO1eIexf94JDy" }
+    ],
     videos: [
       { id: "v-java-1", title: "Introduction to Java Programming & IDE setup", duration: "50:20", youtubeId: "rZ41y63z_0" },
       { id: "v-java-2", title: "Java Memory Management & Arrays", duration: "1:08:15", youtubeId: "rZ41y63z_1" },
@@ -45,6 +55,11 @@ export const mockPlaylists = [
     language: "Python",
     difficulty: "Intermediate",
     upvotes: 823,
+    youtubePlaylists: [
+      { name: "NeetCode Python DSA (Best)", url: "https://www.youtube.com/playlist?list=PLot-Xpkr5xvrk69zPjdfPcoV3Fz3a_D3W" },
+      { name: "CodeWithHarry Python Core", url: "https://www.youtube.com/playlist?list=PLu0W_9lII9agwh1FjGIqx5LYgA256s9rY" },
+      { name: "Telusko Python Tutorials", url: "https://www.youtube.com/playlist?list=PLsyeobzWly7yT0t5f32sZ9R8W-uY2yvL4" }
+    ],
     videos: [
       { id: "v-py-1", title: "Python Lists, Tuples & Dictionaries Under the Hood", duration: "32:10", youtubeId: "y1_1456_0" },
       { id: "v-py-2", title: "Time & Space Complexity in Python", duration: "25:40", youtubeId: "y1_1456_1" },
@@ -62,6 +77,11 @@ export const mockPlaylists = [
     language: "JavaScript",
     difficulty: "Beginner",
     upvotes: 412,
+    youtubePlaylists: [
+      { name: "Akshay Saini Namaste JS (Best)", url: "https://www.youtube.com/playlist?list=PLlasXeu85E9cQ32gLCgSeGzyVFAgSZg14" },
+      { name: "Roadside Coder JS DSA Course", url: "https://www.youtube.com/playlist?list=PLKhlp2qtUcSaCVJElJ9JAG7JgRE0JDJyT" },
+      { name: "Hitesh Choudhary JS Playlist", url: "https://www.youtube.com/playlist?list=PLRAV69dS1uWSxUIk5o3vQY2-_dxnUJ-R4" }
+    ],
     videos: [
       { id: "v-js-1", title: "JavaScript Arrays, Objects & Big-O", duration: "28:10", youtubeId: "j1_1467_0" },
       { id: "v-js-2", title: "Recursion & Closures in JavaScript", duration: "35:40", youtubeId: "j1_1467_1" },
@@ -69,7 +89,6 @@ export const mockPlaylists = [
       { id: "v-js-4", title: "Binary Search Tree Traversals in JS", duration: "50:20", youtubeId: "j1_1467_3" }
     ]
   },
-
   // CS Fundamentals: OOPs
   {
     id: "pl-oops",
@@ -79,6 +98,11 @@ export const mockPlaylists = [
     language: "All",
     difficulty: "Beginner",
     upvotes: 756,
+    youtubePlaylists: [
+      { name: "Saurabh Shukla OOPs (Best)", url: "https://www.youtube.com/playlist?list=PL52079CD748721BA7" },
+      { name: "Love Babbar OOPs Placement", url: "https://www.youtube.com/playlist?list=PLDzeHZWIZsTryvtKBemfi6Qj5WYjRYnFg" },
+      { name: "Kunal Kushwaha OOPs Java", url: "https://www.youtube.com/playlist?list=PL9gnSGHSqcnr_DxHsP7gSn15g30tbkAyi" }
+    ],
     videos: [
       { id: "v-oops-1", title: "OOPs Basics: Classes, Objects & Constructors", duration: "30:15", youtubeId: "op-1" },
       { id: "v-oops-2", title: "The Four Pillars: Encapsulation & Abstraction", duration: "38:40", youtubeId: "op-2" },
@@ -95,6 +119,11 @@ export const mockPlaylists = [
     language: "All",
     difficulty: "Beginner to Intermediate",
     upvotes: 912,
+    youtubePlaylists: [
+      { name: "Gate Smashers DBMS (Best)", url: "https://www.youtube.com/playlist?list=PLxCzCOWd7aiFAN6I81C-MTtNTOmJHwS3c" },
+      { name: "Knowledge Gate DBMS Course", url: "https://www.youtube.com/playlist?list=PLmXKhU9m_WfVzY8V87Lg64j92B54E6w58" },
+      { name: "Sanchit Elaichi DBMS Lectures", url: "https://www.youtube.com/playlist?list=PLG9aCp4hyFLg6dG0uG-N9Jb9dZ" }
+    ],
     videos: [
       { id: "v-dbms-1", title: "Introduction to Relational Databases & ER Models", duration: "24:10", youtubeId: "db-1" },
       { id: "v-dbms-2", title: "SQL Queries: Joins, Subqueries & Group By", duration: "42:30", youtubeId: "db-2" },
@@ -111,6 +140,11 @@ export const mockPlaylists = [
     language: "All",
     difficulty: "Intermediate",
     upvotes: 684,
+    youtubePlaylists: [
+      { name: "Gate Smashers CN (Best)", url: "https://www.youtube.com/playlist?list=PLxCzCOWd7aiGFBD2-2joCpWOLUrDLvVV_" },
+      { name: "Knowledge Gate CN Lectures", url: "https://www.youtube.com/playlist?list=PLmXKhU9m_WfXzY8V87Lg64j92B54E6w58" },
+      { name: "Neso Academy CN Tutorials", url: "https://www.youtube.com/playlist?list=PLBlnK6fEyqRgMCUAG0XRw78UA8qnv6jEx" }
+    ],
     videos: [
       { id: "v-cn-1", title: "OSI Reference Model vs TCP/IP Suite", duration: "32:15", youtubeId: "cn-1" },
       { id: "v-cn-2", title: "IP Addressing & Subnetting Explained", duration: "45:40", youtubeId: "cn-2" },
@@ -127,6 +161,11 @@ export const mockPlaylists = [
     language: "SQL",
     difficulty: "Beginner to Advanced",
     upvotes: 985,
+    youtubePlaylists: [
+      { name: "Ankit Bansal SQL Queries (Best)", url: "https://www.youtube.com/playlist?list=PLBTztxXCUhW3X5M6yI7c5mDkv3-UeC7Vn" },
+      { name: "Sumit Mittal SQL Course", url: "https://www.youtube.com/playlist?list=PL01mXW5u5Y6mSjK9J7Oa7_V5T1Jj9J7Oa" },
+      { name: "Kudvenkat SQL Developer", url: "https://www.youtube.com/playlist?list=PL08903FB7ACA1C2FB" }
+    ],
     videos: [
       { id: "v-sql-1", title: "Top 50 SQL Queries Interview Questions", duration: "1:02:15", youtubeId: "sql-1" },
       { id: "v-sql-2", title: "Complex SQL Joins, Subqueries & CTEs", duration: "48:30", youtubeId: "sql-2" },
@@ -143,6 +182,11 @@ export const mockPlaylists = [
     language: "All",
     difficulty: "Beginner to Intermediate",
     upvotes: 847,
+    youtubePlaylists: [
+      { name: "CareerRide Quantitative (Best)", url: "https://www.youtube.com/playlist?list=PLD1E8F2942F2D98D7" },
+      { name: "Feel Free to Learn Aptitude", url: "https://www.youtube.com/playlist?list=PLmXKhU9m_WfUf-G0D" },
+      { name: "FreshersWorld Aptitude Prep", url: "https://www.youtube.com/playlist?list=PL83E3CB494B" }
+    ],
     videos: [
       { id: "v-apt-1", title: "Time, Speed and Distance Shortcuts", duration: "35:10", youtubeId: "apt-1" },
       { id: "v-apt-2", title: "Permutation & Combination Rules & Tricks", duration: "42:15", youtubeId: "apt-2" },
@@ -159,6 +203,11 @@ export const mockPlaylists = [
     language: "All",
     difficulty: "Intermediate to Advanced",
     upvotes: 1205,
+    youtubePlaylists: [
+      { name: "Gaurav Sen System Design HLD (Best)", url: "https://www.youtube.com/playlist?list=PLMCXHnjXnTnvo6alSjVkgxV-VH6EPyPhX" },
+      { name: "Arpit Bhayani System Design", url: "https://www.youtube.com/playlist?list=PLasdM5L9hXm1f7pWqOFrsQ3W_RpxgC7tN" },
+      { name: "CodeKarle System Design Concepts", url: "https://www.youtube.com/playlist?list=PLkQkbY7G7vG31V" }
+    ],
     videos: [
       { id: "v-sys-1", title: "Introduction to Scaling & Load Balancers", duration: "28:15", youtubeId: "sys-1" },
       { id: "v-sys-2", title: "Caching Strategies (Redis, Memcached) & CDN", duration: "35:40", youtubeId: "sys-2" },

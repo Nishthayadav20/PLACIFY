@@ -100,7 +100,36 @@ export default function LearningHub({ playlists, playlistState, toggleVideoWatch
                     {playlist.topic}
                   </span>
                   <h3 style={{ fontSize: "1.2rem", fontWeight: 700 }}>{playlist.title}</h3>
-                  <p style={{ fontSize: "0.875rem", color: "var(--text-secondary)" }}>by {playlist.creator}</p>
+                  <p style={{ fontSize: "0.875rem", color: "var(--text-secondary)", margin: 0 }}>by {playlist.creator}</p>
+                  
+                  {/* YouTube Hover Menu Subheading */}
+                  <div className="youtube-hover-menu-container" style={{ marginTop: "6px" }}>
+                    <span className="youtube-subheading" style={{ fontSize: "0.8rem", color: "var(--danger)", fontWeight: "600", cursor: "pointer", borderBottom: "1px dashed var(--danger)" }}>
+                      YouTube ▾
+                    </span>
+                    <div className="youtube-dropdown-links">
+                      {playlist.youtubePlaylists && playlist.youtubePlaylists.map((yt, i) => (
+                        <a 
+                          key={i} 
+                          href={yt.url} 
+                          target="_blank" 
+                          rel="noopener noreferrer" 
+                          style={{ 
+                            fontSize: "0.75rem", 
+                            color: "var(--text-secondary)", 
+                            textDecoration: "none",
+                            padding: "4px 6px",
+                            borderRadius: "2px",
+                            display: "block"
+                          }}
+                          onMouseEnter={(e) => e.target.style.color = "#ffffff"}
+                          onMouseLeave={(e) => e.target.style.color = "var(--text-secondary)"}
+                        >
+                          {yt.name}
+                        </a>
+                      ))}
+                    </div>
+                  </div>
                 </div>
                 <button 
                   className="btn btn-ghost" 
