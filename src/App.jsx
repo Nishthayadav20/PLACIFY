@@ -224,7 +224,7 @@ export default function App() {
 
   // 2. Onboarding validation router
   if (sessionMode === "premium" && !profile.isLoggedIn) {
-    return <Onboarding onComplete={handleOnboardingComplete} />;
+    return <Onboarding onComplete={handleOnboardingComplete} onBack={() => setSessionMode(null)} />;
   }
 
   const renderActiveView = () => {

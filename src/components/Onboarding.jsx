@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { GraduationCap, Github, Award, Terminal, Code } from "lucide-react";
+import { GraduationCap, Github, Award, Terminal, Code, ArrowLeft } from "lucide-react";
 
-export default function Onboarding({ onComplete }) {
+export default function Onboarding({ onComplete, onBack }) {
   const [name, setName] = useState("");
   const [github, setGithub] = useState("");
   const [leetcode, setLeetcode] = useState("");
@@ -92,6 +92,30 @@ export default function Onboarding({ onComplete }) {
         padding: "40px",
         borderRadius: "8px"
       }}>
+        {/* Back Button */}
+        {onBack && (
+          <button 
+            type="button"
+            onClick={onBack}
+            style={{
+              background: "none",
+              border: "none",
+              color: "#cbd5e1",
+              cursor: "pointer",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "6px",
+              fontSize: "0.9rem",
+              padding: "0 0 20px 0",
+              fontWeight: 500
+            }}
+            onMouseEnter={(e) => e.target.style.color = "#ffffff"}
+            onMouseLeave={(e) => e.target.style.color = "#cbd5e1"}
+          >
+            <ArrowLeft size={16} /> Back to Home
+          </button>
+        )}
+
         {/* Title */}
         <div style={{ textAlign: "center", marginBottom: "32px" }}>
           {/* Logo Representation P</> */}
