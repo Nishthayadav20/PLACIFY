@@ -57,7 +57,7 @@ export default function WelcomeScreen({ onSelect }) {
         maxWidth: "600px",
         padding: "0 20px"
       }}>
-        {/* Title PLACIFY (Green 'P' and Solid White) */}
+        {/* Title PLACIFY (Green 'P' and Red 'LACIFY') */}
         <h1 
           className="hover-shake-motion"
           style={{ 
@@ -70,7 +70,8 @@ export default function WelcomeScreen({ onSelect }) {
             color: "#ffffff"
           }}
         >
-          <span style={{ color: "var(--success)" }}>P</span>LACIFY
+          <span style={{ color: "var(--success)" }}>P</span>
+          <span style={{ color: "var(--danger)" }}>LACIFY</span>
         </h1>
         
         {/* Tagline (Golden) */}
@@ -123,7 +124,7 @@ export default function WelcomeScreen({ onSelect }) {
           <PlayCircle size={18} /> Explore as Guest
         </button>
 
-        {/* Premium Option: Solid white background, black text */}
+        {/* Premium Option: Solid Blue background, white text */}
         <button 
           className="btn" 
           style={{ 
@@ -134,9 +135,9 @@ export default function WelcomeScreen({ onSelect }) {
             alignItems: "center",
             justifyContent: "center",
             gap: "8px",
-            backgroundColor: "#ffffff",
-            border: "1px solid #ffffff",
-            color: "#000000",
+            backgroundColor: "#2563eb",
+            border: "1px solid #2563eb",
+            color: "#ffffff",
             borderRadius: "6px",
             fontWeight: 700,
             cursor: "pointer"
