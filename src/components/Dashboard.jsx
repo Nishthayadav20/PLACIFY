@@ -65,6 +65,20 @@ export default function Dashboard({
         { q: "What is a Content Delivery Network (CDN) and when to use it? (Twitter)", type: "HLD" },
         { q: "How does Database Sharding differ from Partitioning? (Uber)", type: "HLD" },
         { q: "Design a URL shortening service like Bit.ly. (Microsoft)", type: "System Design" }
+      ],
+      "Cloud & DevOps": [
+        { q: "Explain the difference between Virtual Machines and Docker Containers. (Amazon)", type: "DevOps" },
+        { q: "What is AWS IAM and how does role delegation work? (Goldman Sachs)", type: "AWS" },
+        { q: "What is the purpose of a Kubernetes Ingress Controller? (Uber)", type: "DevOps" },
+        { q: "How do you secure static content hosted on AWS S3? (JPMorgan)", type: "AWS" },
+        { q: "Explain continuous integration vs continuous deployment. (Microsoft)", type: "DevOps" }
+      ],
+      "Project Build": [
+        { q: "How does JWT-based session authentication work in REST APIs? (PayPal)", type: "Fullstack" },
+        { q: "Explain the Virtual DOM and reconciliation in React. (Meta)", type: "Frontend" },
+        { q: "What are the advantages of MongoDB over relational databases? (Coinbase)", type: "Database" },
+        { q: "How do you handle CORS errors between frontend and backend? (Generic)", type: "Fullstack" },
+        { q: "How do you optimize static asset loads in React? (Netflix)", type: "Frontend" }
       ]
     };
     return questions[topic] || questions["DSA"];

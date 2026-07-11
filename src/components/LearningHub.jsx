@@ -7,7 +7,7 @@ export default function LearningHub({ playlists, playlistState, toggleVideoWatch
   const [activePlaylistId, setActivePlaylistId] = useState(null);
 
   // Filter topics
-  const topics = ["All", "DSA", "System Design", "Aptitude", "CS Fundamentals"];
+  const topics = ["All", "DSA", "System Design", "Aptitude", "CS Fundamentals", "Cloud & DevOps", "Project Build"];
 
   const filteredPlaylists = playlists.filter(playlist => {
     const matchesTopic = selectedTopic === "All" || playlist.topic === selectedTopic;

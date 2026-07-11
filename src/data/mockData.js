@@ -214,6 +214,69 @@ export const mockPlaylists = [
       { id: "v-sys-3", title: "Database Sharding & Replication Masterclass", duration: "44:10", youtubeId: "sys-3" },
       { id: "v-sys-4", title: "Designing WhatsApp / Messenger Chat System", duration: "52:20", youtubeId: "sys-4" }
     ]
+  },
+  // AWS Cloud Track
+  {
+    id: "pl-aws",
+    title: "AWS Cloud Practitioner & Solutions Architect Course",
+    creator: "freeCodeCamp",
+    topic: "Cloud & DevOps",
+    language: "Cloud",
+    difficulty: "Beginner to Intermediate",
+    upvotes: 1420,
+    youtubePlaylists: [
+      { name: "freeCodeCamp AWS Course (Best)", url: "https://www.youtube.com/watch?v=SOTamWGuDKc" },
+      { name: "Stephane Maarek AWS Solutions", url: "https://www.youtube.com/playlist?list=PLB2j0-K6L8jL" },
+      { name: "Edureka AWS Certification Prep", url: "https://www.youtube.com/playlist?list=PL9ooVrP1hQOG-iZ" }
+    ],
+    videos: [
+      { id: "v-aws-1", title: "Introduction to Cloud Computing & AWS Services", duration: "45:12", youtubeId: "aws-1" },
+      { id: "v-aws-2", title: "AWS EC2 (Elastic Compute Cloud) Deep Dive", duration: "55:30", youtubeId: "aws-2" },
+      { id: "v-aws-3", title: "AWS S3 (Simple Storage Service) & IAM policies", duration: "38:40", youtubeId: "aws-3" },
+      { id: "v-aws-4", title: "AWS RDS, DynamoDB & Serverless Lambda", duration: "50:15", youtubeId: "aws-4" }
+    ]
+  },
+  // DevOps Track
+  {
+    id: "pl-devops",
+    title: "DevOps BootCamp: Docker, Kubernetes & CI/CD",
+    creator: "TechWorld with Nana",
+    topic: "Cloud & DevOps",
+    language: "DevOps",
+    difficulty: "Intermediate",
+    upvotes: 1680,
+    youtubePlaylists: [
+      { name: "TechWorld with Nana DevOps (Best)", url: "https://www.youtube.com/playlist?list=PLy7NrYWoggj" },
+      { name: "Kunal Kushwaha DevOps Course", url: "https://www.youtube.com/playlist?list=PL9gnSGHSqcnoqDL" },
+      { name: "freeCodeCamp Git & CI/CD Crash", url: "https://www.youtube.com/watch?v=R8_veQiYtgo" }
+    ],
+    videos: [
+      { id: "v-dev-1", title: "Introduction to DevOps Culture & Tools", duration: "25:40", youtubeId: "dev-1" },
+      { id: "v-dev-2", title: "Docker Containers, Images & Dockerfile Build", duration: "1:02:15", youtubeId: "dev-2" },
+      { id: "v-dev-3", title: "Kubernetes Architecture, Pods & Deployments", duration: "1:15:30", youtubeId: "dev-3" },
+      { id: "v-dev-4", title: "Setting up GitHub Actions CI/CD Pipelines", duration: "44:10", youtubeId: "dev-4" }
+    ]
+  },
+  // Project Build Track
+  {
+    id: "pl-projects",
+    title: "Complete Capstone Project Guides (MERN & SpringBoot)",
+    creator: "JavaScript Mastery",
+    topic: "Project Build",
+    language: "Full-Stack",
+    difficulty: "Beginner to Advanced",
+    upvotes: 1850,
+    youtubePlaylists: [
+      { name: "JavaScript Mastery MERN Apps (Best)", url: "https://www.youtube.com/playlist?list=PLDzeHZWIZsTryvtK" },
+      { name: "Clever Programmer Real-world Clones", url: "https://www.youtube.com/playlist?list=PLu0W_9lII9" },
+      { name: "Amigoscode Java Spring Boot Projects", url: "https://www.youtube.com/playlist?list=PLsyeobzWly7o" }
+    ],
+    videos: [
+      { id: "v-proj-1", title: "Designing Full Stack Database Schemas & REST APIs", duration: "42:10", youtubeId: "proj-1" },
+      { id: "v-proj-2", title: "Building Responsive Frontend using React & TailWind", duration: "58:30", youtubeId: "proj-2" },
+      { id: "v-proj-3", title: "Integrating Payment Gateways (Stripe/Razorpay)", duration: "36:15", youtubeId: "proj-3" },
+      { id: "v-proj-4", title: "Deploying MERN Stack Apps to Vercel & Render", duration: "48:50", youtubeId: "proj-4" }
+    ]
   }
 ];
 
