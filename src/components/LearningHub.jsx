@@ -293,12 +293,22 @@ export default function LearningHub({ playlists, playlistState, toggleVideoWatch
             value={liveQuery}
             onChange={(e) => setLiveQuery(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleLiveSearch()}
-            style={{ flex: 1 }}
+            style={{ 
+              flex: 1, 
+              backgroundColor: "#000000", 
+              color: "#ffffff", 
+              border: "1px solid #ffffff" 
+            }}
           />
           <button 
             onClick={handleLiveSearch} 
             className="btn btn-primary"
-            style={{ padding: "10px 20px" }}
+            style={{ 
+              padding: "10px 20px", 
+              backgroundColor: "#000000", 
+              color: "#ffffff", 
+              border: "1px solid #ffffff" 
+            }}
             disabled={isSearchingLive}
           >
             {isSearchingLive ? "Searching..." : "Search Live"}
