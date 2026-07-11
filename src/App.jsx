@@ -265,10 +265,10 @@ export default function App() {
       {/* Sidebar Navigation */}
       <aside className="sidebar">
         <div className="logo-container" style={{ cursor: "pointer", display: "flex", alignItems: "center", gap: "8px" }} onClick={handleLogout}>
-          <Code size={22} style={{ color: "var(--success)" }} />
           <span className="logo-text">
             <span style={{ color: "var(--success)" }}>P</span>LACIFY
           </span>
+          <Code size={22} style={{ color: "var(--danger)" }} />
         </div>
 
         <ul className="nav-links">
