@@ -9,13 +9,62 @@ export default function LearningHub({ playlists, playlistState, toggleVideoWatch
 
   // Live YouTube search states
   const [liveQuery, setLiveQuery] = useState("");
-  const [ytSearchQuery, setYtSearchQuery] = useState("");
+  const [liveVideos, setLiveVideos] = useState([]);
+  const [selectedYtVideo, setSelectedYtVideo] = useState(null);
+  const [isSearchingLive, setIsSearchingLive] = useState(false);
+  const [searchError, setSearchError] = useState("");
 
   React.useEffect(() => {
     const handleOutsideClick = () => setOpenDropdown(null);
     window.addEventListener("click", handleOutsideClick);
     return () => window.removeEventListener("click", handleOutsideClick);
   }, []);
+
+  const handleLiveSearch = async (queryStr) => {
+    if (!queryStr.trim()) return;
+    setIsSearchingLive(true);
+    setSearchError("");
+    
+    const instances = [
+      "https://invidious.nerdvpn.de",
+      "https://yewtu.be",
+      "https://vid.puffyan.us",
+      "https://inv.tux.im",
+      "https://invidious.flokinet.to"
+    ];
+
+    let success = false;
+    for (const instance of instances) {
+      try {
+        const res = await fetch(`${instance}/api/v1/search?q=${encodeURIComponent(queryStr)}&type=video`);
+        if (res.ok) {
+          const data = await res.json();
+          if (Array.isArray(data)) {
+            const items = data.slice(0, 10).map(item => ({
+              id: item.videoId,
+              title: item.title,
+              creator: item.author,
+              thumbnail: item.videoThumbnails?.find(t => t.quality === "medium")?.url || item.videoThumbnails?.[0]?.url || `https://img.youtube.com/vi/${item.videoId}/mqdefault.jpg`,
+              url: `https://www.youtube.com/watch?v=${item.videoId}`
+            }));
+            setLiveVideos(items);
+            if (items.length > 0) {
+              setSelectedYtVideo(items[0].id);
+            }
+            success = true;
+            break;
+          }
+        }
+      } catch (err) {
+        console.warn(`Mirror ${instance} failed:`, err);
+      }
+    }
+
+    if (!success) {
+      setSearchError("All search mirrors currently busy. Please try search terms again in a moment.");
+    }
+    setIsSearchingLive(false);
+  };
 
   // Filter topics
   const topics = ["All", "DSA", "System Design", "Aptitude", "CS Fundamentals", "Cloud & DevOps", "Project Build"];
@@ -250,7 +299,7 @@ export default function LearningHub({ playlists, playlistState, toggleVideoWatch
                 placeholder="Search topic (e.g. recursion striver, arrays babbar)..." 
                 value={liveQuery}
                 onChange={(e) => setLiveQuery(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && setYtSearchQuery(liveQuery)}
+                onKeyDown={(e) => e.key === "Enter" && handleLiveSearch(liveQuery)}
                 style={{ 
                   flex: 1, 
                   backgroundColor: "#000000", 
@@ -261,7 +310,7 @@ export default function LearningHub({ playlists, playlistState, toggleVideoWatch
                 }}
               />
               <button 
-                onClick={() => setYtSearchQuery(liveQuery)} 
+                onClick={() => handleLiveSearch(liveQuery)} 
                 className="btn btn-primary"
                 style={{ 
                   padding: "10px 20px", 
@@ -269,8 +318,9 @@ export default function LearningHub({ playlists, playlistState, toggleVideoWatch
                   color: "#ffffff", 
                   border: "1px solid #ffffff" 
                 }}
+                disabled={isSearchingLive}
               >
-                Search Live
+                {isSearchingLive ? "Searching..." : "Search Live"}
               </button>
             </div>
             
@@ -287,7 +337,7 @@ export default function LearningHub({ playlists, playlistState, toggleVideoWatch
                       style={{ padding: "4px 8px", fontSize: "0.7rem", backgroundColor: "#000000", border: "1px solid var(--border-color)", color: "#ffffff" }}
                       onClick={() => {
                         setLiveQuery(topic + " striver");
-                        setYtSearchQuery(topic + " striver");
+                        handleLiveSearch(topic + " striver");
                       }}
                     >
                       {topic}
@@ -305,7 +355,7 @@ export default function LearningHub({ playlists, playlistState, toggleVideoWatch
                       style={{ padding: "4px 8px", fontSize: "0.7rem", backgroundColor: "#000000", border: "1px solid var(--border-color)", color: "#ffffff" }}
                       onClick={() => {
                         setLiveQuery(topic);
-                        setYtSearchQuery(topic);
+                        handleLiveSearch(topic);
                       }}
                     >
                       {topic}
@@ -323,7 +373,7 @@ export default function LearningHub({ playlists, playlistState, toggleVideoWatch
                       style={{ padding: "4px 8px", fontSize: "0.7rem", backgroundColor: "#000000", border: "1px solid var(--border-color)", color: "#ffffff" }}
                       onClick={() => {
                         setLiveQuery(topic);
-                        setYtSearchQuery(topic);
+                        handleLiveSearch(topic);
                       }}
                     >
                       {topic}
@@ -334,22 +384,71 @@ export default function LearningHub({ playlists, playlistState, toggleVideoWatch
             )}
           </div>
 
-          {/* YouTube Live Player Window Panel */}
-          <div style={{ flex: 1.2, minWidth: "320px", backgroundColor: "#000000", border: "1px solid var(--border-color)", borderRadius: "6px", overflow: "hidden", minHeight: "260px", display: "flex", alignItems: "center", justifyContent: "center" }}>
-            {ytSearchQuery ? (
-              <iframe
-                title="Live YouTube Search Player"
-                width="100%"
-                height="260px"
-                src={`https://www.youtube.com/embed?listType=search&list=${encodeURIComponent(ytSearchQuery)}`}
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              ></iframe>
+          {/* YouTube Live Search Results & Player Window Panel */}
+          <div style={{ flex: 1.5, minWidth: "480px", backgroundColor: "#000000", border: "1px solid var(--border-color)", borderRadius: "6px", overflow: "hidden", minHeight: "300px", display: "flex" }}>
+            {liveVideos.length > 0 ? (
+              <div style={{ display: "flex", width: "100%", height: "300px" }}>
+                {/* Left: Scrollable Search Results (Just like YouTube Search!) */}
+                <div style={{ flex: 1, borderRight: "1px solid var(--border-color)", overflowY: "auto", padding: "10px", display: "flex", flexDirection: "column", gap: "8px", backgroundColor: "#07090e" }}>
+                  <span style={{ fontSize: "0.7rem", textTransform: "uppercase", color: "var(--text-secondary)", fontWeight: "bold", paddingBottom: "4px", borderBottom: "1px solid var(--border-color)" }}>
+                    Search Results ({liveVideos.length})
+                  </span>
+                  {liveVideos.map(video => (
+                    <div 
+                      key={video.id}
+                      onClick={() => setSelectedYtVideo(video.id)}
+                      style={{
+                        display: "flex",
+                        gap: "10px",
+                        cursor: "pointer",
+                        padding: "6px",
+                        borderRadius: "4px",
+                        backgroundColor: selectedYtVideo === video.id ? "rgba(255, 255, 255, 0.1)" : "transparent",
+                        transition: "background-color 0.2s ease"
+                      }}
+                    >
+                      <img 
+                        src={video.thumbnail}
+                        alt={video.title}
+                        style={{ width: "80px", height: "45px", objectFit: "cover", borderRadius: "4px" }}
+                      />
+                      <div style={{ overflow: "hidden" }}>
+                        <h5 style={{ margin: 0, fontSize: "0.75rem", color: "#ffffff", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                          {video.title}
+                        </h5>
+                        <span style={{ fontSize: "0.65rem", color: "var(--text-muted)" }}>{video.creator}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Right: Embedded Video Player */}
+                <div style={{ flex: 1.5, position: "relative", backgroundColor: "#000000" }}>
+                  {selectedYtVideo ? (
+                    <iframe
+                      title="Live YouTube Search Player"
+                      width="100%"
+                      height="100%"
+                      src={`https://www.youtube.com/embed/${selectedYtVideo}?autoplay=1`}
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    ></iframe>
+                  ) : (
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%", color: "var(--text-muted)", fontSize: "0.85rem" }}>
+                      Select a video to play
+                    </div>
+                  )}
+                </div>
+              </div>
             ) : (
-              <div style={{ padding: "40px", textAlign: "center", color: "var(--text-muted)" }}>
-                <span style={{ fontSize: "2rem", display: "block", marginBottom: "10px" }}>📺</span>
-                <span>Type a topic and click "Search Live" to load the YouTube window here.</span>
+              <div style={{ flex: 1, padding: "40px", textAlign: "center", color: "var(--text-muted)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
+                <span style={{ fontSize: "2.5rem", display: "block", marginBottom: "12px" }}>📺</span>
+                {searchError ? (
+                  <span style={{ color: "var(--danger)" }}>{searchError}</span>
+                ) : (
+                  <span>Type a topic and click "Search Live" to see the search results window here.</span>
+                )}
               </div>
             )}
           </div>
