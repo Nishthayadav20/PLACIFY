@@ -43,16 +43,26 @@ export default function LearningHub({ playlists, playlistState, toggleVideoWatch
           onChange={(e) => setSearchQuery(e.target.value)}
         />
         <div style={{ display: "flex", gap: "8px" }}>
-          {topics.map(topic => (
-            <button
-              key={topic}
-              className={`btn ${selectedTopic === topic ? "btn-primary" : "btn-secondary"}`}
-              style={{ padding: "8px 16px", borderRadius: "var(--radius-full)" }}
-              onClick={() => setSelectedTopic(topic)}
-            >
-              {topic}
-            </button>
-          ))}
+          {topics.map(topic => {
+            const isSelected = selectedTopic === topic;
+            return (
+              <button
+                key={topic}
+                className="btn"
+                style={{ 
+                  padding: "8px 16px", 
+                  borderRadius: "4px", 
+                  backgroundColor: "#000000", 
+                  color: "#ffffff",
+                  border: isSelected ? "1px solid #ffffff" : "1px solid var(--border-color)",
+                  fontWeight: isSelected ? "bold" : "normal"
+                }}
+                onClick={() => setSelectedTopic(topic)}
+              >
+                {topic}
+              </button>
+            );
+          })}
         </div>
       </div>
 
@@ -77,7 +87,18 @@ export default function LearningHub({ playlists, playlistState, toggleVideoWatch
               {/* Header */}
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
                 <div>
-                  <span className="badge badge-primary" style={{ marginBottom: "8px" }}>{playlist.topic}</span>
+                  <span style={{ 
+                    marginBottom: "8px", 
+                    backgroundColor: "#000000", 
+                    border: "1px solid var(--border-color)", 
+                    color: "#ffffff", 
+                    padding: "4px 8px", 
+                    borderRadius: "4px", 
+                    fontSize: "0.75rem", 
+                    display: "inline-block" 
+                  }}>
+                    {playlist.topic}
+                  </span>
                   <h3 style={{ fontSize: "1.2rem", fontWeight: 700 }}>{playlist.title}</h3>
                   <p style={{ fontSize: "0.875rem", color: "var(--text-secondary)" }}>by {playlist.creator}</p>
                 </div>
