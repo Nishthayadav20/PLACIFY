@@ -27,6 +27,53 @@ export default function DSATracker({ dsaSheet, dsaState, toggleProblemCompleted,
         <p>Keep track of essential programming patterns, bookmark revisions, and study solutions.</p>
       </div>
 
+      {/* Famous DSA Sheets & Resources Hyperlinks */}
+      <div className="card" style={{ marginBottom: "24px", backgroundColor: "#000000", border: "1px solid var(--border-color)" }}>
+        <h3 style={{ marginBottom: "12px", fontSize: "1.1rem", color: "#ffffff" }}>🔥 Famous DSA Practice Sheets & Handouts</h3>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "12px" }}>
+          <a 
+            href="https://takeuforward.org/strivers-a-z-dsa-course-sheet-code-studio-problems/" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="btn btn-secondary"
+            style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: "0.85rem", padding: "10px 14px", backgroundColor: "#000000" }}
+          >
+            <span>Striver's A-Z DSA Sheet</span>
+            <ExternalLink size={14} />
+          </a>
+          <a 
+            href="https://www.geeksforgeeks.org/dsa-sheet-by-love-babbar/" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="btn btn-secondary"
+            style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: "0.85rem", padding: "10px 14px", backgroundColor: "#000000" }}
+          >
+            <span>Love Babbar 450 Sheet</span>
+            <ExternalLink size={14} />
+          </a>
+          <a 
+            href="https://github.com/kunal-kushwaha/DSA-Bootcamp-Java" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="btn btn-secondary"
+            style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: "0.85rem", padding: "10px 14px", backgroundColor: "#000000" }}
+          >
+            <span>Kunal Kushwaha Java Sheet</span>
+            <ExternalLink size={14} />
+          </a>
+          <a 
+            href="https://neetcode.io/practice" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="btn btn-secondary"
+            style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: "0.85rem", padding: "10px 14px", backgroundColor: "#000000" }}
+          >
+            <span>NeetCode 150 Tracker</span>
+            <ExternalLink size={14} />
+          </a>
+        </div>
+      </div>
+
       {/* Progress banner */}
       <div className="card" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "32px", borderLeft: "4px solid var(--primary)" }}>
         <div style={{ flexGrow: 1, marginRight: "40px" }}>

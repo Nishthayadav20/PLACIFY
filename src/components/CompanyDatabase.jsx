@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Search, MapPin, DollarSign, Award, GraduationCap, X, Send, PlusCircle } from "lucide-react";
+import { Search, MapPin, DollarSign, Award, GraduationCap, X, Send, PlusCircle, ExternalLink } from "lucide-react";
 
 export default function CompanyDatabase({ companies, addExperience }) {
   const [searchQuery, setSearchQuery] = useState("");
@@ -194,6 +194,56 @@ export default function CompanyDatabase({ companies, addExperience }) {
                       <span style={{ fontSize: "0.95rem" }}>{round}</span>
                     </div>
                   ))}
+                </div>
+              </div>
+
+              {/* Preparation Playlists & Guides */}
+              <div style={{ borderTop: "1px solid var(--border-color)", paddingTop: "20px", marginBottom: "20px" }}>
+                <h4 style={{ marginBottom: "12px", color: "#ffffff" }}>🎯 Placement Prep Playlists & Guides</h4>
+                <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                  {selectedCompany.name.toLowerCase().includes("google") && (
+                    <>
+                      <a href="https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m21w1dA31T47mjYX" target="_blank" rel="noopener noreferrer" className="btn btn-secondary" style={{ fontSize: "0.85rem", justifyContent: "space-between", backgroundColor: "#000000", color: "#ffffff", border: "1px solid var(--border-color)", display: "flex", alignItems: "center" }}>
+                        <span>Google Coding Interview Series (Striver)</span> <ExternalLink size={14} />
+                      </a>
+                      <a href="https://takeuforward.org/interviews/google-interview-experience-questions-sde-1/" target="_blank" rel="noopener noreferrer" className="btn btn-secondary" style={{ fontSize: "0.85rem", justifyContent: "space-between", backgroundColor: "#000000", color: "#ffffff", border: "1px solid var(--border-color)", display: "flex", alignItems: "center" }}>
+                        <span>Google SDE Preparation Guide (TakeUForward)</span> <ExternalLink size={14} />
+                      </a>
+                    </>
+                  )}
+                  {selectedCompany.name.toLowerCase().includes("amazon") && (
+                    <>
+                      <a href="https://www.youtube.com/playlist?list=PLDzeHZWIZsTryvtKBemfi6Qj5WYjRYnFg" target="_blank" rel="noopener noreferrer" className="btn btn-secondary" style={{ fontSize: "0.85rem", justifyContent: "space-between", backgroundColor: "#000000", color: "#ffffff", border: "1px solid var(--border-color)", display: "flex", alignItems: "center" }}>
+                        <span>Amazon Prep & Coding Lectures (Love Babbar)</span> <ExternalLink size={14} />
+                      </a>
+                      <a href="https://www.geeksforgeeks.org/amazon-sde-sheet-interview-questions/" target="_blank" rel="noopener noreferrer" className="btn btn-secondary" style={{ fontSize: "0.85rem", justifyContent: "space-between", backgroundColor: "#000000", color: "#ffffff", border: "1px solid var(--border-color)", display: "flex", alignItems: "center" }}>
+                        <span>Amazon SDE Placement Sheet (GFG)</span> <ExternalLink size={14} />
+                      </a>
+                    </>
+                  )}
+                  {selectedCompany.name.toLowerCase().includes("microsoft") && (
+                    <>
+                      <a href="https://www.youtube.com/playlist?list=PLgUwDviBIf0rPG3Ictpu74YWBt1CaBAsd" target="_blank" rel="noopener noreferrer" className="btn btn-secondary" style={{ fontSize: "0.85rem", justifyContent: "space-between", backgroundColor: "#000000", color: "#ffffff", border: "1px solid var(--border-color)", display: "flex", alignItems: "center" }}>
+                        <span>Microsoft Interview Coding Playlist (Striver)</span> <ExternalLink size={14} />
+                      </a>
+                      <a href="https://takeuforward.org/interview-sheets/strivers-sde-sheet-top-coding-interview-problems/" target="_blank" rel="noopener noreferrer" className="btn btn-secondary" style={{ fontSize: "0.85rem", justifyContent: "space-between", backgroundColor: "#000000", color: "#ffffff", border: "1px solid var(--border-color)", display: "flex", alignItems: "center" }}>
+                        <span>Microsoft SDE Sheet (Striver)</span> <ExternalLink size={14} />
+                      </a>
+                    </>
+                  )}
+                  {selectedCompany.name.toLowerCase().includes("tcs") && (
+                    <>
+                      <a href="https://www.youtube.com/watch?v=PLu0W_9lII9agpFUAlPFe_VNSlXW5uE4YL" target="_blank" rel="noopener noreferrer" className="btn btn-secondary" style={{ fontSize: "0.85rem", justifyContent: "space-between", backgroundColor: "#000000", color: "#ffffff", border: "1px solid var(--border-color)", display: "flex", alignItems: "center" }}>
+                        <span>TCS NQT Preparation Series (CodeWithHarry)</span> <ExternalLink size={14} />
+                      </a>
+                      <a href="https://www.geeksforgeeks.org/tcs-nqt-preparation-sheet/" target="_blank" rel="noopener noreferrer" className="btn btn-secondary" style={{ fontSize: "0.85rem", justifyContent: "space-between", backgroundColor: "#000000", color: "#ffffff", border: "1px solid var(--border-color)", display: "flex", alignItems: "center" }}>
+                        <span>TCS Placement & Aptitude Sheet (GFG)</span> <ExternalLink size={14} />
+                      </a>
+                    </>
+                  )}
+                  <a href="https://www.geeksforgeeks.org/top-100-interview-questions-company-wise/" target="_blank" rel="noopener noreferrer" className="btn btn-secondary" style={{ fontSize: "0.85rem", justifyContent: "space-between", backgroundColor: "#000000", color: "#ffffff", border: "1px solid var(--border-color)", display: "flex", alignItems: "center" }}>
+                    <span>Browse GFG Top 100 Company-Wise Questions</span> <ExternalLink size={14} />
+                  </a>
                 </div>
               </div>
 
