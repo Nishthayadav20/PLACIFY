@@ -268,7 +268,11 @@ export default function App() {
           <span className="logo-text">
             <span style={{ color: "var(--success)" }}>P</span>LACIFY
           </span>
-          <Code size={22} style={{ color: "var(--danger)" }} />
+          <span style={{ display: "flex", alignItems: "center", fontSize: "1.35rem", fontWeight: "900", fontFamily: "var(--font-headings)", gap: "1px", marginLeft: "4px" }}>
+            <span style={{ color: "var(--danger)" }}>&lt;</span>
+            <span style={{ color: "var(--warning)" }}>/</span>
+            <span style={{ color: "var(--danger)" }}>&gt;</span>
+          </span>
         </div>
 
         <ul className="nav-links">
