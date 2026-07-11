@@ -72,15 +72,17 @@ export default function Onboarding({ onComplete }) {
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
-      backgroundColor: "var(--bg-primary)",
+      backgroundColor: "#000000",
+      color: "#ffffff",
       padding: "20px"
     }}>
       <div className="card" style={{
         maxWidth: "600px",
         width: "100%",
-        boxShadow: "var(--shadow-xl)",
-        border: "1px solid var(--border-color)",
-        padding: "40px"
+        backgroundColor: "#000000",
+        border: "1px solid #ffffff",
+        padding: "40px",
+        borderRadius: "8px"
       }}>
         {/* Title */}
         <div style={{ textAlign: "center", marginBottom: "32px" }}>
@@ -88,8 +90,8 @@ export default function Onboarding({ onComplete }) {
             width: "56px",
             height: "56px",
             borderRadius: "16px",
-            backgroundColor: "var(--primary-light)",
-            color: "var(--primary)",
+            backgroundColor: "#ffffff",
+            color: "#000000",
             display: "inline-flex",
             alignItems: "center",
             justifyContent: "center",
@@ -97,8 +99,8 @@ export default function Onboarding({ onComplete }) {
           }}>
             <GraduationCap size={32} />
           </div>
-          <h1 style={{ fontSize: "2rem", marginBottom: "8px" }}>Welcome to PlacementOS</h1>
-          <p style={{ color: "var(--text-secondary)" }}>Set up your profile, load your coding accounts, and start your tailored routine.</p>
+          <h1 style={{ fontSize: "2rem", marginBottom: "8px", color: "#ffffff" }}>Welcome to PLACIFY</h1>
+          <p style={{ color: "#cbd5e1" }}>Set up your profile, load your coding accounts, and start your tailored routine.</p>
         </div>
 
         {errorMsg && (
@@ -117,12 +119,12 @@ export default function Onboarding({ onComplete }) {
         <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
           {/* Name */}
           <div>
-            <label style={{ fontSize: "0.9rem", fontWeight: 600, display: "block", marginBottom: "6px" }}>Full Name *</label>
+            <label style={{ fontSize: "0.9rem", fontWeight: 600, display: "block", marginBottom: "6px", color: "#ffffff" }}>Full Name *</label>
             <input 
               type="text" 
               className="search-input" 
               placeholder="e.g. Nishtha Yadav"
-              style={{ width: "100%" }}
+              style={{ width: "100%", backgroundColor: "#000000", border: "1px solid #ffffff", color: "#ffffff" }}
               value={name} 
               onChange={(e) => setName(e.target.value)} 
               required 
@@ -131,47 +133,47 @@ export default function Onboarding({ onComplete }) {
 
           {/* Social Profiles Grid */}
           <div>
-            <label style={{ fontSize: "0.9rem", fontWeight: 600, display: "block", marginBottom: "8px" }}>Coding profiles (Optional)</label>
+            <label style={{ fontSize: "0.9rem", fontWeight: 600, display: "block", marginBottom: "8px", color: "#ffffff" }}>Coding profiles (Optional)</label>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
-              <div style={{ display: "flex", alignItems: "center", border: "1px solid var(--border-color)", borderRadius: "var(--radius-sm)", padding: "0 10px", backgroundColor: "#1e293b" }}>
-                <Github size={16} style={{ color: "var(--text-muted)", marginRight: "8px" }} />
+              <div style={{ display: "flex", alignItems: "center", border: "1px solid #ffffff", borderRadius: "var(--radius-sm)", padding: "0 10px", backgroundColor: "#000000" }}>
+                <Github size={16} style={{ color: "#ffffff", marginRight: "8px" }} />
                 <input 
                   type="text" 
                   placeholder="GitHub Username" 
-                  style={{ border: "none", outline: "none", padding: "10px 0", width: "100%", fontSize: "0.85rem", backgroundColor: "transparent", color: "#f8fafc" }}
+                  style={{ border: "none", outline: "none", padding: "10px 0", width: "100%", fontSize: "0.85rem", backgroundColor: "transparent", color: "#ffffff" }}
                   value={github}
                   onChange={(e) => setGithub(e.target.value)}
                 />
               </div>
 
-              <div style={{ display: "flex", alignItems: "center", border: "1px solid var(--border-color)", borderRadius: "var(--radius-sm)", padding: "0 10px", backgroundColor: "#1e293b" }}>
-                <Code size={16} style={{ color: "var(--text-muted)", marginRight: "8px" }} />
+              <div style={{ display: "flex", alignItems: "center", border: "1px solid #ffffff", borderRadius: "var(--radius-sm)", padding: "0 10px", backgroundColor: "#000000" }}>
+                <Code size={16} style={{ color: "#ffffff", marginRight: "8px" }} />
                 <input 
                   type="text" 
                   placeholder="LeetCode Username" 
-                  style={{ border: "none", outline: "none", padding: "10px 0", width: "100%", fontSize: "0.85rem", backgroundColor: "transparent", color: "#f8fafc" }}
+                  style={{ border: "none", outline: "none", padding: "10px 0", width: "100%", fontSize: "0.85rem", backgroundColor: "transparent", color: "#ffffff" }}
                   value={leetcode}
                   onChange={(e) => setLeetcode(e.target.value)}
                 />
               </div>
 
-              <div style={{ display: "flex", alignItems: "center", border: "1px solid var(--border-color)", borderRadius: "var(--radius-sm)", padding: "0 10px", backgroundColor: "#1e293b" }}>
-                <Award size={16} style={{ color: "var(--text-muted)", marginRight: "8px" }} />
+              <div style={{ display: "flex", alignItems: "center", border: "1px solid #ffffff", borderRadius: "var(--radius-sm)", padding: "0 10px", backgroundColor: "#000000" }}>
+                <Award size={16} style={{ color: "#ffffff", marginRight: "8px" }} />
                 <input 
                   type="text" 
                   placeholder="HackerRank Username" 
-                  style={{ border: "none", outline: "none", padding: "10px 0", width: "100%", fontSize: "0.85rem", backgroundColor: "transparent", color: "#f8fafc" }}
+                  style={{ border: "none", outline: "none", padding: "10px 0", width: "100%", fontSize: "0.85rem", backgroundColor: "transparent", color: "#ffffff" }}
                   value={hackerrank}
                   onChange={(e) => setHackerrank(e.target.value)}
                 />
               </div>
 
-              <div style={{ display: "flex", alignItems: "center", border: "1px solid var(--border-color)", borderRadius: "var(--radius-sm)", padding: "0 10px", backgroundColor: "#1e293b" }}>
-                <Terminal size={16} style={{ color: "var(--text-muted)", marginRight: "8px" }} />
+              <div style={{ display: "flex", alignItems: "center", border: "1px solid #ffffff", borderRadius: "var(--radius-sm)", padding: "0 10px", backgroundColor: "#000000" }}>
+                <Terminal size={16} style={{ color: "#ffffff", marginRight: "8px" }} />
                 <input 
                   type="text" 
                   placeholder="CodeChef Username" 
-                  style={{ border: "none", outline: "none", padding: "10px 0", width: "100%", fontSize: "0.85rem", backgroundColor: "transparent", color: "#f8fafc" }}
+                  style={{ border: "none", outline: "none", padding: "10px 0", width: "100%", fontSize: "0.85rem", backgroundColor: "transparent", color: "#ffffff" }}
                   value={codechef}
                   onChange={(e) => setCodechef(e.target.value)}
                 />
@@ -181,14 +183,23 @@ export default function Onboarding({ onComplete }) {
 
           {/* Level Selector */}
           <div>
-            <label style={{ fontSize: "0.9rem", fontWeight: 600, display: "block", marginBottom: "6px" }}>Your DSA Level *</label>
+            <label style={{ fontSize: "0.9rem", fontWeight: 600, display: "block", marginBottom: "6px", color: "#ffffff" }}>Your DSA Level *</label>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "8px" }}>
               {["Beginner", "Basic", "Intermediate", "Advanced"].map(lvl => (
                 <button
                   key={lvl}
                   type="button"
-                  className={`btn ${dsaLevel === lvl ? "btn-primary" : "btn-secondary"}`}
-                  style={{ padding: "8px 0", width: "100%", fontSize: "0.85rem" }}
+                  style={{ 
+                    padding: "8px 0", 
+                    width: "100%", 
+                    fontSize: "0.85rem",
+                    backgroundColor: dsaLevel === lvl ? "#ffffff" : "#000000",
+                    color: dsaLevel === lvl ? "#000000" : "#ffffff",
+                    border: "1px solid #ffffff",
+                    borderRadius: "4px",
+                    cursor: "pointer",
+                    fontWeight: dsaLevel === lvl ? "bold" : "normal"
+                  }}
                   onClick={() => setDsaLevel(lvl)}
                 >
                   {lvl}
@@ -200,13 +211,13 @@ export default function Onboarding({ onComplete }) {
           {/* Timeline Days */}
           <div>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "6px" }}>
-              <label style={{ fontSize: "0.9rem", fontWeight: 600 }}>Target Days to Complete DSA *</label>
+              <label style={{ fontSize: "0.9rem", fontWeight: 600, color: "#ffffff" }}>Target Days to Complete DSA *</label>
               <span style={{ fontSize: "0.75rem", color: "var(--danger)", fontWeight: 600 }}>{getMinDaysHint()}</span>
             </div>
             <input 
               type="number" 
               className="search-input" 
-              style={{ width: "100%" }}
+              style={{ width: "100%", backgroundColor: "#000000", border: "1px solid #ffffff", color: "#ffffff" }}
               value={timelineDays}
               onChange={(e) => setTimelineDays(e.target.value)}
               min={dsaLevel === "Advanced" ? 45 : dsaLevel === "Intermediate" ? 60 : 90}
@@ -216,14 +227,23 @@ export default function Onboarding({ onComplete }) {
 
           {/* Language Selector */}
           <div>
-            <label style={{ fontSize: "0.9rem", fontWeight: 600, display: "block", marginBottom: "6px" }}>Preferred Programming Language *</label>
+            <label style={{ fontSize: "0.9rem", fontWeight: 600, display: "block", marginBottom: "6px", color: "#ffffff" }}>Preferred Programming Language *</label>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "8px" }}>
               {["C++", "Java", "Python", "JavaScript"].map(lang => (
                 <button
                   key={lang}
                   type="button"
-                  className={`btn ${language === lang ? "btn-primary" : "btn-secondary"}`}
-                  style={{ padding: "8px 0", width: "100%", fontSize: "0.85rem" }}
+                  style={{ 
+                    padding: "8px 0", 
+                    width: "100%", 
+                    fontSize: "0.85rem",
+                    backgroundColor: language === lang ? "#ffffff" : "#000000",
+                    color: language === lang ? "#000000" : "#ffffff",
+                    border: "1px solid #ffffff",
+                    borderRadius: "4px",
+                    cursor: "pointer",
+                    fontWeight: language === lang ? "bold" : "normal"
+                  }}
                   onClick={() => setLanguage(lang)}
                 >
                   {lang}
@@ -233,7 +253,21 @@ export default function Onboarding({ onComplete }) {
           </div>
 
           {/* Submit */}
-          <button type="submit" className="btn btn-primary" style={{ width: "100%", padding: "12px", fontSize: "1rem", marginTop: "12px" }}>
+          <button 
+            type="submit" 
+            style={{ 
+              width: "100%", 
+              padding: "12px", 
+              fontSize: "1rem", 
+              marginTop: "12px",
+              backgroundColor: "#ffffff",
+              color: "#000000",
+              border: "1px solid #ffffff",
+              borderRadius: "6px",
+              fontWeight: "bold",
+              cursor: "pointer"
+            }}
+          >
             Initialize Dashboard
           </button>
         </form>
