@@ -16,6 +16,11 @@ export const mockPlaylists = [
       { name: "Striver A-Z DSA Course", url: "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m21w1dA31T47mjYX" },
       { name: "CodeWithHarry C++ Tutorial", url: "https://www.youtube.com/playlist?list=PLu0W_9lII9agpFUAlPFe_VNSlXW5uE4YL" }
     ],
+    studyResources: [
+      { name: "GeeksforGeeks C++ Programming", url: "https://www.geeksforgeeks.org/c-plus-plus/" },
+      { name: "LeetCode Top 150 Interview List", url: "https://leetcode.com/studyplan/top-interview-150/" },
+      { name: "Learn C++ Interactive Site", url: "https://www.learncpp.com/" }
+    ],
     videos: [
       { id: "v-cpp-1", title: "Introduction to Pointers in C++", duration: "42:15", youtubeId: "05t3_1443_0" },
       { id: "v-cpp-2", title: "Standard Template Library (STL) in C++", duration: "1:15:30", youtubeId: "05t3_1443_1" },
@@ -37,6 +42,11 @@ export const mockPlaylists = [
       { name: "Kunal Kushwaha Java+DSA (Best)", url: "https://www.youtube.com/playlist?list=PL9gnSGHSqcnr_DxHsP7gSn15g30tbkAyi" },
       { name: "Apni Kaksha Java Placement", url: "https://www.youtube.com/playlist?list=PLfqMhYy_bDFzyODS_Xp-6X9sI7hA9B5_u" },
       { name: "Telusko Core Java Lectures", url: "https://www.youtube.com/playlist?list=PLsyeobzWly7oAZgDccGgqO1eIexf94JDy" }
+    ],
+    studyResources: [
+      { name: "JavaTpoint Core Java Guide", url: "https://www.javatpoint.com/java-tutorial" },
+      { name: "Oracle Official Java Tutorials", url: "https://docs.oracle.com/javase/tutorial/" },
+      { name: "CodingBat Java Code Practice", url: "https://codingbat.com/java" }
     ],
     videos: [
       { id: "v-java-1", title: "Introduction to Java Programming & IDE setup", duration: "50:20", youtubeId: "rZ41y63z_0" },
@@ -60,6 +70,11 @@ export const mockPlaylists = [
       { name: "CodeWithHarry Python Core", url: "https://www.youtube.com/playlist?list=PLu0W_9lII9agwh1FjGIqx5LYgA256s9rY" },
       { name: "Telusko Python Tutorials", url: "https://www.youtube.com/playlist?list=PLsyeobzWly7yT0t5f32sZ9R8W-uY2yvL4" }
     ],
+    studyResources: [
+      { name: "Python Official Docs & Tutorial", url: "https://docs.python.org/3/tutorial/" },
+      { name: "Real Python Interview Guide", url: "https://realpython.com/" },
+      { name: "HackerRank Python Exercises", url: "https://www.hackerrank.com/domains/python" }
+    ],
     videos: [
       { id: "v-py-1", title: "Python Lists, Tuples & Dictionaries Under the Hood", duration: "32:10", youtubeId: "y1_1456_0" },
       { id: "v-py-2", title: "Time & Space Complexity in Python", duration: "25:40", youtubeId: "y1_1456_1" },
@@ -82,6 +97,11 @@ export const mockPlaylists = [
       { name: "Roadside Coder JS DSA Course", url: "https://www.youtube.com/playlist?list=PLKhlp2qtUcSaCVJElJ9JAG7JgRE0JDJyT" },
       { name: "Hitesh Choudhary JS Playlist", url: "https://www.youtube.com/playlist?list=PLRAV69dS1uWSxUIk5o3vQY2-_dxnUJ-R4" }
     ],
+    studyResources: [
+      { name: "MDN JavaScript Documentation", url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript" },
+      { name: "JavaScript.info Modern Guide", url: "https://javascript.info/" },
+      { name: "LeetCode 30 Days of JavaScript", url: "https://leetcode.com/studyplan/30-days-of-javascript/" }
+    ],
     videos: [
       { id: "v-js-1", title: "JavaScript Arrays, Objects & Big-O", duration: "28:10", youtubeId: "j1_1467_0" },
       { id: "v-js-2", title: "Recursion & Closures in JavaScript", duration: "35:40", youtubeId: "j1_1467_1" },
@@ -102,6 +122,11 @@ export const mockPlaylists = [
       { name: "Saurabh Shukla OOPs (Best)", url: "https://www.youtube.com/playlist?list=PL52079CD748721BA7" },
       { name: "Love Babbar OOPs Placement", url: "https://www.youtube.com/playlist?list=PLDzeHZWIZsTryvtKBemfi6Qj5WYjRYnFg" },
       { name: "Kunal Kushwaha OOPs Java", url: "https://www.youtube.com/playlist?list=PL9gnSGHSqcnr_DxHsP7gSn15g30tbkAyi" }
+    ],
+    studyResources: [
+      { name: "GeeksforGeeks OOPs Core Concepts", url: "https://www.geeksforgeeks.org/object-oriented-programming-oops-concept-in-java/" },
+      { name: "Guru99 OOPs Design Principles", url: "https://www.guru99.com/java-oops-class-object.html" },
+      { name: "W3Schools C++ OOPs Tutorials", url: "https://www.w3schools.com/cpp/cpp_oop.asp" }
     ],
     videos: [
       { id: "v-oops-1", title: "OOPs Basics: Classes, Objects & Constructors", duration: "30:15", youtubeId: "op-1" },
@@ -124,6 +149,11 @@ export const mockPlaylists = [
       { name: "Knowledge Gate DBMS Course", url: "https://www.youtube.com/playlist?list=PLmXKhU9m_WfVzY8V87Lg64j92B54E6w58" },
       { name: "Sanchit Elaichi DBMS Lectures", url: "https://www.youtube.com/playlist?list=PLG9aCp4hyFLg6dG0uG-N9Jb9dZ" }
     ],
+    studyResources: [
+      { name: "Javatpoint DBMS Architecture", url: "https://www.javatpoint.com/dbms-tutorial" },
+      { name: "GeeksforGeeks DBMS Notes", url: "https://www.geeksforgeeks.org/dbms/" },
+      { name: "Tutorialspoint RDBMS Systems", url: "https://www.tutorialspoint.com/dbms/index.htm" }
+    ],
     videos: [
       { id: "v-dbms-1", title: "Introduction to Relational Databases & ER Models", duration: "24:10", youtubeId: "db-1" },
       { id: "v-dbms-2", title: "SQL Queries: Joins, Subqueries & Group By", duration: "42:30", youtubeId: "db-2" },
@@ -144,6 +174,11 @@ export const mockPlaylists = [
       { name: "Gate Smashers CN (Best)", url: "https://www.youtube.com/playlist?list=PLxCzCOWd7aiGFBD2-2joCpWOLUrDLvVV_" },
       { name: "Knowledge Gate CN Lectures", url: "https://www.youtube.com/playlist?list=PLmXKhU9m_WfXzY8V87Lg64j92B54E6w58" },
       { name: "Neso Academy CN Tutorials", url: "https://www.youtube.com/playlist?list=PLBlnK6fEyqRgMCUAG0XRw78UA8qnv6jEx" }
+    ],
+    studyResources: [
+      { name: "GeeksforGeeks Computer Networks", url: "https://www.geeksforgeeks.org/computer-network-tutorials/" },
+      { name: "Javatpoint CN Layer Explanations", url: "https://www.javatpoint.com/computer-network" },
+      { name: "Guru99 IP Subnetting Guide", url: "https://www.guru99.com/ip-addressing-subnetting-tutorials.html" }
     ],
     videos: [
       { id: "v-cn-1", title: "OSI Reference Model vs TCP/IP Suite", duration: "32:15", youtubeId: "cn-1" },
@@ -166,6 +201,11 @@ export const mockPlaylists = [
       { name: "Sumit Mittal SQL Course", url: "https://www.youtube.com/playlist?list=PL01mXW5u5Y6mSjK9J7Oa7_V5T1Jj9J7Oa" },
       { name: "Kudvenkat SQL Developer", url: "https://www.youtube.com/playlist?list=PL08903FB7ACA1C2FB" }
     ],
+    studyResources: [
+      { name: "LeetCode Top SQL 50 Study Plan", url: "https://leetcode.com/studyplan/top-sql-50/" },
+      { name: "W3Schools Interactive SQL Lessons", url: "https://www.w3schools.com/sql/" },
+      { name: "SQLBolt Interactive Queries Lab", url: "https://sqlbolt.com/" }
+    ],
     videos: [
       { id: "v-sql-1", title: "Top 50 SQL Queries Interview Questions", duration: "1:02:15", youtubeId: "sql-1" },
       { id: "v-sql-2", title: "Complex SQL Joins, Subqueries & CTEs", duration: "48:30", youtubeId: "sql-2" },
@@ -186,6 +226,11 @@ export const mockPlaylists = [
       { name: "CareerRide Quantitative (Best)", url: "https://www.youtube.com/playlist?list=PLD1E8F2942F2D98D7" },
       { name: "Feel Free to Learn Aptitude", url: "https://www.youtube.com/playlist?list=PLmXKhU9m_WfUf-G0D" },
       { name: "FreshersWorld Aptitude Prep", url: "https://www.youtube.com/playlist?list=PL83E3CB494B" }
+    ],
+    studyResources: [
+      { name: "IndiaBIX Placement Practice Sheets", url: "https://www.indiabix.com/aptitude/questions-and-answers/" },
+      { name: "GeeksforGeeks Aptitude Sheets", url: "https://www.geeksforgeeks.org/aptitude-questions-and-answers/" },
+      { name: "PrepInsta Placement Aptitude Dash", url: "https://prepinsta.com/aptitude/" }
     ],
     videos: [
       { id: "v-apt-1", title: "Time, Speed and Distance Shortcuts", duration: "35:10", youtubeId: "apt-1" },
@@ -208,6 +253,11 @@ export const mockPlaylists = [
       { name: "Arpit Bhayani System Design", url: "https://www.youtube.com/playlist?list=PLasdM5L9hXm1f7pWqOFrsQ3W_RpxgC7tN" },
       { name: "CodeKarle System Design Concepts", url: "https://www.youtube.com/playlist?list=PLkQkbY7G7vG31V" }
     ],
+    studyResources: [
+      { name: "System Design Primer (GitHub)", url: "https://github.com/donnemartin/system-design-primer" },
+      { name: "ByteByteGo System Design Blog", url: "https://bytebytego.com/" },
+      { name: "GeeksforGeeks HLD Architecture Notes", url: "https://www.geeksforgeeks.org/system-design-tutorial/" }
+    ],
     videos: [
       { id: "v-sys-1", title: "Introduction to Scaling & Load Balancers", duration: "28:15", youtubeId: "sys-1" },
       { id: "v-sys-2", title: "Caching Strategies (Redis, Memcached) & CDN", duration: "35:40", youtubeId: "sys-2" },
@@ -228,6 +278,11 @@ export const mockPlaylists = [
       { name: "freeCodeCamp AWS Course (Best)", url: "https://www.youtube.com/watch?v=SOTamWGuDKc" },
       { name: "Stephane Maarek AWS Solutions", url: "https://www.youtube.com/playlist?list=PLB2j0-K6L8jL" },
       { name: "Edureka AWS Certification Prep", url: "https://www.youtube.com/playlist?list=PL9ooVrP1hQOG-iZ" }
+    ],
+    studyResources: [
+      { name: "AWS Free Tier Documentation", url: "https://aws.amazon.com/free/" },
+      { name: "AWS Whitepapers & Architect Guide", url: "https://aws.amazon.com/whitepapers/" },
+      { name: "Tutorials Dojo AWS Cheat Sheets", url: "https://tutorialsdojo.com/aws-cheat-sheets/" }
     ],
     videos: [
       { id: "v-aws-1", title: "Introduction to Cloud Computing & AWS Services", duration: "45:12", youtubeId: "aws-1" },
@@ -250,6 +305,11 @@ export const mockPlaylists = [
       { name: "Kunal Kushwaha DevOps Course", url: "https://www.youtube.com/playlist?list=PL9gnSGHSqcnoqDL" },
       { name: "freeCodeCamp Git & CI/CD Crash", url: "https://www.youtube.com/watch?v=R8_veQiYtgo" }
     ],
+    studyResources: [
+      { name: "Docker Official Reference Docs", url: "https://docs.docker.com/" },
+      { name: "Kubernetes Interactive Documentation", url: "https://kubernetes.io/docs/home/" },
+      { name: "GitHub Actions Automation Workflow Docs", url: "https://docs.github.com/en/actions" }
+    ],
     videos: [
       { id: "v-dev-1", title: "Introduction to DevOps Culture & Tools", duration: "25:40", youtubeId: "dev-1" },
       { id: "v-dev-2", title: "Docker Containers, Images & Dockerfile Build", duration: "1:02:15", youtubeId: "dev-2" },
@@ -257,25 +317,108 @@ export const mockPlaylists = [
       { id: "v-dev-4", title: "Setting up GitHub Actions CI/CD Pipelines", duration: "44:10", youtubeId: "dev-4" }
     ]
   },
-  // Project Build Track
+  // Git & GitHub Track
   {
-    id: "pl-projects",
-    title: "Complete Capstone Project Guides (MERN & SpringBoot)",
+    id: "pl-git",
+    title: "Git & GitHub Developer Masterclass",
+    creator: "Kunal Kushwaha",
+    topic: "Cloud & DevOps",
+    language: "Git",
+    difficulty: "Beginner to Intermediate",
+    upvotes: 1530,
+    youtubePlaylists: [
+      { name: "Kunal Kushwaha Git Playlist (Best)", url: "https://www.youtube.com/playlist?list=PL9gnSGHSqcnoqDL" },
+      { name: "freeCodeCamp Git Tutorial Video", url: "https://www.youtube.com/watch?v=R8_veQiYtgo" },
+      { name: "Amigoscode Git & Github Course", url: "https://www.youtube.com/playlist?list=PLsyeobzWly7o" }
+    ],
+    studyResources: [
+      { name: "GitHub Git Cheat Sheet PDF", url: "https://training.github.com/downloads/github-git-cheat-sheet.pdf" },
+      { name: "Official Git SCM Documentation", url: "https://git-scm.com/doc" },
+      { name: "GitHub Interactive Lab Skills", url: "https://skills.github.com/" }
+    ],
+    videos: [
+      { id: "v-git-1", title: "Version Control Systems & Git Basics", duration: "22:15", youtubeId: "git-1" },
+      { id: "v-git-2", title: "Git Branching, Merging & Merge Conflicts", duration: "38:40", youtubeId: "git-2" },
+      { id: "v-git-3", title: "Git Push, Pull Requests, & GitHub Collaborations", duration: "31:10", youtubeId: "git-3" },
+      { id: "v-git-4", title: "Advanced Git: Rebasing, Cherry-Picking & Stashing", duration: "45:20", youtubeId: "git-4" }
+    ]
+  },
+  // Machine Learning Projects Track
+  {
+    id: "pl-ml",
+    title: "Machine Learning Capstone Projects & Algorithms",
+    creator: "Krish Naik",
+    topic: "Project Build",
+    language: "ML",
+    difficulty: "Intermediate to Advanced",
+    upvotes: 1350,
+    youtubePlaylists: [
+      { name: "Krish Naik ML Playlists (Best)", url: "https://www.youtube.com/playlist?list=PLZoTAELRMXVPBtrgL3vyS7t5Kj21" },
+      { name: "CampusX Machine Learning Course", url: "https://www.youtube.com/playlist?list=PLKnIA16_Rmvb" },
+      { name: "freeCodeCamp ML for Beginners", url: "https://www.youtube.com/watch?v=GwIo3gToqA4" }
+    ],
+    studyResources: [
+      { name: "Kaggle Learn Interactive Courses", url: "https://www.kaggle.com/learn" },
+      { name: "Scikit-Learn User Guide Docs", url: "https://scikit-learn.org/stable/user_guide.html" },
+      { name: "Andrew Ng Coursera Specialization Notes", url: "https://www.coursera.org/specializations/machine-learning-introduction" }
+    ],
+    videos: [
+      { id: "v-ml-1", title: "Supervised vs Unsupervised Learning Algorithms", duration: "35:15", youtubeId: "ml-1" },
+      { id: "v-ml-2", title: "End-to-End House Price Prediction Project", duration: "1:10:45", youtubeId: "ml-2" },
+      { id: "v-ml-3", title: "Deep Learning Intro: Artificial Neural Networks", duration: "48:30", youtubeId: "ml-3" },
+      { id: "v-ml-4", title: "Deploying ML Models with Streamlit & Docker", duration: "56:20", youtubeId: "ml-4" }
+    ]
+  },
+  // Web Development Projects Track
+  {
+    id: "pl-web",
+    title: "Full-Stack Web Projects (MERN Stack Guides)",
     creator: "JavaScript Mastery",
     topic: "Project Build",
-    language: "Full-Stack",
+    language: "Web",
     difficulty: "Beginner to Advanced",
     upvotes: 1850,
     youtubePlaylists: [
       { name: "JavaScript Mastery MERN Apps (Best)", url: "https://www.youtube.com/playlist?list=PLDzeHZWIZsTryvtK" },
       { name: "Clever Programmer Real-world Clones", url: "https://www.youtube.com/playlist?list=PLu0W_9lII9" },
-      { name: "Amigoscode Java Spring Boot Projects", url: "https://www.youtube.com/playlist?list=PLsyeobzWly7o" }
+      { name: "CodeWithHarry Web Dev Playlist", url: "https://www.youtube.com/playlist?list=PLu0W_9lII9agqFUAl" }
+    ],
+    studyResources: [
+      { name: "MDN Web Docs Core Guide", url: "https://developer.mozilla.org/en-US/" },
+      { name: "React Official Docs Guide", url: "https://react.dev/" },
+      { name: "Frontend Mentor Design Challenges", url: "https://www.frontendmentor.io/" }
     ],
     videos: [
-      { id: "v-proj-1", title: "Designing Full Stack Database Schemas & REST APIs", duration: "42:10", youtubeId: "proj-1" },
-      { id: "v-proj-2", title: "Building Responsive Frontend using React & TailWind", duration: "58:30", youtubeId: "proj-2" },
-      { id: "v-proj-3", title: "Integrating Payment Gateways (Stripe/Razorpay)", duration: "36:15", youtubeId: "proj-3" },
-      { id: "v-proj-4", title: "Deploying MERN Stack Apps to Vercel & Render", duration: "48:50", youtubeId: "proj-4" }
+      { id: "v-web-1", title: "Designing RESTful APIs with Node.js & Express", duration: "38:15", youtubeId: "web-1" },
+      { id: "v-web-2", title: "Building Modern Frontend using Tailwind CSS", duration: "45:30", youtubeId: "web-2" },
+      { id: "v-web-3", title: "User Auth: JWT Login and Cookie Sessions", duration: "50:10", youtubeId: "web-3" },
+      { id: "v-web-4", title: "Deploying MERN Apps on Render and Vercel", duration: "44:50", youtubeId: "web-4" }
+    ]
+  },
+  // App Development Projects Track
+  {
+    id: "pl-app",
+    title: "Mobile App Projects (React Native & Flutter)",
+    creator: "Hitesh Choudhary",
+    topic: "Project Build",
+    language: "App",
+    difficulty: "Intermediate",
+    upvotes: 1410,
+    youtubePlaylists: [
+      { name: "Hitesh Choudhary React Native (Best)", url: "https://www.youtube.com/playlist?list=PLRAV69dS1uWSxUI" },
+      { name: "Flutterly Flutter Beginners Course", url: "https://www.youtube.com/playlist?list=PLkQkbY7G7v" },
+      { name: "Angela Yu iOS & Android Masterclass", url: "https://www.youtube.com/playlist?list=PLsyeobzW" }
+    ],
+    studyResources: [
+      { name: "Android Developers Core Guides", url: "https://developer.android.com/guide" },
+      { name: "Flutter Docs & Codelabs Library", url: "https://docs.flutter.dev/" },
+      { name: "React Native Official Quickstart", url: "https://reactnative.dev/docs/environment-setup" }
+    ],
+    videos: [
+      { id: "v-app-1", title: "React Native vs Flutter: Mobile Stack Choice", duration: "25:40", youtubeId: "app-1" },
+      { id: "v-app-2", title: "Creating Mobile UI Layouts & Navigation Flows", duration: "48:15", youtubeId: "app-2" },
+      { id: "v-app-3", title: "Local Storage & SQLite Mobile Database Setup", duration: "36:30", youtubeId: "app-3" },
+      { id: "v-app-4", title: "Publishing Mobile Apps to Google Play Store", duration: "55:10", youtubeId: "app-4" }
     ]
   }
 ];

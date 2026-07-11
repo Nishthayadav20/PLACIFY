@@ -30,7 +30,8 @@ export default function LearningHub({ playlists, playlistState, toggleVideoWatch
             playlistId: playlist.id,
             playlistTitle: playlist.title,
             playlistCreator: playlist.creator,
-            youtubePlaylists: playlist.youtubePlaylists
+            youtubePlaylists: playlist.youtubePlaylists,
+            studyResources: playlist.studyResources
           });
         }
       });
@@ -122,11 +123,11 @@ export default function LearningHub({ playlists, playlistState, toggleVideoWatch
                     From Course: {video.playlistTitle} ({video.playlistCreator})
                   </span>
                 </div>
-                <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
                   {/* Renowned Course Dropdown */}
                   <div className="youtube-hover-menu-container">
                     <span className="youtube-subheading" style={{ fontSize: "0.8rem", color: "var(--danger)", fontWeight: "600", cursor: "pointer", borderBottom: "1px dashed var(--danger)" }}>
-                      Renowned Playlists ▾
+                      Playlists ▾
                     </span>
                     <div className="youtube-dropdown-links" style={{ right: 0, left: "auto" }}>
                       {video.youtubePlaylists && video.youtubePlaylists.map((yt, i) => (
@@ -151,6 +152,37 @@ export default function LearningHub({ playlists, playlistState, toggleVideoWatch
                       ))}
                     </div>
                   </div>
+
+                  {/* Docs & Sheets Dropdown */}
+                  {video.studyResources && video.studyResources.length > 0 && (
+                    <div className="youtube-hover-menu-container">
+                      <span className="youtube-subheading" style={{ fontSize: "0.8rem", color: "var(--success)", fontWeight: "600", cursor: "pointer", borderBottom: "1px dashed var(--success)" }}>
+                        Docs/Sheets ▾
+                      </span>
+                      <div className="youtube-dropdown-links" style={{ right: 0, left: "auto" }}>
+                        {video.studyResources.map((res, i) => (
+                          <a 
+                            key={i} 
+                            href={res.url} 
+                            target="_blank" 
+                            rel="noopener noreferrer" 
+                            style={{ 
+                              fontSize: "0.75rem", 
+                              color: "var(--text-secondary)", 
+                              textDecoration: "none",
+                              padding: "4px 6px",
+                              borderRadius: "2px",
+                              display: "block"
+                            }}
+                            onMouseEnter={(e) => e.target.style.color = "#ffffff"}
+                            onMouseLeave={(e) => e.target.style.color = "var(--text-secondary)"}
+                          >
+                            {res.name}
+                          </a>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                   
                   {/* Watch Button */}
                   <a 
@@ -216,33 +248,67 @@ export default function LearningHub({ playlists, playlistState, toggleVideoWatch
                   <h3 style={{ fontSize: "1.2rem", fontWeight: 700 }}>{playlist.title}</h3>
                   <p style={{ fontSize: "0.875rem", color: "var(--text-secondary)", margin: 0 }}>by {playlist.creator}</p>
                   
-                  {/* YouTube Hover Menu Subheading */}
-                  <div className="youtube-hover-menu-container" style={{ marginTop: "6px" }}>
-                    <span className="youtube-subheading" style={{ fontSize: "0.8rem", color: "var(--danger)", fontWeight: "600", cursor: "pointer", borderBottom: "1px dashed var(--danger)" }}>
-                      YouTube ▾
-                    </span>
-                    <div className="youtube-dropdown-links">
-                      {playlist.youtubePlaylists && playlist.youtubePlaylists.map((yt, i) => (
-                        <a 
-                          key={i} 
-                          href={yt.url} 
-                          target="_blank" 
-                          rel="noopener noreferrer" 
-                          style={{ 
-                            fontSize: "0.75rem", 
-                            color: "var(--text-secondary)", 
-                            textDecoration: "none",
-                            padding: "4px 6px",
-                            borderRadius: "2px",
-                            display: "block"
-                          }}
-                          onMouseEnter={(e) => e.target.style.color = "#ffffff"}
-                          onMouseLeave={(e) => e.target.style.color = "var(--text-secondary)"}
-                        >
-                          {yt.name}
-                        </a>
-                      ))}
+                  {/* Dropdowns row */}
+                  <div style={{ display: "flex", gap: "10px", alignItems: "center", marginTop: "6px" }}>
+                    {/* YouTube Hover Menu Subheading */}
+                    <div className="youtube-hover-menu-container">
+                      <span className="youtube-subheading" style={{ fontSize: "0.8rem", color: "var(--danger)", fontWeight: "600", cursor: "pointer", borderBottom: "1px dashed var(--danger)" }}>
+                        YouTube ▾
+                      </span>
+                      <div className="youtube-dropdown-links">
+                        {playlist.youtubePlaylists && playlist.youtubePlaylists.map((yt, i) => (
+                          <a 
+                            key={i} 
+                            href={yt.url} 
+                            target="_blank" 
+                            rel="noopener noreferrer" 
+                            style={{ 
+                              fontSize: "0.75rem", 
+                              color: "var(--text-secondary)", 
+                              textDecoration: "none",
+                              padding: "4px 6px",
+                              borderRadius: "2px",
+                              display: "block"
+                            }}
+                            onMouseEnter={(e) => e.target.style.color = "#ffffff"}
+                            onMouseLeave={(e) => e.target.style.color = "var(--text-secondary)"}
+                          >
+                            {yt.name}
+                          </a>
+                        ))}
+                      </div>
                     </div>
+
+                    {/* Docs & Practice Sheets Hover Menu */}
+                    {playlist.studyResources && playlist.studyResources.length > 0 && (
+                      <div className="youtube-hover-menu-container">
+                        <span className="youtube-subheading" style={{ fontSize: "0.8rem", color: "var(--success)", fontWeight: "600", cursor: "pointer", borderBottom: "1px dashed var(--success)" }}>
+                          Docs/Sheets ▾
+                        </span>
+                        <div className="youtube-dropdown-links">
+                          {playlist.studyResources.map((res, i) => (
+                            <a 
+                              key={i} 
+                              href={res.url} 
+                              target="_blank" 
+                              rel="noopener noreferrer" 
+                              style={{ 
+                                fontSize: "0.75rem", 
+                                color: "var(--text-secondary)", 
+                                textDecoration: "none",
+                                padding: "4px 6px",
+                                borderRadius: "2px",
+                                display: "block"
+                              }}
+                              onMouseEnter={(e) => e.target.style.color = "#ffffff"}
+                              onMouseLeave={(e) => e.target.style.color = "var(--text-secondary)"}
+                            >
+                              {res.name}
+                            </a>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
                 <button 
