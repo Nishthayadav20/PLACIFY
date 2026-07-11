@@ -3,8 +3,21 @@ import {
   Play, RotateCcw, Activity, LayoutGrid, Network, Eye 
 } from "lucide-react";
 
-export default function AlgoVisualizer() {
+export default function AlgoVisualizer({ initialTopic }) {
   const [activeModule, setActiveModule] = useState("sorting"); // 'sorting' | 'pathfinding' | 'bst'
+  
+  useEffect(() => {
+    if (initialTopic) {
+      const topicLower = initialTopic.toLowerCase();
+      if (topicLower.includes("array") || topicLower.includes("sorting") || topicLower.includes("two pointer")) {
+        setActiveModule("sorting");
+      } else if (topicLower.includes("list") || topicLower.includes("tree") || topicLower.includes("bst") || topicLower.includes("recursion")) {
+        setActiveModule("bst");
+      } else if (topicLower.includes("graph") || topicLower.includes("path") || topicLower.includes("dp") || topicLower.includes("network") || topicLower.includes("map")) {
+        setActiveModule("pathfinding");
+      }
+    }
+  }, [initialTopic]);
   
   // ==========================================
   // 1. SORTING VISUALIZER STATE & LOGIC

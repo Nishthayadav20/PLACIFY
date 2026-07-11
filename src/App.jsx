@@ -35,6 +35,14 @@ export default function App() {
   });
 
   const [activeView, setActiveView] = useState("learning");
+  const [visualizerTopic, setVisualizerTopic] = useState(null);
+
+  const handleNavigate = (view, topic = null) => {
+    setActiveView(view);
+    if (topic) {
+      setVisualizerTopic(topic);
+    }
+  };
 
   // Profile configurations
   const [profile, setProfile] = useState(() => {
@@ -240,7 +248,7 @@ export default function App() {
             playlistState={playlistState}
             companies={companies}
             events={mockCalendarEvents}
-            onNavigate={setActiveView}
+            onNavigate={handleNavigate}
           />
         );
       case "learning":
@@ -282,7 +290,7 @@ export default function App() {
           />
         );
       case "visualizer":
-        return <AlgoVisualizer />;
+        return <AlgoVisualizer initialTopic={visualizerTopic} />;
       case "sql5000":
         return <SqlPractice />;
       default:

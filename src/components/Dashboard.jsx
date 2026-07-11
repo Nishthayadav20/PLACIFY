@@ -256,16 +256,25 @@ export default function Dashboard({
                 </span>
               </div>
             </div>
-            <a 
-              href={routine.problem.link} 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="btn btn-secondary"
-              style={{ padding: "6px 12px", fontSize: "0.8rem" }}
-              onClick={() => setTodayTasks(prev => ({ ...prev, coding: true }))}
-            >
-              Solve on LeetCode <ExternalLink size={12} />
-            </a>
+            <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+              <button 
+                className="btn btn-primary"
+                style={{ padding: "6px 12px", fontSize: "0.8rem", backgroundColor: "#2563eb", border: "1px solid #2563eb", color: "#ffffff" }}
+                onClick={() => onNavigate("visualizer", routine.topic)}
+              >
+                Visualize <Play size={12} style={{ marginLeft: "4px" }} />
+              </button>
+              <a 
+                href={routine.problem.link} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="btn btn-secondary"
+                style={{ padding: "6px 12px", fontSize: "0.8rem" }}
+                onClick={() => setTodayTasks(prev => ({ ...prev, coding: true }))}
+              >
+                Solve on LeetCode <ExternalLink size={12} />
+              </a>
+            </div>
           </div>
 
           {/* Task 3: Profile/Stats Sync */}
