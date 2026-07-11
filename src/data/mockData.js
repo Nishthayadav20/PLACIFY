@@ -14,6 +14,7 @@ export const mockPlaylists = [
     youtubePlaylists: [
       { name: "Love Babbar C++ DSA (Best)", url: "https://www.youtube.com/playlist?list=PLDzeHZWIZsTryvtKBemfi6Qj5WYjRYnFg" },
       { name: "Striver A-Z DSA Course", url: "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m21w1dA31T47mjYX" },
+      { name: "Coders Army C++ Course", url: "https://www.youtube.com/playlist?list=PLfklX158Go6yT" },
       { name: "CodeWithHarry C++ Tutorial", url: "https://www.youtube.com/playlist?list=PLu0W_9lII9agpFUAlPFe_VNSlXW5uE4YL" }
     ],
     studyResources: [

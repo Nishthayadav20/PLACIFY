@@ -14,8 +14,9 @@ import Onboarding from "./components/Onboarding";
 import WelcomeScreen from "./components/WelcomeScreen";
 import MockTestEngine from "./components/MockTestEngine";
 import AlgoVisualizer from "./components/AlgoVisualizer";
+import SqlPractice from "./components/SqlPractice";
 import { 
-  LayoutDashboard, GraduationCap, Building2, Calendar, Award, Lock, BookOpenCheck, Eye, Code 
+  LayoutDashboard, GraduationCap, Building2, Calendar, Award, Lock, BookOpenCheck, Eye, Code, Database 
 } from "lucide-react";
 
 export default function App() {
@@ -282,6 +283,8 @@ export default function App() {
         );
       case "visualizer":
         return <AlgoVisualizer />;
+      case "sql5000":
+        return <SqlPractice />;
       default:
         return <div>View not found</div>;
     }
@@ -337,6 +340,13 @@ export default function App() {
           >
             <Award size={20} />
             <span>DSA Tracker</span>
+          </li>
+          <li 
+            className={`nav-item ${activeView === "sql5000" ? "active" : ""}`}
+            onClick={() => setActiveView("sql5000")}
+          >
+            <Database size={20} />
+            <span>SQL 5000+ Practice</span>
           </li>
           <li 
             className={`nav-item ${activeView === "visualizer" ? "active" : ""}`}
