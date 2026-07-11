@@ -88,24 +88,29 @@ export default function Onboarding({ onComplete }) {
         maxWidth: "600px",
         width: "100%",
         backgroundColor: "#000000",
-        border: "1px solid #ffffff",
+        border: "none",
         padding: "40px",
         borderRadius: "8px"
       }}>
         {/* Title */}
         <div style={{ textAlign: "center", marginBottom: "32px" }}>
+          {/* Logo Representation P</> */}
           <div style={{
-            width: "56px",
-            height: "56px",
-            borderRadius: "16px",
-            backgroundColor: "#ffffff",
-            color: "#000000",
-            display: "inline-flex",
+            fontSize: "2.8rem",
+            fontWeight: "900",
+            fontFamily: "var(--font-headings)",
+            display: "flex",
             alignItems: "center",
             justifyContent: "center",
+            gap: "2px",
             marginBottom: "16px"
           }}>
-            <GraduationCap size={32} />
+            <span style={{ color: "var(--success)" }}>P</span>
+            <span style={{ display: "flex", alignItems: "center", gap: "1px" }}>
+              <span style={{ color: "var(--danger)" }}>&lt;</span>
+              <span style={{ color: "#ffffff" }}>/</span>
+              <span style={{ color: "var(--danger)" }}>&gt;</span>
+            </span>
           </div>
           <h1 style={{ fontSize: "2rem", marginBottom: "8px", color: "#ffffff" }}>Welcome to PLACIFY</h1>
           <p style={{ color: "#cbd5e1" }}>Set up your profile, load your coding accounts, and start your tailored routine.</p>
