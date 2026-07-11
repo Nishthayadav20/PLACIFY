@@ -15,8 +15,24 @@ export default function Dashboard({
   onNavigate 
 }) {
   const [syncing, setSyncing] = useState({ github: false, leetcode: false, coding: false });
-  const [todayTasks, setTodayTasks] = useState({ theory: false, coding: false, sync: false });
+  const [todayTasks, setTodayTasks] = useState(() => {
+    const saved = localStorage.getItem(`dashboard_tasks_completed_day_${profile.currentDay}`);
+    return saved ? JSON.parse(saved) : { theory: false, coding: false, sync: false };
+  });
   const [showCelebration, setShowCelebration] = useState(false);
+
+  useEffect(() => {
+    localStorage.setItem(`dashboard_tasks_completed_day_${profile.currentDay}`, JSON.stringify(todayTasks));
+  }, [todayTasks, profile.currentDay]);
+
+  useEffect(() => {
+    const saved = localStorage.getItem(`dashboard_tasks_completed_day_${profile.currentDay}`);
+    if (saved) {
+      setTodayTasks(JSON.parse(saved));
+    } else {
+      setTodayTasks({ theory: false, coding: false, sync: false });
+    }
+  }, [profile.currentDay]);
 
   const [completedQuestions, setCompletedQuestions] = useState(() => {
     const saved = localStorage.getItem(`dashboard_questions_day_${profile.currentDay}`);
@@ -100,13 +116,59 @@ export default function Dashboard({
     .filter(key => dsaState[key].needsSpacedRepetition)
     .map(key => dsaState[key]);
 
-  const heatmapWeeks = Array.from({ length: 7 }, (_, day) => {
-    return Array.from({ length: 24 }, (_, week) => {
-      const seedVal = (day * week + 3) % 5;
-      const dateStr = `Day ${day + 1}, Week ${week + 1}`;
-      return { level: seedVal, date: dateStr };
-    });
-  });
+  // Generate real daily completion values for the PLACIFY heatmap
+  const heatmapCells = [];
+  for (let d = 1; d <= profile.timelineDays; d++) {
+    let completedCount = 0;
+    if (d === profile.currentDay) {
+      if (todayTasks.theory) completedCount++;
+      if (todayTasks.coding) completedCount++;
+    } else {
+      const saved = localStorage.getItem(`dashboard_tasks_completed_day_${d}`);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (parsed.theory) completedCount++;
+        if (parsed.coding) completedCount++;
+      }
+    }
+
+    let cellColor = "#1f2937"; // Future Day
+    let label = `Day ${d}: Not Started`;
+
+    if (d <= profile.currentDay) {
+      if (completedCount === 2) {
+        cellColor = "#22c55e"; // Green: All tasks completed
+        label = `Day ${d}: All Tasks Completed`;
+      } else if (completedCount === 1) {
+        cellColor = "#2563eb"; // Blue: Half tasks completed
+        label = `Day ${d}: Half Tasks Completed`;
+      } else {
+        cellColor = "#ef4444"; // Red: No tasks completed
+        label = `Day ${d}: No Tasks Completed`;
+      }
+    }
+
+    heatmapCells.push({ day: d, color: cellColor, label });
+  }
+
+  // Group into clean columns (7 rows corresponding to days of the week, up to weeks matching timelineDays)
+  const heatmapWeeks = [];
+  const totalDaysCount = profile.timelineDays;
+  const numRows = 7;
+  const numWeeks = Math.ceil(totalDaysCount / numRows);
+
+  for (let r = 0; r < numRows; r++) {
+    const row = [];
+    for (let w = 0; w < numWeeks; w++) {
+      const dayIndex = w * numRows + r;
+      if (dayIndex < totalDaysCount) {
+        row.push(heatmapCells[dayIndex]);
+      } else {
+        row.push({ day: null, color: "transparent", label: "" });
+      }
+    }
+    heatmapWeeks.push(row);
+  }
 
   const handleSync = (platform) => {
     setSyncing(prev => ({ ...prev, [platform]: true }));
@@ -423,39 +485,54 @@ export default function Dashboard({
         </div>
       </div>
 
-      <div className="card" style={{ marginBottom: "32px" }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
-          <div>
-            <h3>Your Coding Activity Heatmap</h3>
-            <p style={{ fontSize: "0.875rem" }}>Tracks problems solved and video lectures completed daily.</p>
-          </div>
-          <div style={{ display: "flex", gap: "8px", fontSize: "0.75rem", alignItems: "center", color: "var(--text-secondary)" }}>
-            <span>Less</span>
-            <div style={{ width: "12px", height: "12px", backgroundColor: "#f1f5f9", borderRadius: "2px" }}></div>
-            <div style={{ width: "12px", height: "12px", backgroundColor: "#d8f3dc", borderRadius: "2px" }}></div>
-            <div style={{ width: "12px", height: "12px", backgroundColor: "#b7e4c7", borderRadius: "2px" }}></div>
-            <div style={{ width: "12px", height: "12px", backgroundColor: "#74c69d", borderRadius: "2px" }}></div>
-            <div style={{ width: "12px", height: "12px", backgroundColor: "#2d6a4f", borderRadius: "2px" }}></div>
-            <span>More</span>
-          </div>
-        </div>
-
-        <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
-          {heatmapWeeks.map((row, rowIndex) => (
-            <div key={rowIndex} style={{ display: "flex", gap: "4px" }}>
-              {row.map((cell, cellIndex) => (
-                <div 
-                  key={cellIndex}
-                  className="heatmap-cell"
-                  data-level={cell.level}
-                  data-tooltip={`${cell.date} - ${cell.level * 2} activities`}
-                  style={{ width: "100%", height: "14px", borderRadius: "3px" }}
-                />
-              ))}
+      {/* Real PLACIFY Heatmap (Only visible on Tailored / Premium setup) */}
+      {profile.github !== "guest" && (
+        <div className="card" style={{ marginBottom: "32px", backgroundColor: "#000000" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
+            <div>
+              <h3>Your PLACIFY Progress Heatmap</h3>
+              <p style={{ fontSize: "0.875rem", color: "var(--text-secondary)" }}>Tracks daily learning schedule completions over your customized roadmap timeline.</p>
             </div>
-          ))}
+            <div style={{ display: "flex", gap: "10px", fontSize: "0.75rem", alignItems: "center" }}>
+              <span style={{ color: "var(--text-muted)" }}>Legend:</span>
+              <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
+                <div style={{ width: "12px", height: "12px", backgroundColor: "#ef4444", borderRadius: "2px" }}></div>
+                <span style={{ color: "#ef4444" }}>No Task</span>
+              </div>
+              <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
+                <div style={{ width: "12px", height: "12px", backgroundColor: "#2563eb", borderRadius: "2px" }}></div>
+                <span style={{ color: "#2563eb" }}>Half Completed</span>
+              </div>
+              <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
+                <div style={{ width: "12px", height: "12px", backgroundColor: "#22c55e", borderRadius: "2px" }}></div>
+                <span style={{ color: "#22c55e" }}>All Completed</span>
+              </div>
+            </div>
+          </div>
+
+          <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+            {heatmapWeeks.map((row, rowIndex) => (
+              <div key={rowIndex} style={{ display: "flex", gap: "6px" }}>
+                {row.map((cell, cellIndex) => (
+                  <div 
+                    key={cellIndex}
+                    title={cell.label}
+                    style={{ 
+                      flex: 1,
+                      height: "16px", 
+                      borderRadius: "3px",
+                      backgroundColor: cell.color,
+                      transition: "all 0.2s ease",
+                      cursor: cell.day ? "pointer" : "default",
+                      opacity: cell.day ? 1 : 0
+                    }}
+                  />
+                ))}
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
       <div className="grid-cols-2">
         <div className="card" style={{ display: "flex", flex: "1", flexDirection: "column" }}>
