@@ -14,7 +14,8 @@ export default function Dashboard({
   events, 
   onNavigate,
   toggleVideoWatched,
-  toggleProblemCompleted
+  toggleProblemCompleted,
+  onShowAiPlanner
 }) {
   const [syncing, setSyncing] = useState({ github: false, leetcode: false, coding: false });
   const [todayTasks, setTodayTasks] = useState(() => {
@@ -22,13 +23,6 @@ export default function Dashboard({
     return saved ? JSON.parse(saved) : { theory: false, coding: false, sync: false };
   });
   const [showCelebration, setShowCelebration] = useState(false);
-
-  // Gemini AI Placement Planner States
-  const [showAiPlanner, setShowAiPlanner] = useState(false);
-  const [chatHistory, setChatHistory] = useState([
-    { role: "gemini", text: `Hi! I am TechGuru, your Personalized Placement Assistant. I see you are on Day ${profile.currentDay} of your ${profile.timelineDays}-day track using ${profile.language}. Ask me anything to customize your SDE routine!` }
-  ]);
-  const [chatInput, setChatInput] = useState("");
 
   // Load routine recommendations based on level, current day, and preferred language
   const routine = generateDailyRoutine(profile.dsaLevel, profile.currentDay, profile.timelineDays, profile.language);
@@ -50,7 +44,25 @@ export default function Dashboard({
   const [activeQuestionIdx, setActiveQuestionIdx] = useState(null);
   const [showHintIdx, setShowHintIdx] = useState({});
   const [isTimetableExpanded, setIsTimetableExpanded] = useState(true);
-  const [apiKey, setApiKey] = useState(() => localStorage.getItem("gemini_api_key") || "");
+  const [leaveDay, setLeaveDay] = useState(() => localStorage.getItem("timetable_leave_day") || "None");
+
+  const handleSetLeaveDay = (day) => {
+    setLeaveDay(day);
+    localStorage.setItem("timetable_leave_day", day);
+  };
+
+  const getAdjustedHours = (dayName) => {
+    const baseHours = profile.dailyHours || 4;
+    if (leaveDay === "None") {
+      return baseHours;
+    }
+    if (leaveDay === dayName) {
+      return 0;
+    }
+    const addedHoursPerDay = baseHours / 6;
+    return baseHours + addedHoursPerDay;
+  };
+
   const [completedTimetableDays, setCompletedTimetableDays] = useState(() => {
     const saved = localStorage.getItem("completed_timetable_days");
     return saved ? JSON.parse(saved) : {};
@@ -240,71 +252,7 @@ export default function Dashboard({
     }, 2000);
   };
 
-  const handleSendAiMessage = async (customMsg = null) => {
-    const msgText = customMsg || chatInput;
-    if (!msgText.trim()) return;
-    
-    const updatedHistory = [...chatHistory, { role: "user", text: msgText }];
-    setChatHistory(updatedHistory);
-    setChatInput("");
-    
-    if (apiKey.trim()) {
-      // Append temporary "Thinking..." response
-      setChatHistory([...updatedHistory, { role: "gemini", text: "Thinking... 🤖" }]);
-      
-      try {
-        const response = await fetch(
-          `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              contents: [
-                {
-                  role: "user",
-                  parts: [
-                    {
-                      text: `System context: You are TechGuru, a world-class SDE placement preparation AI assistant inside PLACIFY. The user is currently on Day ${profile.currentDay} of a ${profile.timelineDays}-day track using ${profile.language}. Their current DSA level is ${profile.dsaLevel} and their weekend specialization track is ${profile.devTrack || "Web Development"}. Today's topic focus is ${routine.topic}.\n\nUser Question: ${msgText}`
-                    }
-                  ]
-                }
-              ]
-            })
-          }
-        );
-        const data = await response.json();
-        if (data.error) {
-          throw new Error(data.error.message || "API Error");
-        }
-        const replyText = data.candidates[0].content.parts[0].text;
-        setChatHistory([...updatedHistory, { role: "gemini", text: replyText }]);
-      } catch (err) {
-        setChatHistory([
-          ...updatedHistory,
-          { role: "gemini", text: `❌ Error calling Gemini API: ${err.message}. Please verify your API Key.` }
-        ]);
-      }
-    } else {
-      setTimeout(() => {
-        let reply = "";
-        const lower = msgText.toLowerCase();
-        
-        if (lower.includes("resource") || lower.includes("study") || lower.includes("today")) {
-          reply = `Here is your customized study plan for Day ${profile.currentDay} (${routine.topic}):\n\n1. Watch the recommended theory video: "${routine.video.title}"\n2. Solve the primary coding problem: "${routine.problem.title}" on LeetCode.\n3. Solve the 5 Past Year Questions (PYQs) listed on your Dashboard.\n\nAdditional Free Resource: GeeksforGeeks placement handout on ${routine.topic}.`;
-        } else if (lower.includes("dbms") || lower.includes("sql")) {
-          reply = `To master DBMS & SQL for placements:\n\n- Study Normalization (1NF, 2NF, 3NF, BCNF) and Transaction ACID properties.\n- Practice top 50 SQL questions on LeetCode (e.g. Joins, Group By, Subqueries).\n- Learn index architectures (B-Trees and B+ Trees) frequently asked in SDE interviews.`;
-        } else if (lower.includes("timeline") || lower.includes("optimize") || lower.includes("days")) {
-          reply = `Since you have selected a ${profile.timelineDays}-day timeline, here is how you should balance it:\n\n- Days 1-30: Core Data Structures (Arrays, Lists, Stacks, Recursion).\n- Days 31-60: Advanced Algorithms (Trees, Graphs, DP) + Core CS (OOPs, DBMS, OS).\n- Days 61-${profile.timelineDays}: Mock Tests, Resume Building, and Mock Interviews.`;
-        } else {
-          reply = `For SDE roles at target companies (like Google/Amazon), ensure you master ${profile.language} concepts, dynamic programming, and system design basics.\n\nLet me know if you would like me to generate a mock interview question or detail an algorithm!`;
-        }
-        
-        setChatHistory([...updatedHistory, { role: "gemini", text: reply }]);
-      }, 1000);
-    }
-  };
+
 
   const completedCount = Object.values(todayTasks).filter(Boolean).length;
   const progressPercent = Math.round((completedCount / 3) * 100);
@@ -319,7 +267,7 @@ export default function Dashboard({
         <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
           {/* TechGuru AI Action */}
           <button 
-            onClick={() => setShowAiPlanner(true)}
+            onClick={() => onShowAiPlanner && onShowAiPlanner(true)}
             className="btn btn-primary"
             style={{ fontSize: "0.8rem", padding: "6px 12px", display: "flex", gap: "6px", alignItems: "center", backgroundColor: "#000000", border: "1px solid var(--border-color)", color: "#ffffff" }}
           >
@@ -567,183 +515,335 @@ export default function Dashboard({
 
         {/* Timetable Table */}
         {isTimetableExpanded && (
-          <div style={{ overflowX: "auto" }}>
-            <table style={{ width: "100%", borderCollapse: "collapse", color: "#ffffff", fontSize: "0.85rem", textAlign: "left" }}>
-              <thead>
-                <tr style={{ borderBottom: "2px solid var(--border-color)", backgroundColor: "rgba(255, 255, 255, 0.02)" }}>
-                  <th style={{ padding: "12px 16px", fontWeight: "bold" }}>Day Completion</th>
-                  <th style={{ padding: "12px 16px", fontWeight: "bold" }}>Core Topics & Lectures</th>
-                  <th style={{ padding: "12px 16px", fontWeight: "bold" }}>Practice Problems Target</th>
-                  <th style={{ padding: "12px 16px", fontWeight: "bold" }}>Daily Hours Distribution</th>
-                </tr>
-              </thead>
-              <tbody>
-                {/* Monday */}
-                <tr style={{ borderBottom: "1px solid rgba(255, 255, 255, 0.05)", opacity: completedTimetableDays["Monday"] ? 0.5 : 1, textDecoration: completedTimetableDays["Monday"] ? "line-through" : "none" }}>
-                  <td style={{ padding: "12px 16px", fontWeight: "bold" }}>
-                    <label style={{ display: "flex", alignItems: "center", gap: "8px", cursor: "pointer", color: completedTimetableDays["Monday"] ? "var(--success)" : "var(--primary)" }}>
-                      <input 
-                        type="checkbox" 
-                        checked={!!completedTimetableDays["Monday"]} 
-                        onChange={() => toggleTimetableDay("Monday")} 
-                        style={{ cursor: "pointer", width: "16px", height: "16px" }}
-                      />
-                      Monday
-                    </label>
-                  </td>
-                  <td style={{ padding: "12px 16px" }}>
-                    <strong>DSA:</strong> Basic Arrays & Strings (Lecture: Striver A-Z Arrays)<br />
-                    <span style={{ fontSize: "0.75rem", color: "var(--text-secondary)" }}><strong>Aptitude:</strong> Quantitative Percentages & Averages</span>
-                  </td>
-                  <td style={{ padding: "12px 16px" }}>Solve 3 Array Problems + 5 Aptitude MCQs</td>
-                  <td style={{ padding: "12px 16px" }}>
-                    ⏱️ {Math.max(2.5, ((profile.dailyHours || 4) * 0.6)).toFixed(1)} hrs DSA | {Math.max(1.5, ((profile.dailyHours || 4) * 0.4)).toFixed(1)} hrs Aptitude
-                  </td>
-                </tr>
-                {/* Tuesday */}
-                <tr style={{ borderBottom: "1px solid rgba(255, 255, 255, 0.05)", opacity: completedTimetableDays["Tuesday"] ? 0.5 : 1, textDecoration: completedTimetableDays["Tuesday"] ? "line-through" : "none" }}>
-                  <td style={{ padding: "12px 16px", fontWeight: "bold" }}>
-                    <label style={{ display: "flex", alignItems: "center", gap: "8px", cursor: "pointer", color: completedTimetableDays["Tuesday"] ? "var(--success)" : "var(--primary)" }}>
-                      <input 
-                        type="checkbox" 
-                        checked={!!completedTimetableDays["Tuesday"]} 
-                        onChange={() => toggleTimetableDay("Tuesday")} 
-                        style={{ cursor: "pointer", width: "16px", height: "16px" }}
-                      />
-                      Tuesday
-                    </label>
-                  </td>
-                  <td style={{ padding: "12px 16px" }}>
-                    <strong>DSA:</strong> Pointers & Recursion Basics (Lecture: Babbar Recursion)<br />
-                    <span style={{ fontSize: "0.75rem", color: "var(--text-secondary)" }}><strong>Aptitude:</strong> Logical Blood Relations & Direction sense</span>
-                  </td>
-                  <td style={{ padding: "12px 16px" }}>Solve 2 Recursion Problems + 5 Logical Puzzles</td>
-                  <td style={{ padding: "12px 16px" }}>
-                    ⏱️ {Math.max(2.5, ((profile.dailyHours || 4) * 0.6)).toFixed(1)} hrs DSA | {Math.max(1.5, ((profile.dailyHours || 4) * 0.4)).toFixed(1)} hrs Aptitude
-                  </td>
-                </tr>
-                {/* Wednesday */}
-                <tr style={{ borderBottom: "1px solid rgba(255, 255, 255, 0.05)", opacity: completedTimetableDays["Wednesday"] ? 0.5 : 1, textDecoration: completedTimetableDays["Wednesday"] ? "line-through" : "none" }}>
-                  <td style={{ padding: "12px 16px", fontWeight: "bold" }}>
-                    <label style={{ display: "flex", alignItems: "center", gap: "8px", cursor: "pointer", color: completedTimetableDays["Wednesday"] ? "var(--success)" : "var(--primary)" }}>
-                      <input 
-                        type="checkbox" 
-                        checked={!!completedTimetableDays["Wednesday"]} 
-                        onChange={() => toggleTimetableDay("Wednesday")} 
-                        style={{ cursor: "pointer", width: "16px", height: "16px" }}
-                      />
-                      Wednesday
-                    </label>
-                  </td>
-                  <td style={{ padding: "12px 16px" }}>
-                    <strong>DSA:</strong> Singly Linked List Insertion (Lecture: Kunal LL)<br />
-                    <span style={{ fontSize: "0.75rem", color: "var(--text-secondary)" }}><strong>Aptitude:</strong> Quantitative Profit, Loss & Discounts</span>
-                  </td>
-                  <td style={{ padding: "12px 16px" }}>Solve 3 Linked List Problems + 5 Aptitude MCQs</td>
-                  <td style={{ padding: "12px 16px" }}>
-                    ⏱️ {Math.max(2.5, ((profile.dailyHours || 4) * 0.6)).toFixed(1)} hrs DSA | {Math.max(1.5, ((profile.dailyHours || 4) * 0.4)).toFixed(1)} hrs Aptitude
-                  </td>
-                </tr>
-                {/* Thursday */}
-                <tr style={{ borderBottom: "1px solid rgba(255, 255, 255, 0.05)", opacity: completedTimetableDays["Thursday"] ? 0.5 : 1, textDecoration: completedTimetableDays["Thursday"] ? "line-through" : "none" }}>
-                  <td style={{ padding: "12px 16px", fontWeight: "bold" }}>
-                    <label style={{ display: "flex", alignItems: "center", gap: "8px", cursor: "pointer", color: completedTimetableDays["Thursday"] ? "var(--success)" : "var(--primary)" }}>
-                      <input 
-                        type="checkbox" 
-                        checked={!!completedTimetableDays["Thursday"]} 
-                        onChange={() => toggleTimetableDay("Thursday")} 
-                        style={{ cursor: "pointer", width: "16px", height: "16px" }}
-                      />
-                      Thursday
-                    </label>
-                  </td>
-                  <td style={{ padding: "12px 16px" }}>
-                    <strong>DSA:</strong> Stacks & Queues Implementation (Lecture: Coders Army)<br />
-                    <span style={{ fontSize: "0.75rem", color: "var(--text-secondary)" }}><strong>Aptitude:</strong> Logical Syllogisms & Seating Arrangement</span>
-                  </td>
-                  <td style={{ padding: "12px 16px" }}>Solve 2 Stack/Queue Problems + 5 Syllogism Questions</td>
-                  <td style={{ padding: "12px 16px" }}>
-                    ⏱️ {Math.max(2.5, ((profile.dailyHours || 4) * 0.6)).toFixed(1)} hrs DSA | {Math.max(1.5, ((profile.dailyHours || 4) * 0.4)).toFixed(1)} hrs Aptitude
-                  </td>
-                </tr>
-                {/* Friday */}
-                <tr style={{ borderBottom: "1px solid rgba(255, 255, 255, 0.05)", opacity: completedTimetableDays["Friday"] ? 0.5 : 1, textDecoration: completedTimetableDays["Friday"] ? "line-through" : "none" }}>
-                  <td style={{ padding: "12px 16px", fontWeight: "bold" }}>
-                    <label style={{ display: "flex", alignItems: "center", gap: "8px", cursor: "pointer", color: completedTimetableDays["Friday"] ? "var(--success)" : "var(--primary)" }}>
-                      <input 
-                        type="checkbox" 
-                        checked={!!completedTimetableDays["Friday"]} 
-                        onChange={() => toggleTimetableDay("Friday")} 
-                        style={{ cursor: "pointer", width: "16px", height: "16px" }}
-                      />
-                      Friday
-                    </label>
-                  </td>
-                  <td style={{ padding: "12px 16px" }}>
-                    <strong>DSA:</strong> Merge Sort & Quick Sort (Lecture: Striver Sorting)<br />
-                    <span style={{ fontSize: "0.75rem", color: "var(--text-secondary)" }}><strong>Aptitude:</strong> Quantitative Time, Speed & Distance</span>
-                  </td>
-                  <td style={{ padding: "12px 16px" }}>Solve 3 Sorting Problems + 5 Velocity MCQs</td>
-                  <td style={{ padding: "12px 16px" }}>
-                    ⏱️ {Math.max(2.5, ((profile.dailyHours || 4) * 0.6)).toFixed(1)} hrs DSA | {Math.max(1.5, ((profile.dailyHours || 4) * 0.4)).toFixed(1)} hrs Aptitude
-                  </td>
-                </tr>
-                {/* Saturday */}
-                <tr style={{ borderBottom: "1px solid rgba(255, 255, 255, 0.05)", backgroundColor: "rgba(255, 215, 0, 0.02)", opacity: completedTimetableDays["Saturday"] ? 0.5 : 1, textDecoration: completedTimetableDays["Saturday"] ? "line-through" : "none" }}>
-                  <td style={{ padding: "12px 16px", fontWeight: "bold" }}>
-                    <label style={{ display: "flex", alignItems: "center", gap: "8px", cursor: "pointer", color: completedTimetableDays["Saturday"] ? "#ffd700" : "#ffd700" }}>
-                      <input 
-                        type="checkbox" 
-                        checked={!!completedTimetableDays["Saturday"]} 
-                        onChange={() => toggleTimetableDay("Saturday")} 
-                        style={{ cursor: "pointer", width: "16px", height: "16px" }}
-                      />
-                      Saturday
-                    </label>
-                  </td>
-                  <td style={{ padding: "12px 16px" }}>
-                    <strong>DEV:</strong> {
-                      (profile.devTrack || "Web Development") === "Web Development" ? "Frontend: Component Lifecycle & React Hooks" :
-                      (profile.devTrack || "Web Development") === "App Development" ? "Mobile UI: Flutter Widgets & Screen Layouts" :
-                      (profile.devTrack || "Web Development") === "Machine Learning" ? "Data Prep: NumPy & Pandas Exploratory Analysis" :
-                      "Cloud: AWS EC2 Virtual Machines & VPC Setup"
-                    }<br />
-                    <span style={{ fontSize: "0.75rem", color: "var(--text-secondary)" }}><strong>Lecture:</strong> Specialization roadmap video course</span>
-                  </td>
-                  <td style={{ padding: "12px 16px" }}>Assemble Dev Project UI + 1 Weekly Mock Contest</td>
-                  <td style={{ padding: "12px 16px" }}>
-                    ⏱️ {Math.max(3.0, ((profile.dailyHours || 4) * 0.7)).toFixed(1)} hrs Dev | {Math.max(1.0, ((profile.dailyHours || 4) * 0.3)).toFixed(1)} hrs Contest
-                  </td>
-                </tr>
-                {/* Sunday */}
-                <tr style={{ backgroundColor: "rgba(255, 215, 0, 0.02)", opacity: completedTimetableDays["Sunday"] ? 0.5 : 1, textDecoration: completedTimetableDays["Sunday"] ? "line-through" : "none" }}>
-                  <td style={{ padding: "12px 16px", fontWeight: "bold" }}>
-                    <label style={{ display: "flex", alignItems: "center", gap: "8px", cursor: "pointer", color: completedTimetableDays["Sunday"] ? "#ffd700" : "#ffd700" }}>
-                      <input 
-                        type="checkbox" 
-                        checked={!!completedTimetableDays["Sunday"]} 
-                        onChange={() => toggleTimetableDay("Sunday")} 
-                        style={{ cursor: "pointer", width: "16px", height: "16px" }}
-                      />
-                      Sunday
-                    </label>
-                  </td>
-                  <td style={{ padding: "12px 16px" }}>
-                    <strong>DEV:</strong> {
-                      (profile.devTrack || "Web Development") === "Web Development" ? "Backend: Node.js Express REST API integration" :
-                      (profile.devTrack || "Web Development") === "App Development" ? "Mobile APIs: Firebase DB & Network Integration" :
-                      (profile.devTrack || "Web Development") === "Machine Learning" ? "Model Training: Regression models in Scikit-Learn" :
-                      "DevOps: Docker containers & GitHub Actions CI/CD"
-                    }<br />
-                    <span style={{ fontSize: "0.75rem", color: "var(--text-secondary)" }}><strong>Lecture:</strong> Database setup & continuous deployment course</span>
-                  </td>
-                  <td style={{ padding: "12px 16px" }}>Deploy weekend project code on GitHub + Revise DSA mistakes</td>
-                  <td style={{ padding: "12px 16px" }}>
-                    ⏱️ {Math.max(3.0, ((profile.dailyHours || 4) * 0.7)).toFixed(1)} hrs Dev | {Math.max(1.0, ((profile.dailyHours || 4) * 0.3)).toFixed(1)} hrs DSA Revise
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+          <div>
+            {/* Customization Controls */}
+            <div style={{ 
+              display: "flex", 
+              gap: "16px", 
+              backgroundColor: "#0b0f19", 
+              padding: "12px", 
+              borderRadius: "6px", 
+              marginBottom: "16px", 
+              flexWrap: "wrap",
+              alignItems: "center",
+              border: "1px solid var(--border-color)"
+            }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                <span style={{ fontSize: "0.85rem", color: "var(--text-secondary)", fontWeight: "bold" }}>⏱️ Daily Target Hours:</span>
+                <button 
+                  type="button" 
+                  className="btn btn-secondary" 
+                  onClick={() => updateProfile({ ...profile, dailyHours: Math.max(4, (profile.dailyHours || 4) - 1) })}
+                  style={{ padding: "4px 8px", fontSize: "0.8rem", cursor: "pointer", backgroundColor: "#000000", border: "1px solid var(--border-color)", color: "#ffffff" }}
+                >
+                  -
+                </button>
+                <strong style={{ fontSize: "0.95rem", color: "var(--success)" }}>{profile.dailyHours || 4} hrs</strong>
+                <button 
+                  type="button" 
+                  className="btn btn-secondary" 
+                  onClick={() => updateProfile({ ...profile, dailyHours: (profile.dailyHours || 4) + 1 })}
+                  style={{ padding: "4px 8px", fontSize: "0.8rem", cursor: "pointer", backgroundColor: "#000000", border: "1px solid var(--border-color)", color: "#ffffff" }}
+                >
+                  +
+                </button>
+              </div>
+
+              <div style={{ display: "flex", alignItems: "center", gap: "10px", flexGrow: 1 }}>
+                <span style={{ fontSize: "0.85rem", color: "var(--text-secondary)", fontWeight: "bold" }}>🌴 Take a Leave Day:</span>
+                <select 
+                  value={leaveDay}
+                  onChange={(e) => handleSetLeaveDay(e.target.value)}
+                  style={{
+                    backgroundColor: "#000000",
+                    color: "#ffffff",
+                    border: "1px solid var(--border-color)",
+                    borderRadius: "4px",
+                    padding: "4px 8px",
+                    fontSize: "0.8rem",
+                    outline: "none",
+                    cursor: "pointer"
+                  }}
+                >
+                  <option value="None">None</option>
+                  <option value="Monday">Monday</option>
+                  <option value="Tuesday">Tuesday</option>
+                  <option value="Wednesday">Wednesday</option>
+                  <option value="Thursday">Thursday</option>
+                  <option value="Friday">Friday</option>
+                  <option value="Saturday">Saturday</option>
+                  <option value="Sunday">Sunday</option>
+                </select>
+              </div>
+              
+              {leaveDay !== "None" && (
+                <span style={{ fontSize: "0.75rem", color: "var(--warning)", fontWeight: "bold" }}>
+                  💡 Note: {profile.dailyHours || 4} hours from {leaveDay} have been redistributed across other days!
+                </span>
+              )}
+            </div>
+
+            <div style={{ overflowX: "auto" }}>
+              <table style={{ width: "100%", borderCollapse: "collapse", color: "#ffffff", fontSize: "0.85rem", textAlign: "left" }}>
+                <thead>
+                  <tr style={{ borderBottom: "2px solid var(--border-color)", backgroundColor: "rgba(255, 255, 255, 0.02)" }}>
+                    <th style={{ padding: "12px 16px", fontWeight: "bold" }}>Day Completion</th>
+                    <th style={{ padding: "12px 16px", fontWeight: "bold" }}>Core Topics & Lectures</th>
+                    <th style={{ padding: "12px 16px", fontWeight: "bold" }}>Practice Problems Target</th>
+                    <th style={{ padding: "12px 16px", fontWeight: "bold" }}>Daily Hours Distribution</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {/* Monday */}
+                  {(() => {
+                    const mondayHrs = getAdjustedHours("Monday");
+                    return (
+                      <tr style={{ borderBottom: "1px solid rgba(255, 255, 255, 0.05)", opacity: completedTimetableDays["Monday"] ? 0.5 : 1, textDecoration: completedTimetableDays["Monday"] ? "line-through" : "none" }}>
+                        <td style={{ padding: "12px 16px", fontWeight: "bold" }}>
+                          <label style={{ display: "flex", alignItems: "center", gap: "8px", cursor: "pointer", color: completedTimetableDays["Monday"] ? "var(--success)" : "var(--primary)" }}>
+                            <input 
+                              type="checkbox" 
+                              checked={!!completedTimetableDays["Monday"]} 
+                              onChange={() => toggleTimetableDay("Monday")} 
+                              style={{ cursor: "pointer", width: "16px", height: "16px" }}
+                            />
+                            Monday
+                          </label>
+                        </td>
+                        <td style={{ padding: "12px 16px" }}>
+                          {mondayHrs === 0 ? (
+                            <span style={{ color: "var(--text-secondary)", fontStyle: "italic" }}>🌴 Leave Day - Rest & Recharge</span>
+                          ) : (
+                            <>
+                              <strong>DSA:</strong> Basic Arrays & Strings (Lecture: Striver A-Z Arrays)<br />
+                              <span style={{ fontSize: "0.75rem", color: "var(--text-secondary)" }}><strong>Aptitude:</strong> Quantitative Percentages & Averages</span>
+                            </>
+                          )}
+                        </td>
+                        <td style={{ padding: "12px 16px" }}>{mondayHrs === 0 ? "None" : "Solve 3 Array Problems + 5 Aptitude MCQs"}</td>
+                        <td style={{ padding: "12px 16px" }}>
+                          {mondayHrs === 0 ? "⏱️ 0.0 hrs (Rest)" : `⏱️ ${Math.max(2.5, (mondayHrs * 0.6)).toFixed(1)} hrs DSA | ${Math.max(1.5, (mondayHrs * 0.4)).toFixed(1)} hrs Aptitude`}
+                        </td>
+                      </tr>
+                    );
+                  })()}
+
+                  {/* Tuesday */}
+                  {(() => {
+                    const tuesdayHrs = getAdjustedHours("Tuesday");
+                    return (
+                      <tr style={{ borderBottom: "1px solid rgba(255, 255, 255, 0.05)", opacity: completedTimetableDays["Tuesday"] ? 0.5 : 1, textDecoration: completedTimetableDays["Tuesday"] ? "line-through" : "none" }}>
+                        <td style={{ padding: "12px 16px", fontWeight: "bold" }}>
+                          <label style={{ display: "flex", alignItems: "center", gap: "8px", cursor: "pointer", color: completedTimetableDays["Tuesday"] ? "var(--success)" : "var(--primary)" }}>
+                            <input 
+                              type="checkbox" 
+                              checked={!!completedTimetableDays["Tuesday"]} 
+                              onChange={() => toggleTimetableDay("Tuesday")} 
+                              style={{ cursor: "pointer", width: "16px", height: "16px" }}
+                            />
+                            Tuesday
+                          </label>
+                        </td>
+                        <td style={{ padding: "12px 16px" }}>
+                          {tuesdayHrs === 0 ? (
+                            <span style={{ color: "var(--text-secondary)", fontStyle: "italic" }}>🌴 Leave Day - Rest & Recharge</span>
+                          ) : (
+                            <>
+                              <strong>DSA:</strong> Pointers & Recursion Basics (Lecture: Babbar Recursion)<br />
+                              <span style={{ fontSize: "0.75rem", color: "var(--text-secondary)" }}><strong>Aptitude:</strong> Logical Blood Relations & Direction sense</span>
+                            </>
+                          )}
+                        </td>
+                        <td style={{ padding: "12px 16px" }}>{tuesdayHrs === 0 ? "None" : "Solve 2 Recursion Problems + 5 Logical Puzzles"}</td>
+                        <td style={{ padding: "12px 16px" }}>
+                          {tuesdayHrs === 0 ? "⏱️ 0.0 hrs (Rest)" : `⏱️ ${Math.max(2.5, (tuesdayHrs * 0.6)).toFixed(1)} hrs DSA | ${Math.max(1.5, (tuesdayHrs * 0.4)).toFixed(1)} hrs Aptitude`}
+                        </td>
+                      </tr>
+                    );
+                  })()}
+
+                  {/* Wednesday */}
+                  {(() => {
+                    const wednesdayHrs = getAdjustedHours("Wednesday");
+                    return (
+                      <tr style={{ borderBottom: "1px solid rgba(255, 255, 255, 0.05)", opacity: completedTimetableDays["Wednesday"] ? 0.5 : 1, textDecoration: completedTimetableDays["Wednesday"] ? "line-through" : "none" }}>
+                        <td style={{ padding: "12px 16px", fontWeight: "bold" }}>
+                          <label style={{ display: "flex", alignItems: "center", gap: "8px", cursor: "pointer", color: completedTimetableDays["Wednesday"] ? "var(--success)" : "var(--primary)" }}>
+                            <input 
+                              type="checkbox" 
+                              checked={!!completedTimetableDays["Wednesday"]} 
+                              onChange={() => toggleTimetableDay("Wednesday")} 
+                              style={{ cursor: "pointer", width: "16px", height: "16px" }}
+                            />
+                            Wednesday
+                          </label>
+                        </td>
+                        <td style={{ padding: "12px 16px" }}>
+                          {wednesdayHrs === 0 ? (
+                            <span style={{ color: "var(--text-secondary)", fontStyle: "italic" }}>🌴 Leave Day - Rest & Recharge</span>
+                          ) : (
+                            <>
+                              <strong>DSA:</strong> Singly Linked List Insertion (Lecture: Kunal LL)<br />
+                              <span style={{ fontSize: "0.75rem", color: "var(--text-secondary)" }}><strong>Aptitude:</strong> Quantitative Profit, Loss & Discounts</span>
+                            </>
+                          )}
+                        </td>
+                        <td style={{ padding: "12px 16px" }}>{wednesdayHrs === 0 ? "None" : "Solve 3 Linked List Problems + 5 Aptitude MCQs"}</td>
+                        <td style={{ padding: "12px 16px" }}>
+                          {wednesdayHrs === 0 ? "⏱️ 0.0 hrs (Rest)" : `⏱️ ${Math.max(2.5, (wednesdayHrs * 0.6)).toFixed(1)} hrs DSA | ${Math.max(1.5, (wednesdayHrs * 0.4)).toFixed(1)} hrs Aptitude`}
+                        </td>
+                      </tr>
+                    );
+                  })()}
+
+                  {/* Thursday */}
+                  {(() => {
+                    const thursdayHrs = getAdjustedHours("Thursday");
+                    return (
+                      <tr style={{ borderBottom: "1px solid rgba(255, 255, 255, 0.05)", opacity: completedTimetableDays["Thursday"] ? 0.5 : 1, textDecoration: completedTimetableDays["Thursday"] ? "line-through" : "none" }}>
+                        <td style={{ padding: "12px 16px", fontWeight: "bold" }}>
+                          <label style={{ display: "flex", alignItems: "center", gap: "8px", cursor: "pointer", color: completedTimetableDays["Thursday"] ? "var(--success)" : "var(--primary)" }}>
+                            <input 
+                              type="checkbox" 
+                              checked={!!completedTimetableDays["Thursday"]} 
+                              onChange={() => toggleTimetableDay("Thursday")} 
+                              style={{ cursor: "pointer", width: "16px", height: "16px" }}
+                            />
+                            Thursday
+                          </label>
+                        </td>
+                        <td style={{ padding: "12px 16px" }}>
+                          {thursdayHrs === 0 ? (
+                            <span style={{ color: "var(--text-secondary)", fontStyle: "italic" }}>🌴 Leave Day - Rest & Recharge</span>
+                          ) : (
+                            <>
+                              <strong>DSA:</strong> Stacks & Queues Implementation (Lecture: Coders Army)<br />
+                              <span style={{ fontSize: "0.75rem", color: "var(--text-secondary)" }}><strong>Aptitude:</strong> Logical Syllogisms & Seating Arrangement</span>
+                            </>
+                          )}
+                        </td>
+                        <td style={{ padding: "12px 16px" }}>{thursdayHrs === 0 ? "None" : "Solve 2 Stack/Queue Problems + 5 Syllogism Questions"}</td>
+                        <td style={{ padding: "12px 16px" }}>
+                          {thursdayHrs === 0 ? "⏱️ 0.0 hrs (Rest)" : `⏱️ ${Math.max(2.5, (thursdayHrs * 0.6)).toFixed(1)} hrs DSA | ${Math.max(1.5, (thursdayHrs * 0.4)).toFixed(1)} hrs Aptitude`}
+                        </td>
+                      </tr>
+                    );
+                  })()}
+
+                  {/* Friday */}
+                  {(() => {
+                    const fridayHrs = getAdjustedHours("Friday");
+                    return (
+                      <tr style={{ borderBottom: "1px solid rgba(255, 255, 255, 0.05)", opacity: completedTimetableDays["Friday"] ? 0.5 : 1, textDecoration: completedTimetableDays["Friday"] ? "line-through" : "none" }}>
+                        <td style={{ padding: "12px 16px", fontWeight: "bold" }}>
+                          <label style={{ display: "flex", alignItems: "center", gap: "8px", cursor: "pointer", color: completedTimetableDays["Friday"] ? "var(--success)" : "var(--primary)" }}>
+                            <input 
+                              type="checkbox" 
+                              checked={!!completedTimetableDays["Friday"]} 
+                              onChange={() => toggleTimetableDay("Friday")} 
+                              style={{ cursor: "pointer", width: "16px", height: "16px" }}
+                            />
+                            Friday
+                          </label>
+                        </td>
+                        <td style={{ padding: "12px 16px" }}>
+                          {fridayHrs === 0 ? (
+                            <span style={{ color: "var(--text-secondary)", fontStyle: "italic" }}>🌴 Leave Day - Rest & Recharge</span>
+                          ) : (
+                            <>
+                              <strong>DSA:</strong> Merge Sort & Quick Sort (Lecture: Striver Sorting)<br />
+                              <span style={{ fontSize: "0.75rem", color: "var(--text-secondary)" }}><strong>Aptitude:</strong> Quantitative Time, Speed & Distance</span>
+                            </>
+                          )}
+                        </td>
+                        <td style={{ padding: "12px 16px" }}>{fridayHrs === 0 ? "None" : "Solve 3 Sorting Problems + 5 Velocity MCQs"}</td>
+                        <td style={{ padding: "12px 16px" }}>
+                          {fridayHrs === 0 ? "⏱️ 0.0 hrs (Rest)" : `⏱️ ${Math.max(2.5, (fridayHrs * 0.6)).toFixed(1)} hrs DSA | ${Math.max(1.5, (fridayHrs * 0.4)).toFixed(1)} hrs Aptitude`}
+                        </td>
+                      </tr>
+                    );
+                  })()}
+
+                  {/* Saturday */}
+                  {(() => {
+                    const saturdayHrs = getAdjustedHours("Saturday");
+                    return (
+                      <tr style={{ borderBottom: "1px solid rgba(255, 255, 255, 0.05)", backgroundColor: "rgba(255, 215, 0, 0.02)", opacity: completedTimetableDays["Saturday"] ? 0.5 : 1, textDecoration: completedTimetableDays["Saturday"] ? "line-through" : "none" }}>
+                        <td style={{ padding: "12px 16px", fontWeight: "bold" }}>
+                          <label style={{ display: "flex", alignItems: "center", gap: "8px", cursor: "pointer", color: completedTimetableDays["Saturday"] ? "#ffd700" : "#ffd700" }}>
+                            <input 
+                              type="checkbox" 
+                              checked={!!completedTimetableDays["Saturday"]} 
+                              onChange={() => toggleTimetableDay("Saturday")} 
+                              style={{ cursor: "pointer", width: "16px", height: "16px" }}
+                            />
+                            Saturday
+                          </label>
+                        </td>
+                        <td style={{ padding: "12px 16px" }}>
+                          {saturdayHrs === 0 ? (
+                            <span style={{ color: "var(--text-secondary)", fontStyle: "italic" }}>🌴 Leave Day - Rest & Recharge</span>
+                          ) : (
+                            <>
+                              <strong>DEV:</strong> {
+                                (profile.devTrack || "Web Development") === "Web Development" ? "Frontend: Component Lifecycle & React Hooks" :
+                                (profile.devTrack || "Web Development") === "App Development" ? "Mobile UI: Flutter Widgets & Screen Layouts" :
+                                (profile.devTrack || "Web Development") === "Machine Learning" ? "Data Prep: NumPy & Pandas Exploratory Analysis" :
+                                "Cloud: AWS EC2 Virtual Machines & VPC Setup"
+                              }<br />
+                              <span style={{ fontSize: "0.75rem", color: "var(--text-secondary)" }}><strong>Lecture:</strong> Specialization roadmap video course</span>
+                            </>
+                          )}
+                        </td>
+                        <td style={{ padding: "12px 16px" }}>{saturdayHrs === 0 ? "None" : "Assemble Dev Project UI + 1 Weekly Mock Contest"}</td>
+                        <td style={{ padding: "12px 16px" }}>
+                          {saturdayHrs === 0 ? "⏱️ 0.0 hrs (Rest)" : `⏱️ ${Math.max(3.0, (saturdayHrs * 0.7)).toFixed(1)} hrs Dev | ${Math.max(1.0, (saturdayHrs * 0.3)).toFixed(1)} hrs Contest`}
+                        </td>
+                      </tr>
+                    );
+                  })()}
+
+                  {/* Sunday */}
+                  {(() => {
+                    const sundayHrs = getAdjustedHours("Sunday");
+                    return (
+                      <tr style={{ backgroundColor: "rgba(255, 215, 0, 0.02)", opacity: completedTimetableDays["Sunday"] ? 0.5 : 1, textDecoration: completedTimetableDays["Sunday"] ? "line-through" : "none" }}>
+                        <td style={{ padding: "12px 16px", fontWeight: "bold" }}>
+                          <label style={{ display: "flex", alignItems: "center", gap: "8px", cursor: "pointer", color: completedTimetableDays["Sunday"] ? "#ffd700" : "#ffd700" }}>
+                            <input 
+                              type="checkbox" 
+                              checked={!!completedTimetableDays["Sunday"]} 
+                              onChange={() => toggleTimetableDay("Sunday")} 
+                              style={{ cursor: "pointer", width: "16px", height: "16px" }}
+                            />
+                            Sunday
+                          </label>
+                        </td>
+                        <td style={{ padding: "12px 16px" }}>
+                          {sundayHrs === 0 ? (
+                            <span style={{ color: "var(--text-secondary)", fontStyle: "italic" }}>🌴 Leave Day - Rest & Recharge</span>
+                          ) : (
+                            <>
+                              <strong>DEV:</strong> {
+                                (profile.devTrack || "Web Development") === "Web Development" ? "Backend: Node.js Express REST API integration" :
+                                (profile.devTrack || "Web Development") === "App Development" ? "Mobile APIs: Firebase DB & Network Integration" :
+                                (profile.devTrack || "Web Development") === "Machine Learning" ? "Model Training: Regression models in Scikit-Learn" :
+                                "DevOps: Docker containers & GitHub Actions CI/CD"
+                              }<br />
+                              <span style={{ fontSize: "0.75rem", color: "var(--text-secondary)" }}><strong>Lecture:</strong> Database setup & continuous deployment course</span>
+                            </>
+                          )}
+                        </td>
+                        <td style={{ padding: "12px 16px" }}>{sundayHrs === 0 ? "None" : "Deploy weekend project code on GitHub + Revise DSA mistakes"}</td>
+                        <td style={{ padding: "12px 16px" }}>
+                          {sundayHrs === 0 ? "⏱️ 0.0 hrs (Rest)" : `⏱️ ${Math.max(3.0, (sundayHrs * 0.7)).toFixed(1)} hrs Dev | ${Math.max(1.0, (sundayHrs * 0.3)).toFixed(1)} hrs DSA Revise`}
+                        </td>
+                      </tr>
+                    );
+                  })()}
+                </tbody>
+              </table>
+            </div>
           </div>
         )}
       </div>
@@ -1069,129 +1169,6 @@ export default function Dashboard({
         </div>
       </div>
 
-      {/* Gemini AI study planner drawer */}
-      {showAiPlanner && (
-        <div style={{
-          position: "fixed",
-          top: 0, right: 0, bottom: 0,
-          width: "420px",
-          backgroundColor: "#000000",
-          borderLeft: "1px solid var(--border-color)",
-          zIndex: 1000,
-          padding: "24px",
-          display: "flex",
-          flexDirection: "column",
-          gap: "16px",
-          boxShadow: "var(--shadow-lg)",
-          color: "#ffffff",
-          animation: "slideIn 0.3s ease"
-        }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid var(--border-color)", paddingBottom: "16px" }}>
-            <h3 style={{ margin: 0, display: "flex", alignItems: "center", gap: "8px" }}>
-              <span>🤖 TechGuru SDE Planner</span>
-            </h3>
-            <button 
-              className="btn btn-ghost" 
-              style={{ padding: "4px 8px", color: "#ffffff" }}
-              onClick={() => setShowAiPlanner(false)}
-            >
-              ✕ Close
-            </button>
-          </div>
-
-          <div style={{ display: "flex", flexDirection: "column", gap: "6px", backgroundColor: "#0b0f19", padding: "12px", borderRadius: "4px", border: "1px solid var(--border-color)" }}>
-            <label style={{ fontSize: "0.75rem", color: "var(--text-secondary)", fontWeight: "bold" }}>🔑 Google Gemini API Key</label>
-            <input 
-              type="password" 
-              placeholder="Paste your Gemini API Key..." 
-              value={apiKey}
-              onChange={(e) => {
-                setApiKey(e.target.value);
-                localStorage.setItem("gemini_api_key", e.target.value);
-              }}
-              style={{
-                width: "100%",
-                padding: "6px 10px",
-                fontSize: "0.8rem",
-                backgroundColor: "#000000",
-                border: "1px solid var(--border-color)",
-                borderRadius: "4px",
-                color: "#ffffff",
-                outline: "none"
-              }}
-            />
-            <span style={{ fontSize: "0.65rem", color: "var(--text-muted)" }}>
-              Get a free API Key from <a href="https://aistudio.google.com/" target="_blank" rel="noopener noreferrer" style={{ color: "var(--primary)" }}>Google AI Studio</a>.
-            </span>
-          </div>
-
-          {/* Chat history */}
-          <div style={{ flexGrow: 1, overflowY: "auto", display: "flex", flexDirection: "column", gap: "12px", paddingRight: "4px" }}>
-            {chatHistory.map((chat, idx) => (
-              <div 
-                key={idx} 
-                style={{
-                  alignSelf: chat.role === "user" ? "flex-end" : "flex-start",
-                  backgroundColor: chat.role === "user" ? "#ffffff" : "#111111",
-                  color: chat.role === "user" ? "#000000" : "#ffffff",
-                  padding: "10px 14px",
-                  borderRadius: "6px",
-                  maxWidth: "85%",
-                  fontSize: "0.85rem",
-                  whiteSpace: "pre-line",
-                  border: chat.role === "user" ? "none" : "1px solid var(--border-color)"
-                }}
-              >
-                {chat.text}
-              </div>
-            ))}
-          </div>
-
-          {/* Quick presets */}
-          <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
-            <button 
-              className="btn btn-secondary" 
-              style={{ fontSize: "0.7rem", padding: "4px 8px", backgroundColor: "#000000", border: "1px solid var(--border-color)", color: "#ffffff" }}
-              onClick={() => handleSendAiMessage("Recommend study resources for today")}
-            >
-              📅 Today's Plan
-            </button>
-            <button 
-              className="btn btn-secondary" 
-              style={{ fontSize: "0.7rem", padding: "4px 8px", backgroundColor: "#000000", border: "1px solid var(--border-color)", color: "#ffffff" }}
-              onClick={() => handleSendAiMessage("Suggest DBMS study topics")}
-            >
-              💾 DBMS Strategy
-            </button>
-            <button 
-              className="btn btn-secondary" 
-              style={{ fontSize: "0.7rem", padding: "4px 8px", backgroundColor: "#000000", border: "1px solid var(--border-color)", color: "#ffffff" }}
-              onClick={() => handleSendAiMessage("Optimize my prep timeline")}
-            >
-              ⏳ Timeline Balance
-            </button>
-          </div>
-
-          {/* Input field */}
-          <div style={{ display: "flex", gap: "8px" }}>
-            <input 
-              type="text" 
-              placeholder="Ask TechGuru to customize plan..." 
-              value={chatInput}
-              onChange={(e) => setChatInput(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && handleSendAiMessage()}
-              style={{ flex: 1, backgroundColor: "#000000", border: "1px solid #ffffff", borderRadius: "4px", padding: "8px 12px", color: "#ffffff", fontSize: "0.85rem" }}
-            />
-            <button 
-              onClick={() => handleSendAiMessage()}
-              className="btn btn-primary"
-              style={{ padding: "8px 16px", backgroundColor: "#000000", border: "1px solid #ffffff", color: "#ffffff" }}
-            >
-              Send
-            </button>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
