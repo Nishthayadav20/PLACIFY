@@ -58,38 +58,64 @@ export default function App() {
     if (apiKey.trim()) {
       setChatHistory([...updatedHistory, { role: "gemini", text: "Thinking... 🤖" }]);
       
-      try {
-        const response = await fetch(
-          `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              contents: [
-                {
-                  role: "user",
-                  parts: [
+      const modelsToTry = [
+        "gemini-1.5-flash",
+        "gemini-1.5-pro",
+        "gemini-pro"
+      ];
+      
+      let success = false;
+      let lastErrorMessage = "";
+      
+      for (const model of modelsToTry) {
+        const apiVersions = ["v1", "v1beta"];
+        for (const version of apiVersions) {
+          try {
+            const response = await fetch(
+              `https://generativelanguage.googleapis.com/${version}/models/${model}:generateContent?key=${apiKey}`,
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  contents: [
                     {
-                      text: `System context: You are TechGuru, a world-class SDE placement preparation AI assistant inside PLACIFY. The user's active language is ${profile.language || "Java"}. Their current DSA level is ${profile.dsaLevel || "Beginner"}. Timeline is ${profile.timelineDays || 90} days. Day ${profile.currentDay || 1}.\n\nUser Question: ${msgText}`
+                      role: "user",
+                      parts: [
+                        {
+                          text: `System context: You are TechGuru, a world-class SDE placement preparation AI assistant inside PLACIFY. The user's active language is ${profile.language || "Java"}. Their current DSA level is ${profile.dsaLevel || "Beginner"}. Timeline is ${profile.timelineDays || 90} days. Day ${profile.currentDay || 1}.\n\nUser Question: ${msgText}`
+                        }
+                      ]
                     }
                   ]
-                }
-              ]
-            })
+                })
+              }
+            );
+            
+            if (response.ok) {
+              const data = await response.json();
+              if (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts[0]) {
+                const replyText = data.candidates[0].content.parts[0].text;
+                setChatHistory([...updatedHistory, { role: "gemini", text: replyText }]);
+                success = true;
+                break;
+              }
+            } else {
+              const errData = await response.json().catch(() => ({}));
+              lastErrorMessage = errData?.error?.message || `HTTP ${response.status}`;
+            }
+          } catch (e) {
+            lastErrorMessage = e.message;
           }
-        );
-        const data = await response.json();
-        if (data.error) {
-          throw new Error(data.error.message || "API Error");
         }
-        const replyText = data.candidates[0].content.parts[0].text;
-        setChatHistory([...updatedHistory, { role: "gemini", text: replyText }]);
-      } catch (err) {
+        if (success) break;
+      }
+      
+      if (!success) {
         setChatHistory([
           ...updatedHistory,
-          { role: "gemini", text: `❌ Error calling Gemini API: ${err.message}. Please verify your API Key.` }
+          { role: "gemini", text: `❌ Error calling Gemini API: ${lastErrorMessage}. Please verify your API Key.` }
         ]);
       }
     } else {
