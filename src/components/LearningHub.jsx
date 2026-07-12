@@ -174,11 +174,28 @@ export default function LearningHub({ playlists, playlistState, toggleVideoWatch
             thumbnail: "https://img.youtube.com/vi/hlGoQC3_E8Q/mqdefault.jpg"
           },
           {
-            id: "3154877",
+            id: "zL1DPYuQDqg",
             title: "SQL Queries for SDE Interviews",
-            creator: "CodeHelp - Love Babbar",
+            creator: "Kunal Kushwaha",
             views: "1.4M views",
-            thumbnail: "https://img.youtube.com/vi/3154877/mqdefault.jpg"
+            thumbnail: "https://img.youtube.com/vi/zL1DPYuQDqg/mqdefault.jpg"
+          }
+        ];
+      } else if (cleanQ.includes("string")) {
+        results = [
+          {
+            id: "zL1DPYuQDqg",
+            title: "Strings & StringBuilder in Java | Placement Course",
+            creator: "Kunal Kushwaha",
+            views: "1.2M views",
+            thumbnail: "https://img.youtube.com/vi/zL1DPYuQDqg/mqdefault.jpg"
+          },
+          {
+            id: "Ke8X3A1-L34",
+            title: "Strings in C++ | Placement Series Lecture",
+            creator: "CodeHelp - Love Babbar",
+            views: "950K views",
+            thumbnail: "https://img.youtube.com/vi/Ke8X3A1-L34/mqdefault.jpg"
           }
         ];
       } else {
@@ -199,11 +216,11 @@ export default function LearningHub({ playlists, playlistState, toggleVideoWatch
             thumbnail: "https://img.youtube.com/vi/Ke8X3A1-L34/mqdefault.jpg"
           },
           {
-            id: "v4gyjrZ-pAE",
+            id: "zL1DPYuQDqg",
             title: `${cleanKeyword} Bootcamp (Java & C++ Course)`,
             creator: "Kunal Kushwaha",
             views: "1.2M views",
-            thumbnail: "https://img.youtube.com/vi/v4gyjrZ-pAE/mqdefault.jpg"
+            thumbnail: "https://img.youtube.com/vi/zL1DPYuQDqg/mqdefault.jpg"
           }
         ];
       }
