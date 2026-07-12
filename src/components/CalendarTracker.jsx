@@ -248,16 +248,16 @@ export default function CalendarTracker({ events }) {
         {/* Team Posts Grid */}
         <div className="grid-cols-2">
           {teamPosts.map(post => (
-            <div key={post.id} className="card" style={{ backgroundColor: "#000000", border: "1px solid var(--border-color)", padding: "16px", color: "#ffffff" }}>
+            <div key={post.id} className="card" style={{ backgroundColor: "#ffffff", border: "1px solid var(--border-color)", padding: "16px", color: "#000000" }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "8px" }}>
                 <div>
-                  <h4 style={{ margin: 0, color: "#ffffff" }}>{post.hackathon}</h4>
-                  <span style={{ fontSize: "0.75rem", color: "#ffffff", fontWeight: "bold" }}>Posted by {post.creator}</span>
+                  <h4 style={{ margin: 0, color: "#000000" }}>{post.hackathon}</h4>
+                  <span style={{ fontSize: "0.75rem", color: "#000000", fontWeight: "bold" }}>Posted by {post.creator}</span>
                 </div>
                 <Users size={18} style={{ color: "var(--text-muted)" }} />
               </div>
               
-              <p style={{ fontSize: "0.875rem", marginBottom: "12px", minHeight: "60px", color: "#ffffff" }}>{post.desc}</p>
+              <p style={{ fontSize: "0.875rem", marginBottom: "12px", minHeight: "60px", color: "#000000" }}>{post.desc}</p>
               
               <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginBottom: "12px" }}>
                 {post.skills.map(skill => (
@@ -268,8 +268,8 @@ export default function CalendarTracker({ events }) {
               </div>
 
               <div style={{ borderTop: "1px solid var(--border-color)", paddingTop: "12px", fontSize: "0.8rem", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <span style={{ color: "#ffffff" }}>Contact: <strong>{post.contact}</strong></span>
-                <a href={`mailto:${post.contact}`} className="btn" style={{ padding: "4px 8px", fontSize: "0.75rem", border: "1px solid #ffffff", borderRadius: "4px", backgroundColor: "#000000", color: "#ffffff", fontWeight: "bold" }}>
+                <span style={{ color: "#000000" }}>Contact: <strong>{post.contact}</strong></span>
+                <a href={`mailto:${post.contact}`} className="btn" style={{ padding: "4px 8px", fontSize: "0.75rem", border: "1px solid #000000", borderRadius: "4px", backgroundColor: "#ffffff", color: "#000000", fontWeight: "bold" }}>
                   Connect
                 </a>
               </div>
