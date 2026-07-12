@@ -552,11 +552,6 @@ export default function App() {
             <span style={{ fontSize: "0.65rem", color: "var(--text-muted)" }}>
               Get a free API Key from <a href="https://aistudio.google.com/" target="_blank" rel="noopener noreferrer" style={{ color: "var(--primary)" }}>Google AI Studio</a>.
             </span>
-            {apiKey && !apiKey.startsWith("AIzaSy") && (
-              <span style={{ fontSize: "0.7rem", color: "var(--danger)", fontWeight: "bold", marginTop: "4px" }}>
-                ⚠️ Warning: Your API Key does not start with "AIzaSy". Gemini API keys always start with "AIzaSy". Please check your key.
-              </span>
-            )}
           </div>
 
           {/* Chat history */}
