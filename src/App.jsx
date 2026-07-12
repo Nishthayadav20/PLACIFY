@@ -16,8 +16,9 @@ import MockTestEngine from "./components/MockTestEngine";
 import AlgoVisualizer from "./components/AlgoVisualizer";
 import SqlPractice from "./components/SqlPractice";
 import TeammateFinder from "./components/TeammateFinder";
+import ReferralCorner from "./components/ReferralCorner";
 import { 
-  LayoutDashboard, GraduationCap, Building2, Calendar, Award, Lock, BookOpenCheck, Eye, Code, Database, Users 
+  LayoutDashboard, GraduationCap, Building2, Calendar, Award, Lock, BookOpenCheck, Eye, Code, Database, Users, Briefcase 
 } from "lucide-react";
 
 export default function App() {
@@ -298,6 +299,8 @@ export default function App() {
         return <SqlPractice />;
       case "teammates":
         return <TeammateFinder profile={profile} />;
+      case "referrals":
+        return <ReferralCorner />;
       default:
         return <div>View not found</div>;
     }
@@ -383,6 +386,13 @@ export default function App() {
           >
             <Users size={20} />
             <span>Teammate Finder</span>
+          </li>
+          <li 
+            className={`nav-item ${activeView === "referrals" ? "active" : ""}`}
+            onClick={() => setActiveView("referrals")}
+          >
+            <Briefcase size={20} />
+            <span>Referral Corner</span>
           </li>
         </ul>
 
