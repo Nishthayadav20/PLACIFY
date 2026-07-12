@@ -486,8 +486,6 @@ export default function Dashboard({
         </button>
       </div>
 
-      </div>
-
       {/* Tailored Weekly Study Timetable (NEW) */}
       <div className="card" style={{ marginBottom: "32px", borderTop: "4px solid var(--primary)", backgroundColor: "#000000", border: "1px solid var(--border-color)", padding: "20px" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px", flexWrap: "wrap", gap: "10px" }}>
