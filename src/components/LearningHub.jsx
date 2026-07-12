@@ -549,6 +549,55 @@ export default function LearningHub({ playlists, playlistState, toggleVideoWatch
                 </div>
               </div>
             )}
+
+            {/* Top SDE Educator Playlists */}
+            <div style={{ marginTop: "24px", borderTop: "1px solid var(--border-color)", paddingTop: "16px" }}>
+              <h4 style={{ margin: "0 0 12px 0", fontSize: "0.8rem", color: "#ffffff", display: "flex", alignItems: "center", gap: "6px" }}>
+                <span>📚</span> Top DSA Playlists (Direct YouTube Links)
+              </h4>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px" }}>
+                {[
+                  { name: "Love Babbar (CodeHelp)", url: "https://www.youtube.com/playlist?list=PLDzeHZWIZsTrytAR3SpOMBc0y30e0FiAK", color: "#ef4444" },
+                  { name: "Striver (takeUforward)", url: "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_B1y", color: "#3b82f6" },
+                  { name: "Kunal Kushwaha", url: "https://www.youtube.com/playlist?list=PL9gnSGHSqcnr_DxHsP7AW9ftq0AtAyYqJ", color: "#10b981" },
+                  { name: "Apna College", url: "https://www.youtube.com/playlist?list=PLfqMhTWNBTe3LtFWg91dxgLYxpsb95HC1", color: "#a855f7" },
+                  { name: "Code With Harry", url: "https://www.youtube.com/playlist?list=PLu0W_9lII9ahIappRPN0gEE31dz5OySSg", color: "#06b6d4" },
+                  { name: "Coder's Army", url: "https://www.youtube.com/playlist?list=PLQEaGQc_RNYN1V1H39p-8T_fL2Pgz71b7", color: "#eab308" }
+                ].map(edu => (
+                  <a 
+                    key={edu.name}
+                    href={edu.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      padding: "8px 10px",
+                      borderRadius: "4px",
+                      border: `1px solid ${edu.color}`,
+                      backgroundColor: "#000000",
+                      color: "#ffffff",
+                      fontSize: "0.75rem",
+                      fontWeight: "bold",
+                      textDecoration: "none",
+                      transition: "transform 0.15s ease"
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = "scale(1.02)";
+                      e.currentTarget.style.backgroundColor = "rgba(255, 255, 255, 0.05)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = "none";
+                      e.currentTarget.style.backgroundColor = "#000000";
+                    }}
+                  >
+                    <span>{edu.name}</span>
+                    <span style={{ color: edu.color }}>➔</span>
+                  </a>
+                ))}
+              </div>
+            </div>
           </div>
 
           {/* YouTube Live Search Results & Player Window Panel */}
