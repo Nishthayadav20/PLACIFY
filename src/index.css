@@ -147,6 +147,12 @@ a:hover {
   color: var(--text-primary);
 }
 
+.btn:disabled, button:disabled {
+  color: #000000 !important;
+  opacity: 1 !important;
+  -webkit-text-fill-color: #000000 !important;
+}
+
 .badge {
   display: inline-flex;
   align-items: center;
