@@ -820,11 +820,11 @@ export default function LearningHub({ playlists, playlistState, toggleVideoWatch
               {/* Progress */}
               <div className="progress-wrapper" style={{ margin: "0" }}>
                 <div className="progress-info">
-                  <span>Progress ({progress.completed}/{progress.total} watched)</span>
-                  <span>{progress.percent}%</span>
+                  <span style={{ color: "var(--success)", fontWeight: "bold" }}>Progress ({progress.completed}/{progress.total} watched)</span>
+                  <span style={{ color: "var(--success)", fontWeight: "bold" }}>{progress.percent}%</span>
                 </div>
                 <div className="progress-track">
-                  <div className="progress-fill" style={{ width: `${progress.percent}%` }}></div>
+                  <div className="progress-fill" style={{ width: `${progress.percent}%`, backgroundColor: "var(--success)" }}></div>
                 </div>
               </div>
 

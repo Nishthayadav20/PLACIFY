@@ -83,8 +83,8 @@ export default function DSATracker({ dsaSheet, dsaState, toggleProblemCompleted,
           </div>
         </div>
         <div style={{ textAlign: "center" }}>
-          <h2 style={{ fontSize: "2.5rem", margin: 0, color: "var(--primary)" }}>{overallPercent}%</h2>
-          <span style={{ fontSize: "0.85rem", color: "var(--text-secondary)" }}>{completedProblems} of {totalProblems} Solved</span>
+          <h2 style={{ fontSize: "2.5rem", margin: 0, color: "var(--success)" }}>{overallPercent}%</h2>
+          <span style={{ fontSize: "0.85rem", color: "var(--success)", fontWeight: "bold" }}>{completedProblems} of {totalProblems} Solved</span>
         </div>
       </div>
 
@@ -111,11 +111,11 @@ export default function DSATracker({ dsaSheet, dsaState, toggleProblemCompleted,
                 <div style={{ flexGrow: 1 }}>
                   <h3 style={{ fontSize: "1.15rem", marginBottom: "4px" }}>{topic.topic}</h3>
                   <div style={{ display: "flex", alignItems: "center", gap: "12px", fontSize: "0.8rem", color: "var(--text-secondary)" }}>
-                    <span>{progress.completed} of {progress.total} Solved</span>
+                    <span style={{ color: "var(--success)", fontWeight: "bold" }}>{progress.completed} of {progress.total} Solved</span>
                     <div style={{ width: "100px", height: "6px", backgroundColor: "var(--border-color)", borderRadius: "var(--radius-full)", overflow: "hidden" }}>
                       <div style={{ height: "100%", width: `${progress.percent}%`, backgroundColor: "var(--success)" }}></div>
                     </div>
-                    <span>{progress.percent}%</span>
+                    <span style={{ color: "var(--success)", fontWeight: "bold" }}>{progress.percent}%</span>
                   </div>
                 </div>
                 {isTopicActive ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
