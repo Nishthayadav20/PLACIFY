@@ -741,14 +741,18 @@ export default function LearningHub({ playlists, playlistState, toggleVideoWatch
                               fontSize: "0.75rem", 
                               color: "var(--text-secondary)", 
                               textDecoration: "none",
-                              padding: "4px 6px",
-                              borderRadius: "2px",
-                              display: "block"
+                              padding: "6px 8px",
+                              borderRadius: "4px",
+                              display: "flex",
+                              flexDirection: "column",
+                              gap: "2px",
+                              borderBottom: "1px solid rgba(255, 255, 255, 0.05)"
                             }}
-                            onMouseEnter={(e) => e.target.style.color = "#ffffff"}
-                            onMouseLeave={(e) => e.target.style.color = "var(--text-secondary)"}
+                            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = "rgba(255, 255, 255, 0.05)"}
+                            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = "transparent"}
                           >
-                            {yt.name}
+                            <span style={{ fontWeight: "bold", color: "#ffffff" }}>{yt.name}</span>
+                            <span style={{ fontSize: "0.625rem", color: "var(--primary)", textDecoration: "underline", wordBreak: "break-all" }}>{yt.url}</span>
                           </a>
                         ))}
                       </div>
@@ -785,14 +789,18 @@ export default function LearningHub({ playlists, playlistState, toggleVideoWatch
                                 fontSize: "0.75rem", 
                                 color: "var(--text-secondary)", 
                                 textDecoration: "none",
-                                padding: "4px 6px",
-                                borderRadius: "2px",
-                                display: "block"
+                                padding: "6px 8px",
+                                borderRadius: "4px",
+                                display: "flex",
+                                flexDirection: "column",
+                                gap: "2px",
+                                borderBottom: "1px solid rgba(255, 255, 255, 0.05)"
                               }}
-                              onMouseEnter={(e) => e.target.style.color = "#ffffff"}
-                              onMouseLeave={(e) => e.target.style.color = "var(--text-secondary)"}
+                              onMouseEnter={(e) => e.currentTarget.style.backgroundColor = "rgba(255, 255, 255, 0.05)"}
+                              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = "transparent"}
                             >
-                              {res.name}
+                              <span style={{ fontWeight: "bold", color: "#ffffff" }}>{res.name}</span>
+                              <span style={{ fontSize: "0.625rem", color: "var(--success)", textDecoration: "underline", wordBreak: "break-all" }}>{res.url}</span>
                             </a>
                           ))}
                         </div>
