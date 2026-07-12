@@ -251,7 +251,7 @@ export default function CalendarTracker({ events }) {
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "8px" }}>
                 <div>
                   <h4 style={{ margin: 0 }}>{post.hackathon}</h4>
-                  <span style={{ fontSize: "0.75rem", color: "var(--text-secondary)" }}>Posted by {post.creator}</span>
+                  <span style={{ fontSize: "0.75rem", color: "#000000", fontWeight: "bold" }}>Posted by {post.creator}</span>
                 </div>
                 <Users size={18} style={{ color: "var(--text-muted)" }} />
               </div>
