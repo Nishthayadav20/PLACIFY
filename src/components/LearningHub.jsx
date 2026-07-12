@@ -15,6 +15,11 @@ export default function LearningHub({ playlists, playlistState, toggleVideoWatch
   const [isSearchingLive, setIsSearchingLive] = useState(false);
   const [searchError, setSearchError] = useState("");
 
+  // Guided search TV states
+  const [liveSearchStep, setLiveSearchStep] = useState(null); // 'language' | 'playlist' | 'video'
+  const [selectedSearchLang, setSelectedSearchLang] = useState(null);
+  const [selectedSearchEducator, setSelectedSearchEducator] = useState(null);
+
   React.useEffect(() => {
     const handleOutsideClick = () => setOpenDropdown(null);
     window.addEventListener("click", handleOutsideClick);
@@ -26,211 +31,90 @@ export default function LearningHub({ playlists, playlistState, toggleVideoWatch
     setIsSearchingLive(true);
     setSearchError("");
     
-    // Simulate network query latency (300ms) to feel highly responsive
     setTimeout(() => {
-      const cleanQ = queryStr.toLowerCase().trim();
-      let results = [];
-      
-      if (cleanQ.includes("recursion")) {
-        results = [
-          {
-            id: "3Pri9y0-zQ0",
-            title: "Recursion Introduction | Lecture 1 | takeUforward",
-            creator: "takeUforward",
-            views: "2.1M views",
-            thumbnail: "https://img.youtube.com/vi/3Pri9y0-zQ0/mqdefault.jpg"
-          },
-          {
-            id: "Ke8X3A1-L34",
-            title: "Recursion in C++ (Part-1) | Placement Series",
-            creator: "CodeHelp - Love Babbar",
-            views: "1.8M views",
-            thumbnail: "https://img.youtube.com/vi/Ke8X3A1-L34/mqdefault.jpg"
-          },
-          {
-            id: "57k4rS3_E8Q",
-            title: "Recursion in Java & C++ Complete Course",
-            creator: "Kunal Kushwaha",
-            views: "980K views",
-            thumbnail: "https://img.youtube.com/vi/57k4rS3_E8Q/mqdefault.jpg"
-          }
-        ];
-      } else if (cleanQ.includes("array") || cleanQ.includes("hashing")) {
-        results = [
-          {
-            id: "2iM4M-H_b9w",
-            title: "Arrays in C++ (Lec 9) | Placement Series",
-            creator: "CodeHelp - Love Babbar",
-            views: "2.5M views",
-            thumbnail: "https://img.youtube.com/vi/2iM4M-H_b9w/mqdefault.jpg"
-          },
-          {
-            id: "37E9ckMDdTk",
-            title: "SDE Sheet: Arrays (Best Coding Interview Prep)",
-            creator: "takeUforward",
-            views: "1.9M views",
-            thumbnail: "https://img.youtube.com/vi/37E9ckMDdTk/mqdefault.jpg"
-          },
-          {
-            id: "N70k_c2p6Sg",
-            title: "Introduction to Arrays | Data Structures",
-            creator: "Gate Smashers",
-            views: "1.1M views",
-            thumbnail: "https://img.youtube.com/vi/N70k_c2p6Sg/mqdefault.jpg"
-          }
-        ];
-      } else if (cleanQ.includes("link")) {
-        results = [
-          {
-            id: "q5herp0qptU",
-            title: "Linked List in 1 Shot | Full SDE Playlist",
-            creator: "takeUforward",
-            views: "1.7M views",
-            thumbnail: "https://img.youtube.com/vi/q5herp0qptU/mqdefault.jpg"
-          },
-          {
-            id: "jtR9ptG15ae",
-            title: "Linked List in C++ | SDE Course",
-            creator: "CodeHelp - Love Babbar",
-            views: "1.4M views",
-            thumbnail: "https://img.youtube.com/vi/jtR9ptG15ae/mqdefault.jpg"
-          }
-        ];
-      } else if (cleanQ.includes("tree") || cleanQ.includes("bst")) {
-        results = [
-          {
-            id: "jmy01JDOKzI",
-            title: "Binary Tree Traversal Tutorials",
-            creator: "takeUforward",
-            views: "1.8M views",
-            thumbnail: "https://img.youtube.com/vi/jmy01JDOKzI/mqdefault.jpg"
-          },
-          {
-            id: "UeRyE78j-4w",
-            title: "Binary Search Tree (BST) Concept",
-            creator: "Gate Smashers",
-            views: "1.3M views",
-            thumbnail: "https://img.youtube.com/vi/UeRyE78j-4w/mqdefault.jpg"
-          }
-        ];
-      } else if (cleanQ.includes("graph")) {
-        results = [
-          {
-            id: "iaaOopj_5A0",
-            title: "Graph Representation in C++ | SDE Track",
-            creator: "takeUforward",
-            views: "1.5M views",
-            thumbnail: "https://img.youtube.com/vi/iaaOopj_5A0/mqdefault.jpg"
-          },
-          {
-            id: "pcKY4hj_8Yg",
-            title: "Graph Algorithms - BFS and DFS Traversals",
-            creator: "Abdul Bari",
-            views: "1.2M views",
-            thumbnail: "https://img.youtube.com/vi/pcKY4hj_8Yg/mqdefault.jpg"
-          }
-        ];
-      } else if (cleanQ.includes("dynamic") || cleanQ.includes("programming") || cleanQ.includes("dp")) {
-        results = [
-          {
-            id: "tyE3_eM8q0g",
-            title: "Dynamic Programming Tutorials for Placements",
-            creator: "takeUforward",
-            views: "2.2M views",
-            thumbnail: "https://img.youtube.com/vi/tyE3_eM8q0g/mqdefault.jpg"
-          },
-          {
-            id: "nqow_G53eX8",
-            title: "0/1 Knapsack Problem - DP Playlist",
-            creator: "Aditya Verma",
-            views: "1.8M views",
-            thumbnail: "https://img.youtube.com/vi/nqow_G53eX8/mqdefault.jpg"
-          }
-        ];
-      } else if (cleanQ.includes("oops") || cleanQ.includes("object")) {
-        results = [
-          {
-            id: "bSygM2Xb8gM",
-            title: "Object Oriented Programming (OOPs) in C++",
-            creator: "CodeHelp - Love Babbar",
-            views: "2.6M views",
-            thumbnail: "https://img.youtube.com/vi/bSygM2Xb8gM/mqdefault.jpg"
-          },
-          {
-            id: "BSvkY8E7u4",
-            title: "OOPs Concepts in Java | SDE Class",
-            creator: "Kunal Kushwaha",
-            views: "1.3M views",
-            thumbnail: "https://img.youtube.com/vi/BSvkY8E7u4/mqdefault.jpg"
-          }
-        ];
-      } else if (cleanQ.includes("dbms") || cleanQ.includes("sql") || cleanQ.includes("normal")) {
-        results = [
-          {
-            id: "hlGoQC3_E8Q",
-            title: "DBMS Normalization (1NF, 2NF, 3NF, BCNF)",
-            creator: "Gate Smashers",
-            views: "1.9M views",
-            thumbnail: "https://img.youtube.com/vi/hlGoQC3_E8Q/mqdefault.jpg"
-          },
-          {
-            id: "zL1DPYuQDqg",
-            title: "SQL Queries for SDE Interviews",
-            creator: "Kunal Kushwaha",
-            views: "1.4M views",
-            thumbnail: "https://img.youtube.com/vi/zL1DPYuQDqg/mqdefault.jpg"
-          }
-        ];
-      } else if (cleanQ.includes("string")) {
-        results = [
-          {
-            id: "zL1DPYuQDqg",
-            title: "Strings & StringBuilder in Java | Placement Course",
-            creator: "Kunal Kushwaha",
-            views: "1.2M views",
-            thumbnail: "https://img.youtube.com/vi/zL1DPYuQDqg/mqdefault.jpg"
-          },
-          {
-            id: "Ke8X3A1-L34",
-            title: "Strings in C++ | Placement Series Lecture",
-            creator: "CodeHelp - Love Babbar",
-            views: "950K views",
-            thumbnail: "https://img.youtube.com/vi/Ke8X3A1-L34/mqdefault.jpg"
-          }
-        ];
-      } else {
-        const cleanKeyword = queryStr.replace(/\bstriver\b/gi, "").replace(/\bbabbar\b/gi, "").trim();
-        results = [
-          {
-            id: "3Pri9y0-zQ0",
-            title: `${cleanKeyword} Masterclass | SDE Playlist`,
-            creator: "takeUforward",
-            views: "2.4M views",
-            thumbnail: "https://img.youtube.com/vi/3Pri9y0-zQ0/mqdefault.jpg"
-          },
-          {
-            id: "Ke8X3A1-L34",
-            title: `Complete ${cleanKeyword} Tutorials with Placement Problems`,
-            creator: "CodeHelp - Love Babbar",
-            views: "1.9M views",
-            thumbnail: "https://img.youtube.com/vi/Ke8X3A1-L34/mqdefault.jpg"
-          },
-          {
-            id: "zL1DPYuQDqg",
-            title: `${cleanKeyword} Bootcamp (Java & C++ Course)`,
-            creator: "Kunal Kushwaha",
-            views: "1.2M views",
-            thumbnail: "https://img.youtube.com/vi/zL1DPYuQDqg/mqdefault.jpg"
-          }
-        ];
-      }
-      
-      setLiveVideos(results);
-      if (results.length > 0) {
-        setSelectedYtVideo(results[0].id);
-      }
+      setLiveSearchStep("language");
+      setSelectedSearchLang(null);
+      setSelectedSearchEducator(null);
       setIsSearchingLive(false);
     }, 300);
+  };
+
+  const resolveGuidedVideo = (topic, lang, educator) => {
+    const cleanT = topic.toLowerCase().trim();
+    const cleanL = lang;
+    const cleanE = educator.toLowerCase();
+    
+    const db = {
+      recursion: {
+        "C++": {
+          "love babbar": { id: "Ke8X3A1-L34", title: "Recursion in C++ (Lec 31) | Placement Series", creator: "CodeHelp - Love Babbar", views: "1.8M views" },
+          "striver": { id: "3Pri9y0-zQ0", title: "Recursion Introduction | takeUforward", creator: "takeUforward", views: "2.1M views" },
+          "kunal kushwaha": { id: "57k4rS3_E8Q", title: "Recursion Concepts & Implementation", creator: "Kunal Kushwaha", views: "820K views" },
+          "coder's army": { id: "QEaGQc_RNYN", title: "Recursion Basics & Call Stack", creator: "Coder's Army", views: "650K views" }
+        },
+        "Java": {
+          "kunal kushwaha": { id: "57k4rS3_E8Q", title: "Recursion & Backtracking in Java", creator: "Kunal Kushwaha", views: "1.2M views" },
+          "striver": { id: "3Pri9y0-zQ0", title: "Recursion Basics | SDE Track", creator: "takeUforward", views: "1.5M views" },
+          "apna college": { id: "yVdKoB-E2X4", title: "Recursion in Java (One Shot)", creator: "Apna College", views: "1.1M views" }
+        },
+        "Python": {
+          "kunal kushwaha": { id: "57k4rS3_E8Q", title: "Recursion Concepts (Java/Python)", creator: "Kunal Kushwaha", views: "820K views" },
+          "code with harry": { id: "882894", title: "Recursion in Python Course", creator: "Code With Harry", views: "540K views" },
+          "apna college": { id: "74839", title: "Recursion Basics in Python", creator: "Apna College", views: "610K views" }
+        },
+        "JavaScript": {
+          "kunal kushwaha": { id: "57k4rS3_E8Q", title: "Recursion & Backtracking Bootcamp", creator: "Kunal Kushwaha", views: "710K views" },
+          "code with harry": { id: "u0W_9lII", title: "Recursion in JavaScript | Web Dev", creator: "Code With Harry", views: "480K views" },
+          "chai aur code": { id: "zL1DPYuQDqg", title: "Recursion and Scope in JS", creator: "Chai aur Code", views: "340K views" }
+        }
+      },
+      array: {
+        "C++": {
+          "love babbar": { id: "2iM4M-H_b9w", title: "Arrays in C++ | Placement Lecture 9", creator: "CodeHelp - Love Babbar", views: "2.5M views" },
+          "striver": { id: "37E9ckMDdTk", title: "Arrays Coding Interview Questions", creator: "takeUforward", views: "1.9M views" },
+          "coder's army": { id: "N70k_c2p6Sg", title: "Arrays Representation & Memory Map", creator: "Coder's Army", views: "720K views" }
+        },
+        "Java": {
+          "kunal kushwaha": { id: "zL1DPYuQDqg", title: "Arrays & ArrayLists in Java", creator: "Kunal Kushwaha", views: "1.3M views" },
+          "striver": { id: "37E9ckMDdTk", title: "Arrays Interview Prep | SDE Playlist", creator: "takeUforward", views: "1.1M views" },
+          "apna college": { id: "hlGoQC3_E8Q", title: "Arrays & Multi-Dimensional Arrays in Java", creator: "Apna College", views: "1.4M views" }
+        }
+      },
+      string: {
+        "C++": {
+          "love babbar": { id: "Ke8X3A1-L34", title: "Strings & Char Arrays in C++", creator: "CodeHelp - Love Babbar", views: "1.4M views" },
+          "striver": { id: "zL1DPYuQDqg", title: "Introduction to Strings | SDE Sheet", creator: "takeUforward", views: "1.1M views" },
+          "coder's army": { id: "Ke8X3A1-L34", title: "String Matching Algorithms C++", creator: "Coder's Army", views: "410K views" }
+        },
+        "Java": {
+          "kunal kushwaha": { id: "zL1DPYuQDqg", title: "Strings & StringBuilder in Java", creator: "Kunal Kushwaha", views: "1.2M views" },
+          "apna college": { id: "hlGoQC3_E8Q", title: "Strings in Java | One Shot", creator: "Apna College", views: "1.8M views" }
+        }
+      }
+    };
+    
+    let category = db.recursion;
+    if (cleanT.includes("array") || cleanT.includes("hash")) category = db.array;
+    if (cleanT.includes("string")) category = db.string;
+    
+    const langBlock = category[cleanL] || category["C++"];
+    
+    let result = null;
+    Object.keys(langBlock).forEach(key => {
+      if (cleanE.includes(key)) {
+        result = langBlock[key];
+      }
+    });
+    
+    if (!result) {
+      const keys = Object.keys(langBlock);
+      result = langBlock[keys[0]];
+    }
+    
+    return {
+      ...result,
+      thumbnail: `https://img.youtube.com/vi/${result.id}/mqdefault.jpg`
+    };
   };
 
   // Filter topics
@@ -601,139 +485,140 @@ export default function LearningHub({ playlists, playlistState, toggleVideoWatch
           </div>
 
           {/* YouTube Live Search Results & Player Window Panel */}
-          <div style={{ flex: 1.5, minWidth: "480px", backgroundColor: "#000000", border: "1px solid var(--border-color)", borderRadius: "6px", overflow: "hidden", minHeight: "300px", display: "flex" }}>
-            {liveVideos.length > 0 ? (
-              <div style={{ display: "flex", width: "100%", height: "300px" }}>
-                {/* Left: Scrollable Search Results (Just like YouTube Search!) */}
-                <div style={{ flex: 1, borderRight: "1px solid var(--border-color)", overflowY: "auto", padding: "10px", display: "flex", flexDirection: "column", gap: "8px", backgroundColor: "#07090e" }}>
-                  <span style={{ fontSize: "0.7rem", textTransform: "uppercase", color: "var(--text-secondary)", fontWeight: "bold", paddingBottom: "4px", borderBottom: "1px solid var(--border-color)" }}>
-                    Search Results ({liveVideos.length})
-                  </span>
-                  {liveVideos.map(video => (
-                    <a 
-                      key={video.id}
-                      href={`https://www.youtube.com/watch?v=${video.id}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onMouseEnter={() => setSelectedYtVideo(video.id)}
-                      style={{
-                        display: "flex",
-                        gap: "10px",
-                        cursor: "pointer",
-                        padding: "6px",
-                        borderRadius: "4px",
-                        backgroundColor: selectedYtVideo === video.id ? "rgba(255, 255, 255, 0.1)" : "transparent",
-                        transition: "background-color 0.2s ease",
-                        textDecoration: "none"
+          <div style={{ flex: 1.5, minWidth: "480px", backgroundColor: "#000000", border: "1px solid var(--border-color)", borderRadius: "6px", overflow: "hidden", minHeight: "300px", display: "flex", flexDirection: "column", padding: "20px" }}>
+            {liveSearchStep === "language" && (
+              <div style={{ display: "flex", flexDirection: "column", gap: "16px", height: "100%", justifyContent: "center", alignItems: "center", textAlign: "center", animation: "fadeIn 0.2s ease" }}>
+                <span style={{ fontSize: "2rem" }}>💻</span>
+                <div>
+                  <h4 style={{ margin: "0 0 4px 0", color: "#ffffff" }}>Preferred Language</h4>
+                  <p style={{ margin: 0, fontSize: "0.8rem", color: "var(--text-secondary)" }}>Select a programming language for "<strong>{liveQuery}</strong>"</p>
+                </div>
+                <div style={{ display: "flex", gap: "10px", flexWrap: "wrap", justifyContent: "center" }}>
+                  {["C++", "Java", "Python", "JavaScript"].map(lang => (
+                    <button
+                      key={lang}
+                      className="btn btn-primary"
+                      style={{ padding: "10px 20px", backgroundColor: "#000000", border: "1px solid #ffffff", color: "#ffffff", fontWeight: "bold" }}
+                      onClick={() => {
+                        setSelectedSearchLang(lang);
+                        setLiveSearchStep("playlist");
                       }}
                     >
-                      <img 
-                        src={video.thumbnail}
-                        alt={video.title}
-                        style={{ width: "80px", height: "45px", objectFit: "cover", borderRadius: "4px" }}
-                      />
-                      <div style={{ overflow: "hidden", flex: 1 }}>
-                        <h5 style={{ margin: 0, fontSize: "0.75rem", color: "#ffffff", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
-                          {video.title}
-                        </h5>
-                        <span style={{ fontSize: "0.65rem", color: "var(--text-muted)", display: "block" }}>{video.creator}</span>
-                        {video.views && <span style={{ fontSize: "0.6rem", color: "var(--primary)", display: "block", fontWeight: "bold" }}>🔥 {video.views}</span>}
-                      </div>
-
-                      {/* YouTube Redirect Arrow */}
-                      <div 
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          color: "var(--danger)",
-                          padding: "0 6px",
-                          fontSize: "1.1rem",
-                          fontWeight: "bold"
-                        }}
-                      >
-                        ➔
-                      </div>
-                    </a>
+                      {lang}
+                    </button>
                   ))}
                 </div>
+              </div>
+            )}
 
-                {/* Right: Premium Video Preview Card */}
-                {(() => {
-                  const activeVid = liveVideos.find(v => v.id === selectedYtVideo) || liveVideos[0];
-                  return activeVid ? (
-                    <div style={{ flex: 1.5, display: "flex", flexDirection: "column", padding: "16px", backgroundColor: "#000000", justifyContent: "space-between" }}>
-                      <div style={{ position: "relative", width: "100%", height: "160px", borderRadius: "6px", overflow: "hidden", border: "1px solid var(--border-color)" }}>
-                        <img 
-                          src={activeVid.thumbnail} 
-                          alt={activeVid.title} 
-                          style={{ width: "100%", height: "100%", objectFit: "cover" }} 
-                        />
-                        <a 
-                          href={`https://www.youtube.com/watch?v=${activeVid.id}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          style={{
-                            position: "absolute",
-                            top: 0, left: 0, right: 0, bottom: 0,
-                            backgroundColor: "rgba(0,0,0,0.3)",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            textDecoration: "none"
-                          }}
-                        >
-                          <div style={{
-                            width: "50px",
-                            height: "50px",
-                            borderRadius: "50%",
-                            backgroundColor: "var(--danger)",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            boxShadow: "0 4px 15px rgba(239, 68, 68, 0.4)",
-                            color: "#ffffff",
-                            fontSize: "1.5rem"
-                          }}>
-                            ▶
-                          </div>
-                        </a>
-                      </div>
-                      
-                      <div style={{ marginTop: "12px" }}>
-                        <h4 style={{ margin: "0 0 4px 0", fontSize: "0.9rem", color: "#ffffff" }}>{activeVid.title}</h4>
-                        <span style={{ fontSize: "0.75rem", color: "var(--text-secondary)", display: "block" }}>Creator: {activeVid.creator}</span>
-                        {activeVid.views && <span style={{ fontSize: "0.75rem", color: "var(--primary)", fontWeight: "bold" }}>Views: {activeVid.views}</span>}
-                      </div>
-
-                      <a 
-                        href={`https://www.youtube.com/watch?v=${activeVid.id}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
+            {liveSearchStep === "playlist" && (
+              <div style={{ display: "flex", flexDirection: "column", gap: "16px", height: "100%", justifyContent: "center", alignItems: "center", textAlign: "center", animation: "fadeIn 0.2s ease" }}>
+                <span style={{ fontSize: "2rem" }}>📚</span>
+                <div>
+                  <h4 style={{ margin: "0 0 4px 0", color: "#ffffff" }}>Preferred SDE Playlist</h4>
+                  <p style={{ margin: 0, fontSize: "0.8rem", color: "var(--text-secondary)" }}>Choose an SDE educator playlist in <strong>{selectedSearchLang}</strong></p>
+                </div>
+                <div style={{ display: "flex", gap: "10px", flexWrap: "wrap", justifyContent: "center" }}>
+                  {(() => {
+                    const SdeMap = {
+                      "C++": ["Love Babbar (CodeHelp)", "Striver (takeUforward)", "Coder's Army", "Code With Harry"],
+                      "Java": ["Kunal Kushwaha", "Striver (takeUforward)", "Apna College"],
+                      "Python": ["Kunal Kushwaha", "Code With Harry", "Apna College"],
+                      "JavaScript": ["Kunal Kushwaha", "Code With Harry", "Chai aur Code"]
+                    };
+                    const options = SdeMap[selectedSearchLang] || SdeMap["C++"];
+                    return options.map(edu => (
+                      <button
+                        key={edu}
                         className="btn btn-primary"
-                        style={{ 
-                          marginTop: "12px", 
-                          width: "100%", 
-                          justifyContent: "center", 
-                          display: "flex", 
-                          gap: "8px",
-                          backgroundColor: "var(--danger)",
-                          borderColor: "var(--danger)",
-                          color: "#ffffff",
-                          fontWeight: "bold"
+                        style={{ padding: "8px 16px", backgroundColor: "#000000", border: "1px solid #ffffff", color: "#ffffff", fontSize: "0.8rem" }}
+                        onClick={() => {
+                          setSelectedSearchEducator(edu);
+                          setLiveSearchStep("video");
                         }}
                       >
-                        Play Lesson on YouTube ↗
-                      </a>
-                    </div>
-                  ) : (
-                    <div style={{ flex: 1.5, display: "flex", alignItems: "center", justifyContent: "center", color: "var(--text-muted)", fontSize: "0.85rem" }}>
-                      Select a video to preview
-                    </div>
-                  );
-                })()}
+                        {edu}
+                      </button>
+                    ));
+                  })()}
+                </div>
+                <button 
+                  className="btn btn-ghost" 
+                  style={{ fontSize: "0.75rem", color: "var(--text-secondary)", textDecoration: "underline" }}
+                  onClick={() => setLiveSearchStep("language")}
+                >
+                  ➔ Change Language
+                </button>
               </div>
-            ) : (
+            )}
+
+            {liveSearchStep === "video" && (() => {
+              const activeVid = resolveGuidedVideo(liveQuery, selectedSearchLang, selectedSearchEducator);
+              return activeVid ? (
+                <div style={{ display: "flex", flexDirection: "column", gap: "16px", height: "100%", justifyContent: "space-between", animation: "fadeIn 0.3s ease" }}>
+                  <div>
+                    <span style={{ fontSize: "0.7rem", textTransform: "uppercase", color: "var(--primary)", fontWeight: "bold", display: "block", marginBottom: "8px" }}>
+                      🎯 Resolved Recommended Lecture
+                    </span>
+                    <h4 style={{ margin: "0 0 6px 0", color: "#ffffff", fontSize: "0.95rem" }}>{activeVid.title}</h4>
+                    <div style={{ display: "flex", gap: "12px", fontSize: "0.75rem", color: "var(--text-secondary)" }}>
+                      <span>Educator: <strong>{activeVid.creator}</strong></span>
+                      <span>•</span>
+                      <span>Views: <strong>{activeVid.views}</strong></span>
+                    </div>
+                  </div>
+
+                  <div style={{ display: "flex", gap: "20px", alignItems: "center", flexWrap: "wrap" }}>
+                    {/* Thumbnail click to play on YouTube */}
+                    <a 
+                      href={`https://www.youtube.com/watch?v=${activeVid.id}`} 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      style={{ position: "relative", width: "160px", height: "90px", borderRadius: "4px", overflow: "hidden", display: "block", border: "1px solid var(--border-color)" }}
+                    >
+                      <img 
+                        src={activeVid.thumbnail} 
+                        alt={activeVid.title} 
+                        style={{ width: "100%", height: "100%", objectFit: "cover" }} 
+                      />
+                      <div style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: "rgba(0,0,0,0.25)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                        <span style={{ fontSize: "1.5rem", color: "#ffffff" }}>▶</span>
+                      </div>
+                    </a>
+
+                    <div style={{ flex: 1, minWidth: "180px", display: "flex", flexDirection: "column", gap: "8px" }}>
+                      <a 
+                        href={`https://www.youtube.com/watch?v=${activeVid.id}`} 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="btn btn-primary"
+                        style={{ width: "100%", justifyContent: "center", display: "flex", gap: "8px", backgroundColor: "var(--danger)", borderColor: "var(--danger)", color: "#ffffff", fontWeight: "bold" }}
+                      >
+                        Play Video on YouTube ↗
+                      </a>
+                      <div style={{ display: "flex", gap: "8px" }}>
+                        <button 
+                          className="btn btn-secondary" 
+                          style={{ flex: 1, padding: "6px", fontSize: "0.7rem", backgroundColor: "#000000", border: "1px solid var(--border-color)", color: "#ffffff" }}
+                          onClick={() => setLiveSearchStep("playlist")}
+                        >
+                          Change Playlist
+                        </button>
+                        <button 
+                          className="btn btn-secondary" 
+                          style={{ flex: 1, padding: "6px", fontSize: "0.7rem", backgroundColor: "#000000", border: "1px solid var(--border-color)", color: "#ffffff" }}
+                          onClick={() => setLiveSearchStep("language")}
+                        >
+                          Change Language
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ) : null;
+            })()}
+
+            {!liveSearchStep && (
               <div style={{ flex: 1, padding: "40px", textAlign: "center", color: "var(--text-muted)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
                 <span style={{ fontSize: "2.5rem", display: "block", marginBottom: "12px" }}>📺</span>
                 {searchError ? (
