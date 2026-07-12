@@ -470,6 +470,213 @@ export const mockCompanies = [
         date: "July 2026"
       }
     ]
+  },
+  {
+    id: "c-3",
+    name: "Microsoft",
+    logo: "M",
+    color: "#00A4EF",
+    ctc: "44 - 50 LPA",
+    cgpaCutoff: 8.0,
+    branchesAllowed: ["CSE", "IT", "ECE"],
+    hiringRounds: ["Online Coding Round", "Tech Interview 1 (DSA)", "Tech Interview 2 (System Design)", "HR Round"],
+    visitingCollege: "On-Campus",
+    role: "Software Engineer Associate",
+    experiences: [
+      {
+        id: "exp-3-1",
+        user: "Rohan Gupta",
+        title: "SWE Intern Interview Experience",
+        tags: ["Trees", "Graphs", "Heaps"],
+        content: "DSA round focused heavily on Binary Trees (Inorder Traversal recursively and iteratively) and Min-heap queries. Got one question on finding the shortest distance in an unweighted grid.",
+        difficulty: "Hard",
+        date: "May 2026"
+      }
+    ]
+  },
+  {
+    id: "c-4",
+    name: "Adobe",
+    logo: "Ad",
+    color: "#FF0000",
+    ctc: "30 - 38 LPA",
+    cgpaCutoff: 7.5,
+    branchesAllowed: ["CSE", "IT", "ECE"],
+    hiringRounds: ["Aptitude & Coding OA", "Technical Round 1", "Technical Round 2", "HR Fitment"],
+    visitingCollege: "Off-Campus / Pool Campus",
+    role: "Member Technical Staff",
+    experiences: [
+      {
+        id: "exp-4-1",
+        user: "Neha Patel",
+        title: "MTS Interview Experience",
+        tags: ["Arrays", "Recursion", "DP"],
+        content: "Adobe asked standard DP questions on Longest Common Subsequence and recursive grid traversals. They focus heavily on basics of Operating Systems and Object Oriented Programming (OOPs).",
+        difficulty: "Medium",
+        date: "April 2026"
+      }
+    ]
+  },
+  {
+    id: "c-5",
+    name: "Paytm",
+    logo: "P",
+    color: "#002E7E",
+    ctc: "12 - 16 LPA",
+    cgpaCutoff: 7.0,
+    branchesAllowed: ["CSE", "IT", "ECE", "EE"],
+    hiringRounds: ["Coding Challenge", "Technical Round 1 (DSA)", "Technical Round 2 (DBMS & OS)", "HR Interview"],
+    visitingCollege: "On-Campus",
+    role: "Software Engineer Associate",
+    experiences: [
+      {
+        id: "exp-5-1",
+        user: "Saurabh Kumar",
+        title: "Paytm SDE Experience",
+        tags: ["SQL", "DBMS", "Linked List"],
+        content: "They asked lots of SQL queries (joins, group by, second highest salary) and DBMS normalization rules. Coding question was reversing a linked list in groups of K.",
+        difficulty: "Medium",
+        date: "June 2026"
+      }
+    ]
+  },
+  {
+    id: "c-6",
+    name: "Myntra",
+    logo: "My",
+    color: "#FF3F6C",
+    ctc: "18 - 24 LPA",
+    cgpaCutoff: 7.5,
+    branchesAllowed: ["CSE", "IT", "ECE"],
+    hiringRounds: ["Online Coding Test", "Tech Round 1 (DSA)", "Tech Round 2 (Machine Coding / DSA)", "Managerial Round"],
+    visitingCollege: "On-Campus",
+    role: "Associate Software Engineer",
+    experiences: [
+      {
+        id: "exp-6-1",
+        user: "Kiara Sen",
+        title: "Myntra ASE Interview",
+        tags: ["Sliding Window", "Stack"],
+        content: "Asked to implement a custom parser using Stack and one sliding window subarray sum problem. Machine coding round was a simple rate limiter system design.",
+        difficulty: "Medium",
+        date: "July 2026"
+      }
+    ]
+  },
+  {
+    id: "c-7",
+    name: "TCS",
+    logo: "T",
+    color: "#1E3A8A",
+    ctc: "3.36 - 9.0 LPA",
+    cgpaCutoff: 6.0,
+    branchesAllowed: ["All B.Tech Branches"],
+    hiringRounds: ["TCS NQT National Exam", "Technical Interview", "HR Round"],
+    visitingCollege: "On-Campus",
+    role: "Ninja/Digital/Prime SDE",
+    experiences: [
+      {
+        id: "exp-7-1",
+        user: "Amit Das",
+        title: "TCS Ninja/Digital Experience",
+        tags: ["Arrays", "Strings", "Aptitude"],
+        content: "NQT focused on quantitative aptitude. Code round was easy: check palindrome and array sorting. Technical interview asked basics of Java, SQL queries, and project definitions.",
+        difficulty: "Easy",
+        date: "August 2026"
+      }
+    ]
+  },
+  {
+    id: "c-8",
+    name: "Infosys",
+    logo: "I",
+    color: "#007CC3",
+    ctc: "3.6 - 9.5 LPA",
+    cgpaCutoff: 6.0,
+    branchesAllowed: ["All B.Tech Branches"],
+    hiringRounds: ["InfyTQ Exam / HackWithInfy", "Technical Interview", "HR Round"],
+    visitingCollege: "On-Campus",
+    role: "Systems Engineer / Specialist Programmer",
+    experiences: [
+      {
+        id: "exp-8-1",
+        user: "Priya Nair",
+        title: "Infosys SP Interview",
+        tags: ["Arrays", "Recursion", "SQL"],
+        content: "Got matching questions from HackWithInfy on recursion. Interview was focused on projects, OOPs concepts, inheritance, and SQL joins.",
+        difficulty: "Medium",
+        date: "August 2026"
+      }
+    ]
+  },
+  {
+    id: "c-9",
+    name: "Accenture",
+    logo: "Ac",
+    color: "#A100FF",
+    ctc: "4.5 - 6.5 LPA",
+    cgpaCutoff: 6.5,
+    branchesAllowed: ["All B.Tech Branches"],
+    hiringRounds: ["Cognitive & Technical Assessment", "Coding Assessment", "Communication Test", "HR Interview"],
+    visitingCollege: "On-Campus",
+    role: "Associate Software Engineer",
+    experiences: [
+      {
+        id: "exp-9-1",
+        user: "Vikram Seth",
+        title: "Accenture ASE On-Campus",
+        tags: ["Aptitude", "OOPs", "Pseudo Code"],
+        content: "Pseudocode section had questions on recursion loops and pointer values. Coding test was simple string operations and array traversal.",
+        difficulty: "Easy",
+        date: "September 2026"
+      }
+    ]
+  },
+  {
+    id: "c-10",
+    name: "Capgemini",
+    logo: "Ca",
+    color: "#0066B3",
+    ctc: "4.0 - 7.5 LPA",
+    cgpaCutoff: 6.0,
+    branchesAllowed: ["CSE", "IT", "ECE", "EE", "ME"],
+    hiringRounds: ["Pseudo Code Round", "English Communication Round", "Game-Based Aptitude", "Technical Interview", "HR Round"],
+    visitingCollege: "On-Campus",
+    role: "Analyst / Senior Analyst",
+    experiences: [
+      {
+        id: "exp-10-1",
+        user: "Rahul Varma",
+        title: "Capgemini Analyst Interview",
+        tags: ["Data Structures", "OOPs"],
+        content: "Pseudocode questions on bitwise operators. Interview was majorly about my final year project, basic Java OOPs concepts, and database primary keys.",
+        difficulty: "Easy",
+        date: "September 2026"
+      }
+    ]
+  },
+  {
+    id: "c-11",
+    name: "Cognizant",
+    logo: "Co",
+    color: "#000048",
+    ctc: "4.0 - 8.5 LPA",
+    cgpaCutoff: 6.0,
+    branchesAllowed: ["All B.Tech Branches"],
+    hiringRounds: ["GenC/GenC Elevate Assessment", "Coding Round", "Technical Interview", "HR Interview"],
+    visitingCollege: "On-Campus",
+    role: "GenC/GenC Elevate Developer",
+    experiences: [
+      {
+        id: "exp-11-1",
+        user: "Sneha Rao",
+        title: "Cognizant Developer On-Campus",
+        tags: ["Arrays", "OOPs", "DBMS"],
+        content: "Focused on Java basics, inheritance, SQL queries (joins, group by), and simple string array reversals. HR round was basic resume evaluation.",
+        difficulty: "Easy",
+        date: "October 2026"
+      }
+    ]
   }
 ];
 
