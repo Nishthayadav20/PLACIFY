@@ -26,7 +26,7 @@ export default function Dashboard({
   // Gemini AI Placement Planner States
   const [showAiPlanner, setShowAiPlanner] = useState(false);
   const [chatHistory, setChatHistory] = useState([
-    { role: "gemini", text: `Hi! I am Gemini, your Personalized Placement Assistant. I see you are on Day ${profile.currentDay} of your ${profile.timelineDays}-day track using ${profile.language}. Ask me anything to customize your routine!` }
+    { role: "gemini", text: `Hi! I am TechGuru, your Personalized Placement Assistant. I see you are on Day ${profile.currentDay} of your ${profile.timelineDays}-day track using ${profile.language}. Ask me anything to customize your SDE routine!` }
   ]);
   const [chatInput, setChatInput] = useState("");
 
@@ -266,7 +266,7 @@ export default function Dashboard({
                   role: "user",
                   parts: [
                     {
-                      text: `System context: You are Gemini, a world-class SDE placement preparation AI assistant inside PLACIFY. The user is currently on Day ${profile.currentDay} of a ${profile.timelineDays}-day track using ${profile.language}. Their current DSA level is ${profile.dsaLevel} and their weekend specialization track is ${profile.devTrack || "Web Development"}. Today's topic focus is ${routine.topic}.\n\nUser Question: ${msgText}`
+                      text: `System context: You are TechGuru, a world-class SDE placement preparation AI assistant inside PLACIFY. The user is currently on Day ${profile.currentDay} of a ${profile.timelineDays}-day track using ${profile.language}. Their current DSA level is ${profile.dsaLevel} and their weekend specialization track is ${profile.devTrack || "Web Development"}. Today's topic focus is ${routine.topic}.\n\nUser Question: ${msgText}`
                     }
                   ]
                 }
@@ -317,13 +317,13 @@ export default function Dashboard({
           <p>Prep track: <strong>{profile.dsaLevel} Level</strong> ({profile.timelineDays} days timeline)</p>
         </div>
         <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
-          {/* Gemini AI Action */}
+          {/* TechGuru AI Action */}
           <button 
             onClick={() => setShowAiPlanner(true)}
             className="btn btn-primary"
             style={{ fontSize: "0.8rem", padding: "6px 12px", display: "flex", gap: "6px", alignItems: "center", backgroundColor: "#000000", border: "1px solid var(--border-color)", color: "#ffffff" }}
           >
-            <span>🤖 Ask Gemini AI</span>
+            <span>🤖 Ask TechGuru AI</span>
           </button>
 
           {/* Profile Badges */}
@@ -1088,7 +1088,7 @@ export default function Dashboard({
         }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid var(--border-color)", paddingBottom: "16px" }}>
             <h3 style={{ margin: 0, display: "flex", alignItems: "center", gap: "8px" }}>
-              <span>🤖 Gemini SDE Planner</span>
+              <span>🤖 TechGuru SDE Planner</span>
             </h3>
             <button 
               className="btn btn-ghost" 
@@ -1176,7 +1176,7 @@ export default function Dashboard({
           <div style={{ display: "flex", gap: "8px" }}>
             <input 
               type="text" 
-              placeholder="Ask Gemini to customize plan..." 
+              placeholder="Ask TechGuru to customize plan..." 
               value={chatInput}
               onChange={(e) => setChatInput(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleSendAiMessage()}
