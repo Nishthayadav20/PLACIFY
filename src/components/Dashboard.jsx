@@ -596,6 +596,9 @@ export default function Dashboard({
           <div>
             <span className="badge badge-success" style={{ marginBottom: "6px" }}>Daily Past Year Interview Questions</span>
             <h2>Topic: {routine.topic} (5 PYQs)</h2>
+            <p style={{ fontSize: "0.8rem", color: "#10b981", margin: "4px 0 0 0", fontWeight: "bold" }}>
+              ℹ️ Note: These daily interview questions will automatically cycle and change on a regular basis as you advance to the next day.
+            </p>
           </div>
           <div style={{ textAlign: "right" }}>
             <span style={{ fontWeight: 600, fontSize: "0.9rem" }}>Completed: {solvedCount} / 5</span>
