@@ -140,7 +140,7 @@ export default function CalendarTracker({ events }) {
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="btn btn-primary"
-                style={{ width: "100%", justifyContent: "center" }}
+                style={{ width: "100%", justifyContent: "center", backgroundColor: "#000000", color: "#ffffff", border: "1px solid #ffffff", fontWeight: "bold" }}
               >
                 Apply Now <ExternalLink size={14} />
               </a>
@@ -159,6 +159,7 @@ export default function CalendarTracker({ events }) {
           <button 
             className="btn btn-primary"
             onClick={() => setShowTeamForm(!showTeamForm)}
+            style={{ backgroundColor: "#000000", color: "#ffffff", border: "1px solid #ffffff", fontWeight: "bold" }}
           >
             <PlusCircle size={16} /> Post Teammate Request
           </button>
@@ -247,28 +248,28 @@ export default function CalendarTracker({ events }) {
         {/* Team Posts Grid */}
         <div className="grid-cols-2">
           {teamPosts.map(post => (
-            <div key={post.id} className="card" style={{ backgroundColor: "#ffffff", border: "1px solid var(--border-color)", padding: "16px" }}>
+            <div key={post.id} className="card" style={{ backgroundColor: "#000000", border: "1px solid var(--border-color)", padding: "16px", color: "#ffffff" }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "8px" }}>
                 <div>
-                  <h4 style={{ margin: 0 }}>{post.hackathon}</h4>
-                  <span style={{ fontSize: "0.75rem", color: "#000000", fontWeight: "bold" }}>Posted by {post.creator}</span>
+                  <h4 style={{ margin: 0, color: "#ffffff" }}>{post.hackathon}</h4>
+                  <span style={{ fontSize: "0.75rem", color: "#ffffff", fontWeight: "bold" }}>Posted by {post.creator}</span>
                 </div>
                 <Users size={18} style={{ color: "var(--text-muted)" }} />
               </div>
               
-              <p style={{ fontSize: "0.875rem", marginBottom: "12px", minHeight: "60px" }}>{post.desc}</p>
+              <p style={{ fontSize: "0.875rem", marginBottom: "12px", minHeight: "60px", color: "#ffffff" }}>{post.desc}</p>
               
               <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginBottom: "12px" }}>
                 {post.skills.map(skill => (
-                  <span key={skill} style={{ fontSize: "0.7rem", padding: "2px 8px", backgroundColor: "var(--success-light)", color: "var(--success)", borderRadius: "4px", fontWeight: 600 }}>
+                  <span key={skill} style={{ fontSize: "0.7rem", padding: "2px 8px", backgroundColor: "rgba(16, 185, 129, 0.15)", color: "#10b981", borderRadius: "4px", fontWeight: 600 }}>
                     {skill}
                   </span>
                 ))}
               </div>
 
               <div style={{ borderTop: "1px solid var(--border-color)", paddingTop: "12px", fontSize: "0.8rem", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <span>Contact: <strong>{post.contact}</strong></span>
-                <a href={`mailto:${post.contact}`} className="btn btn-ghost" style={{ padding: "4px 8px", fontSize: "0.75rem", border: "1px solid var(--border-color)", borderRadius: "4px" }}>
+                <span style={{ color: "#ffffff" }}>Contact: <strong>{post.contact}</strong></span>
+                <a href={`mailto:${post.contact}`} className="btn" style={{ padding: "4px 8px", fontSize: "0.75rem", border: "1px solid #ffffff", borderRadius: "4px", backgroundColor: "#000000", color: "#ffffff", fontWeight: "bold" }}>
                   Connect
                 </a>
               </div>
