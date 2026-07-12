@@ -86,7 +86,7 @@ export default function WelcomeScreen({ onSelect }) {
             margin: 0
           }}
         >
-          Success is just next step
+          SUCCESS IS JUST NEXT STEP AWAY !!!
         </h2>
       </div>
 
