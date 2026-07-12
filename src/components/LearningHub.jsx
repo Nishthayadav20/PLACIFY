@@ -47,24 +47,24 @@ export default function LearningHub({ playlists, playlistState, toggleVideoWatch
     const db = {
       recursion: {
         "C++": {
-          "love babbar": { id: "Ke8X3A1-L34", title: "Recursion in C++ (Lec 31) | Placement Series", creator: "CodeHelp - Love Babbar", views: "1.8M views" },
-          "striver": { id: "3Pri9y0-zQ0", title: "Recursion Introduction | takeUforward", creator: "takeUforward", views: "2.1M views" },
+          "love babbar": { id: "Ke8X3A1_L34", title: "Recursion in C++ (Lec 31) | Placement Series", creator: "CodeHelp - Love Babbar", views: "1.8M views" },
+          "striver": { id: "3Pri9y0_zQ0", title: "Recursion Introduction | takeUforward", creator: "takeUforward", views: "2.1M views" },
           "kunal kushwaha": { id: "57k4rS3_E8Q", title: "Recursion Concepts & Implementation", creator: "Kunal Kushwaha", views: "820K views" },
           "coder's army": { id: "QEaGQc_RNYN", title: "Recursion Basics & Call Stack", creator: "Coder's Army", views: "650K views" }
         },
         "Java": {
           "kunal kushwaha": { id: "57k4rS3_E8Q", title: "Recursion & Backtracking in Java", creator: "Kunal Kushwaha", views: "1.2M views" },
-          "striver": { id: "3Pri9y0-zQ0", title: "Recursion Basics | SDE Track", creator: "takeUforward", views: "1.5M views" },
-          "apna college": { id: "yVdKoB-E2X4", title: "Recursion in Java (One Shot)", creator: "Apna College", views: "1.1M views" }
+          "striver": { id: "3Pri9y0_zQ0", title: "Recursion Basics | SDE Track", creator: "takeUforward", views: "1.5M views" },
+          "apna college": { id: "yVdKoB_E2X4", title: "Recursion in Java (One Shot)", creator: "Apna College", views: "1.1M views" }
         },
         "Python": {
           "kunal kushwaha": { id: "57k4rS3_E8Q", title: "Recursion Concepts (Java/Python)", creator: "Kunal Kushwaha", views: "820K views" },
-          "code with harry": { id: "882894", title: "Recursion in Python Course", creator: "Code With Harry", views: "540K views" },
-          "apna college": { id: "74839", title: "Recursion Basics in Python", creator: "Apna College", views: "610K views" }
+          "code with harry": { id: "wdyGe07NCS4", title: "Recursion in Python Course", creator: "Code With Harry", views: "540K views" },
+          "apna college": { id: "yVdKoB_E2X4", title: "Recursion Basics in Python", creator: "Apna College", views: "610K views" }
         },
         "JavaScript": {
           "kunal kushwaha": { id: "57k4rS3_E8Q", title: "Recursion & Backtracking Bootcamp", creator: "Kunal Kushwaha", views: "710K views" },
-          "code with harry": { id: "u0W_9lII", title: "Recursion in JavaScript | Web Dev", creator: "Code With Harry", views: "480K views" },
+          "code with harry": { id: "zL1DPYuQDqg", title: "Recursion in JavaScript | Web Dev", creator: "Code With Harry", views: "480K views" },
           "chai aur code": { id: "zL1DPYuQDqg", title: "Recursion and Scope in JS", creator: "Chai aur Code", views: "340K views" }
         }
       },
@@ -82,9 +82,9 @@ export default function LearningHub({ playlists, playlistState, toggleVideoWatch
       },
       string: {
         "C++": {
-          "love babbar": { id: "Ke8X3A1-L34", title: "Strings & Char Arrays in C++", creator: "CodeHelp - Love Babbar", views: "1.4M views" },
+          "love babbar": { id: "V7YhRs3_b6g", title: "Strings & Char Arrays in C++", creator: "CodeHelp - Love Babbar", views: "1.4M views" },
           "striver": { id: "zL1DPYuQDqg", title: "Introduction to Strings | SDE Sheet", creator: "takeUforward", views: "1.1M views" },
-          "coder's army": { id: "Ke8X3A1-L34", title: "String Matching Algorithms C++", creator: "Coder's Army", views: "410K views" }
+          "coder's army": { id: "V7YhRs3_b6g", title: "String Matching Algorithms C++", creator: "Coder's Army", views: "410K views" }
         },
         "Java": {
           "kunal kushwaha": { id: "zL1DPYuQDqg", title: "Strings & StringBuilder in Java", creator: "Kunal Kushwaha", views: "1.2M views" },
