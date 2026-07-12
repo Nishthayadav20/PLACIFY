@@ -450,8 +450,18 @@ export default function Dashboard({
 
         {/* Advance Day Action */}
         <button 
-          className="btn btn-primary"
-          style={{ width: "100%", justifyContent: "center", padding: "12px", fontSize: "0.95rem" }}
+          className="btn"
+          style={{ 
+            width: "100%", 
+            justifyContent: "center", 
+            padding: "12px", 
+            fontSize: "0.95rem", 
+            backgroundColor: completedCount < 3 ? "#e2e8f0" : "var(--primary)", 
+            color: completedCount < 3 ? "#000000" : "#ffffff", 
+            fontWeight: "bold", 
+            cursor: completedCount < 3 ? "not-allowed" : "pointer",
+            border: "1px solid var(--border-color)"
+          }}
           disabled={completedCount < 3}
           onClick={handleAdvanceDay}
         >
