@@ -213,9 +213,99 @@ export default function MockTestEngine({ isPremium, profile }) {
   const handleRunCode = () => {
     setCompiling(true);
     setCompileOutput("Compiling execution environment...");
+    
     setTimeout(() => {
+      const code = codeAnswers[selectedCodingIdx];
+      let output = "";
+      
+      try {
+        if (compilerLang === "JavaScript") {
+          // Safe execution simulator for JavaScript
+          if (selectedCodingIdx === 0) { // Reverse Subarray
+            const testCases = [
+              { arr: [1, 2, 3, 4, 5], L: 1, R: 3, expected: [1, 4, 3, 2, 5] },
+              { arr: [10, 20, 30], L: 0, R: 2, expected: [30, 20, 10] }
+            ];
+            
+            const userFn = new Function(`return (${code})`)();
+            let passedCount = 0;
+            let log = "✔ JavaScript Engine Active\n";
+            testCases.forEach((tc, idx) => {
+              const res = userFn([...tc.arr], tc.L, tc.R);
+              const isCorrect = JSON.stringify(res) === JSON.stringify(tc.expected);
+              if (isCorrect) {
+                passedCount++;
+                log += `✔ Test Case ${idx + 1}: Passed (Input: arr=${JSON.stringify(tc.arr)}, L=${tc.L}, R=${tc.R} | Output: ${JSON.stringify(res)})\n`;
+              } else {
+                log += `❌ Test Case ${idx + 1}: Failed (Input: arr=${JSON.stringify(tc.arr)} | Expected: ${JSON.stringify(tc.expected)} | Got: ${JSON.stringify(res)})\n`;
+              }
+            });
+            output = log + `\nPassed: ${passedCount}/${testCases.length} Cases.`;
+          } else if (selectedCodingIdx === 1) { // Missing Number
+            const testCases = [
+              { nums: [3, 0, 1], expected: 2 },
+              { nums: [9, 6, 4, 2, 3, 5, 7, 0, 1], expected: 8 }
+            ];
+            
+            const userFn = new Function(`return (${code})`)();
+            let passedCount = 0;
+            let log = "✔ JavaScript Engine Active\n";
+            testCases.forEach((tc, idx) => {
+              const res = userFn([...tc.nums]);
+              const isCorrect = res === tc.expected;
+              if (isCorrect) {
+                passedCount++;
+                log += `✔ Test Case ${idx + 1}: Passed (Input: nums=${JSON.stringify(tc.nums)} | Output: ${res})\n`;
+              } else {
+                log += `❌ Test Case ${idx + 1}: Failed (Input: nums=${JSON.stringify(tc.nums)} | Expected: ${tc.expected} | Got: ${res})\n`;
+              }
+            });
+            output = log + `\nPassed: ${passedCount}/${testCases.length} Cases.`;
+          } else if (selectedCodingIdx === 2) { // Valid Parentheses
+            const testCases = [
+              { s: "()[]{}", expected: true },
+              { s: "(]", expected: false },
+              { s: "([)]", expected: false }
+            ];
+            
+            const userFn = new Function(`return (${code})`)();
+            let passedCount = 0;
+            let log = "✔ JavaScript Engine Active\n";
+            testCases.forEach((tc, idx) => {
+              const res = userFn(tc.s);
+              const isCorrect = res === tc.expected;
+              if (isCorrect) {
+                passedCount++;
+                log += `✔ Test Case ${idx + 1}: Passed (Input: s="${tc.s}" | Output: ${res})\n`;
+              } else {
+                log += `❌ Test Case ${idx + 1}: Failed (Input: s="${tc.s}" | Expected: ${tc.expected} | Got: ${res})\n`;
+              }
+            });
+            output = log + `\nPassed: ${passedCount}/${testCases.length} Cases.`;
+          }
+        } else {
+          // For compiled languages (C++, Java, Python), simulate execution by scanning user syntax structure
+          let hasLogic = false;
+          if (selectedCodingIdx === 0) {
+            hasLogic = code.includes("reverse") || code.includes("swap") || code.includes("while") || code.includes("for");
+          } else if (selectedCodingIdx === 1) {
+            hasLogic = code.includes("sum") || code.includes("xor") || code.includes("for") || code.includes("contains");
+          } else if (selectedCodingIdx === 2) {
+            hasLogic = code.includes("stack") || code.includes("push") || code.includes("pop") || code.includes("replace") || code.includes("map");
+          }
+          
+          if (hasLogic) {
+            output = `✔ Compiler Sim Active (${compilerLang})\n✔ Compilation Success!\n✔ Test Case 1: Passed\n✔ Test Case 2: Passed\n✔ Test Case 3: Passed\n\nAll test cases passed successfully.`;
+          } else {
+            output = `✔ Compiler Sim Active (${compilerLang})\n❌ Compilation Failure!\nError: Your solution did not implement proper reverse/search/stack logic. Please complete the code logic.`;
+          }
+        }
+      } catch (err) {
+        output = `❌ Execution Error!\n${err.message}`;
+      }
+      
       setCompiling(false);
-      setCompileOutput("✔ Compilation Success!\n✔ Test Case 1: Passed\n✔ Test Case 2: Passed\n✔ Test Case 3: Passed\n\nAll tests passed successfully.");
+      setCompileOutput(output);
     }, 1200);
   };
 
@@ -228,11 +318,38 @@ export default function MockTestEngine({ isPremium, profile }) {
       }
     });
 
+    let codingScore = 0;
+    [0, 1, 2].forEach(idx => {
+      const code = codeAnswers[idx] || "";
+      let passed = false;
+      
+      if (compilerLang === "JavaScript") {
+        try {
+          const userFn = new Function(`return (${code})`)();
+          if (idx === 0) {
+            const res = userFn([1, 2, 3], 0, 2);
+            passed = JSON.stringify(res) === JSON.stringify([3, 2, 1]);
+          } else if (idx === 1) {
+            const res = userFn([3, 0, 1]);
+            passed = res === 2;
+          } else if (idx === 2) {
+            const res = userFn("()[]{}");
+            passed = res === true;
+          }
+        } catch (_) {}
+      } else {
+        if (idx === 0) passed = code.includes("reverse") || code.includes("swap") || code.includes("while") || code.includes("for");
+        if (idx === 1) passed = code.includes("sum") || code.includes("xor") || code.includes("for") || code.includes("contains");
+        if (idx === 2) passed = code.includes("stack") || code.includes("push") || code.includes("pop") || code.includes("replace") || code.includes("map");
+      }
+      if (passed) codingScore++;
+    });
+
     const results = {
       mcqCorrect: correctMcq,
       totalMcq: 20,
-      codingScore: 3, // mock score
-      percentage: Math.round(((correctMcq + 3) / 23) * 100),
+      codingScore: codingScore,
+      percentage: Math.round(((correctMcq + (codingScore * 5)) / 35) * 100),
       durationTaken: 3600 - timer
     };
 

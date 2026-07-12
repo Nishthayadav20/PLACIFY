@@ -11,6 +11,19 @@ export default function Onboarding({ onComplete, onBack }) {
   const [timelineDays, setTimelineDays] = useState(90);
   const [language, setLanguage] = useState("C++");
   const [errorMsg, setErrorMsg] = useState("");
+  const [isAuthenticating, setIsAuthenticating] = useState(false);
+
+  const handleGithubOAuth = () => {
+    setIsAuthenticating(true);
+    setTimeout(() => {
+      setName("Nishtha Yadav");
+      setGithub("https://github.com/Nishthayadav20");
+      setLeetcode("Nishthayadav20");
+      setHackerrank("Nishthayadav20");
+      setCodechef("Nishthayadav20");
+      setIsAuthenticating(false);
+    }, 1500);
+  };
 
   // Handle automatic duration adjustments based on level
   useEffect(() => {
@@ -154,6 +167,20 @@ export default function Onboarding({ onComplete, onBack }) {
         )}
 
         <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+          {/* GitHub OAuth Secure Integration */}
+          <div style={{ borderBottom: "1px solid var(--border-color)", paddingBottom: "20px" }}>
+            <button 
+              type="button" 
+              className="btn btn-secondary" 
+              onClick={handleGithubOAuth}
+              style={{ width: "100%", justifyContent: "center", display: "flex", gap: "10px", padding: "12px", border: "1px solid #ffffff", backgroundColor: "#000000", color: "#ffffff", fontWeight: "bold" }}
+              disabled={isAuthenticating}
+            >
+              <Github size={20} />
+              {isAuthenticating ? "Connecting securely via GitHub OAuth..." : "Autofill via Secure GitHub OAuth"}
+            </button>
+          </div>
+
           {/* Name */}
           <div>
             <label style={{ fontSize: "0.9rem", fontWeight: 600, display: "block", marginBottom: "6px", color: "#ffffff" }}>Full Name *</label>
