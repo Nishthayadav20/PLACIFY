@@ -48,6 +48,7 @@ export default function Dashboard({
   }, [isTheoryCompleted, isCodingCompleted, isSyncCompleted, profile.currentDay]);
 
   const [activeQuestionIdx, setActiveQuestionIdx] = useState(null);
+  const [showHintIdx, setShowHintIdx] = useState({});
   const [answersState, setAnswersState] = useState(() => {
     const saved = localStorage.getItem(`dashboard_answers_day_${profile.currentDay}`);
     return saved ? JSON.parse(saved) : {};
@@ -87,46 +88,46 @@ export default function Dashboard({
   const getPastYearQuestions = (topic) => {
     const questions = {
       "DSA": [
-        { q: "What is the difference between Array and Linked List? (Amazon)", type: "Theory" },
-        { q: "How do you detect a cycle in a Linked List? (Microsoft)", type: "Algorithm" },
-        { q: "Explain the working of Binary Search with time complexity. (Google)", type: "Theory" },
-        { q: "Write code to reverse a Linked List. (Adobe)", type: "Coding" },
-        { q: "What is spaced repetition in DSA preparation? (Generic)", type: "Theory" }
+        { q: "What is the difference between Array and Linked List? (Amazon)", type: "Theory", hint: "Arrays are stored in contiguous memory and have O(1) random access. Linked Lists are non-contiguous and require traversal, making access O(N) but insertion/deletion O(1)." },
+        { q: "How do you detect a cycle in a Linked List? (Microsoft)", type: "Algorithm", hint: "Use Floyd's Cycle-Finding Algorithm (Hare and Tortoise approach) with slow and fast pointers. If they meet, a cycle exists." },
+        { q: "Explain the working of Binary Search with time complexity. (Google)", type: "Theory", hint: "Sort the array first. Divide and conquer by checking the middle element. Time complexity is O(log N)." },
+        { q: "Write code to reverse a Linked List. (Adobe)", type: "Coding", hint: "Iterate through the list, changing the next pointer of each node to point to its previous node. Keep track of prev, curr, and next." },
+        { q: "What is spaced repetition in DSA preparation? (Generic)", type: "Theory", hint: "Reviewing topics at increasing intervals (e.g., Day 1, Day 3, Day 7, Day 14) to enhance long-term memory." }
       ],
       "CS Fundamentals": [
-        { q: "What are the four pillars of Object-Oriented Programming? (TCS)", type: "Theory" },
-        { q: "Explain normalization and its types (1NF, 2NF, 3NF). (Infosys)", type: "Theory" },
-        { q: "What is the difference between TCP and UDP? (Cisco)", type: "Theory" },
-        { q: "What are ACID properties in a database? (Amazon)", type: "Theory" },
-        { q: "Explain compilation vs interpretation. (Generic)", type: "Theory" }
+        { q: "What are the four pillars of Object-Oriented Programming? (TCS)", type: "Theory", hint: "Encapsulation (data hiding), Abstraction (hiding implementation), Inheritance (reusing code), and Polymorphism (many forms)." },
+        { q: "Explain normalization and its types (1NF, 2NF, 3NF). (Infosys)", type: "Theory", hint: "1NF: Atomic values. 2NF: No partial dependency. 3NF: No transitive dependency." },
+        { q: "What is the difference between TCP and UDP? (Cisco)", type: "Theory", hint: "TCP is connection-oriented, reliable, and slower. UDP is connectionless, faster, but unreliable." },
+        { q: "What are ACID properties in a database? (Amazon)", type: "Theory", hint: "Atomicity, Consistency, Isolation, Durability. Crucial for database transactions." },
+        { q: "Explain compilation vs interpretation. (Generic)", type: "Theory", hint: "Compilers translate entire code to machine code at once (faster execution). Interpreters translate line-by-line (easier debugging)." }
       ],
       "Aptitude": [
-        { q: "A train crosses a pole in 15 seconds. Find its speed... (Wipro)", type: "Quantitative" },
-        { q: "Find the number of ways to arrange the letters of 'LEADER'... (Cognizant)", type: "Logical" },
-        { q: "What is the probability of getting a sum of 9 with two dice? (Capgemini)", type: "Quantitative" },
-        { q: "A sum of money doubles itself in 8 years at simple interest... (Accenture)", type: "Quantitative" },
-        { q: "Logical series deduction: A, C, F, J, ...? (Generic)", type: "Logical" }
+        { q: "A train crosses a pole in 15 seconds. Find its speed... (Wipro)", type: "Quantitative", hint: "Use formula: Speed = Distance / Time. If length is not given, speed cannot be calculated without additional parameters." },
+        { q: "Find the number of ways to arrange the letters of 'LEADER'... (Cognizant)", type: "Logical", hint: "Word LEADER has 6 letters: L, E, A, D, E, R (E repeats twice). Total arrangements = 6! / 2! = 720 / 2 = 360." },
+        { q: "What is the probability of getting a sum of 9 with two dice? (Capgemini)", type: "Quantitative", hint: "Favorable outcomes: (3,6), (4,5), (5,4), (6,3) = 4. Total outcomes = 36. Probability = 4/36 = 1/9." },
+        { q: "A sum of money doubles itself in 8 years at simple interest... (Accenture)", type: "Quantitative", hint: "If sum doubles, Simple Interest = Principal. SI = (P * R * T)/100 => P = (P * R * 8)/100 => R = 100/8 = 12.5%." },
+        { q: "Logical series deduction: A, C, F, J, ...? (Generic)", type: "Logical", hint: "Pattern: A (+2) -> C (+3) -> F (+4) -> J (+5) -> O. The next letter is O." }
       ],
       "System Design": [
-        { q: "What is Load Balancing and how does it prevent servers from crashing? (Netflix)", type: "HLD" },
-        { q: "Explain vertical vs horizontal scaling with pros/cons. (Meta)", type: "HLD" },
-        { q: "What is a Content Delivery Network (CDN) and when to use it? (Twitter)", type: "HLD" },
-        { q: "How does Database Sharding differ from Partitioning? (Uber)", type: "HLD" },
-        { q: "Design a URL shortening service like Bit.ly. (Microsoft)", type: "System Design" }
+        { q: "What is Load Balancing and how does it prevent servers from crashing? (Netflix)", type: "HLD", hint: "Distributes incoming traffic across multiple backend servers using algorithms like Round Robin or Least Connections." },
+        { q: "Explain vertical vs horizontal scaling with pros/cons. (Meta)", type: "HLD", hint: "Vertical = Adding resources/RAM to same server (limited scaling). Horizontal = Adding more servers/machines (highly scalable but complex)." },
+        { q: "What is a Content Delivery Network (CDN) and when to use it? (Twitter)", type: "HLD", hint: "Cached static content distributed globally on edge servers to reduce latency for users." },
+        { q: "How does Database Sharding differ from Partitioning? (Uber)", type: "HLD", hint: "Sharding is horizontal partitioning that splits database rows across multiple separate database servers." },
+        { q: "Design a URL shortening service like Bit.ly. (Microsoft)", type: "System Design", hint: "Use base62 encoding (a-z, A-Z, 0-9) to generate short unique keys from incremental integer IDs." }
       ],
       "Cloud & DevOps": [
-        { q: "Explain the difference between Virtual Machines and Docker Containers. (Amazon)", type: "DevOps" },
-        { q: "What is AWS IAM and how does role delegation work? (Goldman Sachs)", type: "AWS" },
-        { q: "What is the purpose of a Kubernetes Ingress Controller? (Uber)", type: "DevOps" },
-        { q: "How do you secure static content hosted on AWS S3? (JPMorgan)", type: "AWS" },
-        { q: "Explain continuous integration vs continuous deployment. (Microsoft)", type: "DevOps" }
+        { q: "Explain the difference between Virtual Machines and Docker Containers. (Amazon)", type: "DevOps", hint: "VMs virtualize hardware and run guest OS. Containers virtualize OS and share host kernel (lighter and faster)." },
+        { q: "What is AWS IAM and how does role delegation work? (Goldman Sachs)", type: "AWS", hint: "Identity & Access Management. Role delegation uses temporary security credentials via STS AssumeRole API." },
+        { q: "What is the purpose of a Kubernetes Ingress Controller? (Uber)", type: "DevOps", hint: "Manages external access to services in a K8s cluster, typically HTTP/HTTPS, routing traffic based on host/path." },
+        { q: "How do you secure static content hosted on AWS S3? (JPMorgan)", type: "AWS", hint: "Use S3 Block Public Access, bucket policies, IAM roles, KMS encryption, and signed URLs." },
+        { q: "Explain continuous integration vs continuous deployment. (Microsoft)", type: "DevOps", hint: "CI automates code build & tests on push. CD automatically deploys every successful commit to production." }
       ],
       "Project Build": [
-        { q: "How does JWT-based session authentication work in REST APIs? (PayPal)", type: "Fullstack" },
-        { q: "Explain the Virtual DOM and reconciliation in React. (Meta)", type: "Frontend" },
-        { q: "What are the advantages of MongoDB over relational databases? (Coinbase)", type: "Database" },
-        { q: "How do you handle CORS errors between frontend and backend? (Generic)", type: "Fullstack" },
-        { q: "How do you optimize static asset loads in React? (Netflix)", type: "Frontend" }
+        { q: "How does JWT-based session authentication work in REST APIs? (PayPal)", type: "Fullstack", hint: "Stateless authentication token containing header, payload (claims), and signature. Sent in Authorization header." },
+        { q: "Explain the Virtual DOM and reconciliation in React. (Meta)", type: "Frontend", hint: "A lightweight copy of the real DOM. React updates the virtual DOM, compares it (diffing), and batches updates to the real DOM (reconciliation)." },
+        { q: "What are the advantages of MongoDB over relational databases? (Coinbase)", type: "Database", hint: "NoSQL document store, schema-less, easily horizontally scalable, stores data in BSON format." },
+        { q: "How do you handle CORS errors between frontend and backend? (Generic)", type: "Fullstack", hint: "Cross-Origin Resource Sharing. Solved by setting 'Access-Control-Allow-Origin' header on backend." },
+        { q: "How do you optimize static asset loads in React? (Netflix)", type: "Frontend", hint: "Use lazy loading (React.lazy), code-splitting, WebP image formats, and CDN hosting." }
       ]
     };
     return questions[topic] || questions["DSA"];
@@ -517,9 +518,47 @@ export default function Dashboard({
                 {/* Submissions form (no manual checkbox tick) */}
                 {isActive && (
                   <div style={{ marginTop: "12px", borderTop: "1px solid var(--border-color)", paddingTop: "12px", display: "flex", flexDirection: "column", gap: "8px" }}>
-                    <label style={{ fontSize: "0.8rem", color: "var(--text-secondary)" }}>
-                      Provide your solution writeup or code explanation to complete this task (min 10 characters):
-                    </label>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "10px" }}>
+                      <label style={{ fontSize: "0.8rem", color: "var(--text-secondary)" }}>
+                        Provide your solution writeup or code explanation to complete this task (min 10 characters):
+                      </label>
+                      <button
+                        type="button"
+                        onClick={() => setShowHintIdx(prev => ({ ...prev, [index]: !prev[index] }))}
+                        className="btn"
+                        style={{
+                          fontSize: "0.75rem",
+                          padding: "4px 8px",
+                          backgroundColor: "#000000",
+                          border: "1px solid #ffffff",
+                          color: "#ffffff",
+                          fontWeight: "bold",
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "4px",
+                          cursor: "pointer"
+                        }}
+                      >
+                        💡 {showHintIdx[index] ? "Hide Hint & Solution" : "Show Hint & Solution"}
+                      </button>
+                    </div>
+
+                    {showHintIdx[index] && qObj.hint && (
+                      <div style={{
+                        backgroundColor: "#0b0f19",
+                        border: "1px solid rgba(255, 255, 255, 0.05)",
+                        borderRadius: "4px",
+                        padding: "12px",
+                        fontSize: "0.825rem",
+                        color: "#e2e8f0",
+                        lineHeight: "1.4",
+                        marginBottom: "4px"
+                      }}>
+                        <strong style={{ color: "var(--primary)" }}>💡 Study Hint & Explanation:</strong><br />
+                        {qObj.hint}
+                      </div>
+                    )}
+
                     <textarea
                       rows={3}
                       style={{
