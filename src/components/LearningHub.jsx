@@ -544,9 +544,12 @@ export default function LearningHub({ playlists, playlistState, toggleVideoWatch
                     Search Results ({liveVideos.length})
                   </span>
                   {liveVideos.map(video => (
-                    <div 
+                    <a 
                       key={video.id}
-                      onClick={() => setSelectedYtVideo(video.id)}
+                      href={`https://www.youtube.com/watch?v=${video.id}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onMouseEnter={() => setSelectedYtVideo(video.id)}
                       style={{
                         display: "flex",
                         gap: "10px",
@@ -554,7 +557,8 @@ export default function LearningHub({ playlists, playlistState, toggleVideoWatch
                         padding: "6px",
                         borderRadius: "4px",
                         backgroundColor: selectedYtVideo === video.id ? "rgba(255, 255, 255, 0.1)" : "transparent",
-                        transition: "background-color 0.2s ease"
+                        transition: "background-color 0.2s ease",
+                        textDecoration: "none"
                       }}
                     >
                       <img 
@@ -571,11 +575,7 @@ export default function LearningHub({ playlists, playlistState, toggleVideoWatch
                       </div>
 
                       {/* YouTube Redirect Arrow */}
-                      <a 
-                        href={`https://www.youtube.com/watch?v=${video.id}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={(e) => e.stopPropagation()}
+                      <div 
                         style={{
                           display: "flex",
                           alignItems: "center",
@@ -583,14 +583,12 @@ export default function LearningHub({ playlists, playlistState, toggleVideoWatch
                           color: "var(--danger)",
                           padding: "0 6px",
                           fontSize: "1.1rem",
-                          textDecoration: "none",
                           fontWeight: "bold"
                         }}
-                        title="Watch directly on YouTube"
                       >
                         ➔
-                      </a>
-                    </div>
+                      </div>
+                    </a>
                   ))}
                 </div>
 
