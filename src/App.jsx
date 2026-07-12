@@ -15,8 +15,9 @@ import WelcomeScreen from "./components/WelcomeScreen";
 import MockTestEngine from "./components/MockTestEngine";
 import AlgoVisualizer from "./components/AlgoVisualizer";
 import SqlPractice from "./components/SqlPractice";
+import TeammateFinder from "./components/TeammateFinder";
 import { 
-  LayoutDashboard, GraduationCap, Building2, Calendar, Award, Lock, BookOpenCheck, Eye, Code, Database 
+  LayoutDashboard, GraduationCap, Building2, Calendar, Award, Lock, BookOpenCheck, Eye, Code, Database, Users 
 } from "lucide-react";
 
 export default function App() {
@@ -295,6 +296,8 @@ export default function App() {
         return <AlgoVisualizer initialTopic={visualizerTopic} />;
       case "sql5000":
         return <SqlPractice />;
+      case "teammates":
+        return <TeammateFinder profile={profile} />;
       default:
         return <div>View not found</div>;
     }
@@ -373,6 +376,13 @@ export default function App() {
             <BookOpenCheck size={20} />
             <span>Weekly Mock Tests</span>
             {sessionMode !== "premium" && <Lock size={12} style={{ position: "absolute", right: "12px", color: "var(--text-muted)" }} />}
+          </li>
+          <li 
+            className={`nav-item ${activeView === "teammates" ? "active" : ""}`}
+            onClick={() => setActiveView("teammates")}
+          >
+            <Users size={20} />
+            <span>Teammate Finder</span>
           </li>
         </ul>
 

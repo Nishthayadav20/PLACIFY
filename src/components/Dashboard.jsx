@@ -23,6 +23,13 @@ export default function Dashboard({
   });
   const [showCelebration, setShowCelebration] = useState(false);
 
+  // Gemini AI Placement Planner States
+  const [showAiPlanner, setShowAiPlanner] = useState(false);
+  const [chatHistory, setChatHistory] = useState([
+    { role: "gemini", text: `Hi! I am Gemini, your Personalized Placement Assistant. I see you are on Day ${profile.currentDay} of your ${profile.timelineDays}-day track using ${profile.language}. Ask me anything to customize your routine!` }
+  ]);
+  const [chatInput, setChatInput] = useState("");
+
   // Load routine recommendations based on level, current day, and preferred language
   const routine = generateDailyRoutine(profile.dsaLevel, profile.currentDay, profile.timelineDays, profile.language);
 
@@ -214,6 +221,32 @@ export default function Dashboard({
     }, 2000);
   };
 
+  const handleSendAiMessage = (customMsg = null) => {
+    const msgText = customMsg || chatInput;
+    if (!msgText.trim()) return;
+    
+    const updatedHistory = [...chatHistory, { role: "user", text: msgText }];
+    setChatHistory(updatedHistory);
+    setChatInput("");
+    
+    setTimeout(() => {
+      let reply = "";
+      const lower = msgText.toLowerCase();
+      
+      if (lower.includes("resource") || lower.includes("study") || lower.includes("today")) {
+        reply = `Here is your customized study plan for Day ${profile.currentDay} (${routine.topic}):\n\n1. Watch the recommended theory video: "${routine.video.title}"\n2. Solve the primary coding problem: "${routine.problem.title}" on LeetCode.\n3. Solve the 5 Past Year Questions (PYQs) listed on your Dashboard.\n\nAdditional Free Resource: GeeksforGeeks placement handout on ${routine.topic}.`;
+      } else if (lower.includes("dbms") || lower.includes("sql")) {
+        reply = `To master DBMS & SQL for placements:\n\n- Study Normalization (1NF, 2NF, 3NF, BCNF) and Transaction ACID properties.\n- Practice top 50 SQL questions on LeetCode (e.g. Joins, Group By, Subqueries).\n- Learn index architectures (B-Trees and B+ Trees) frequently asked in SDE interviews.`;
+      } else if (lower.includes("timeline") || lower.includes("optimize") || lower.includes("days")) {
+        reply = `Since you have selected a ${profile.timelineDays}-day timeline, here is how you should balance it:\n\n- Days 1-30: Core Data Structures (Arrays, Lists, Stacks, Recursion).\n- Days 31-60: Advanced Algorithms (Trees, Graphs, DP) + Core CS (OOPs, DBMS, OS).\n- Days 61-${profile.timelineDays}: Mock Tests, Resume Building, and Mock Interviews.`;
+      } else {
+        reply = `For SDE roles at target companies (like Google/Amazon), ensure you master ${profile.language} concepts, dynamic programming, and system design basics.\n\nLet me know if you would like me to generate a mock interview question or detail an algorithm!`;
+      }
+      
+      setChatHistory([...updatedHistory, { role: "gemini", text: reply }]);
+    }, 1000);
+  };
+
   const completedCount = Object.values(todayTasks).filter(Boolean).length;
   const progressPercent = Math.round((completedCount / 3) * 100);
 
@@ -224,7 +257,16 @@ export default function Dashboard({
           <h1>Welcome Back, {profile.name}! 🚀</h1>
           <p>Prep track: <strong>{profile.dsaLevel} Level</strong> ({profile.timelineDays} days timeline)</p>
         </div>
-        <div style={{ display: "flex", gap: "8px" }}>
+        <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+          {/* Gemini AI Action */}
+          <button 
+            onClick={() => setShowAiPlanner(true)}
+            className="btn btn-primary"
+            style={{ fontSize: "0.8rem", padding: "6px 12px", display: "flex", gap: "6px", alignItems: "center", backgroundColor: "#000000", border: "1px solid var(--border-color)", color: "#ffffff" }}
+          >
+            <span>🤖 Ask Gemini AI</span>
+          </button>
+
           {/* Profile Badges */}
           <span className="badge badge-warning" style={{ fontSize: "0.8rem", padding: "6px 12px" }}>
             {profile.language}
@@ -243,7 +285,7 @@ export default function Dashboard({
         <div style={{
           position: "fixed",
           top: 0, left: 0, right: 0, bottom: 0,
-          backgroundColor: "rgba(255,255,255,0.9)",
+          backgroundColor: "rgba(0,0,0,0.95)",
           zIndex: 1000,
           display: "flex",
           flexDirection: "column",
@@ -695,6 +737,104 @@ export default function Dashboard({
           </div>
         </div>
       </div>
+
+      {/* Gemini AI study planner drawer */}
+      {showAiPlanner && (
+        <div style={{
+          position: "fixed",
+          top: 0, right: 0, bottom: 0,
+          width: "420px",
+          backgroundColor: "#000000",
+          borderLeft: "1px solid var(--border-color)",
+          zIndex: 1000,
+          padding: "24px",
+          display: "flex",
+          flexDirection: "column",
+          gap: "16px",
+          boxShadow: "var(--shadow-lg)",
+          color: "#ffffff",
+          animation: "slideIn 0.3s ease"
+        }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid var(--border-color)", paddingBottom: "16px" }}>
+            <h3 style={{ margin: 0, display: "flex", alignItems: "center", gap: "8px" }}>
+              <span>🤖 Gemini SDE Planner</span>
+            </h3>
+            <button 
+              className="btn btn-ghost" 
+              style={{ padding: "4px 8px", color: "#ffffff" }}
+              onClick={() => setShowAiPlanner(false)}
+            >
+              ✕ Close
+            </button>
+          </div>
+
+          {/* Chat history */}
+          <div style={{ flexGrow: 1, overflowY: "auto", display: "flex", flexDirection: "column", gap: "12px", paddingRight: "4px" }}>
+            {chatHistory.map((chat, idx) => (
+              <div 
+                key={idx} 
+                style={{
+                  alignSelf: chat.role === "user" ? "flex-end" : "flex-start",
+                  backgroundColor: chat.role === "user" ? "#ffffff" : "#111111",
+                  color: chat.role === "user" ? "#000000" : "#ffffff",
+                  padding: "10px 14px",
+                  borderRadius: "6px",
+                  maxWidth: "85%",
+                  fontSize: "0.85rem",
+                  whiteSpace: "pre-line",
+                  border: chat.role === "user" ? "none" : "1px solid var(--border-color)"
+                }}
+              >
+                {chat.text}
+              </div>
+            ))}
+          </div>
+
+          {/* Quick presets */}
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
+            <button 
+              className="btn btn-secondary" 
+              style={{ fontSize: "0.7rem", padding: "4px 8px", backgroundColor: "#000000", border: "1px solid var(--border-color)", color: "#ffffff" }}
+              onClick={() => handleSendAiMessage("Recommend study resources for today")}
+            >
+              📅 Today's Plan
+            </button>
+            <button 
+              className="btn btn-secondary" 
+              style={{ fontSize: "0.7rem", padding: "4px 8px", backgroundColor: "#000000", border: "1px solid var(--border-color)", color: "#ffffff" }}
+              onClick={() => handleSendAiMessage("Suggest DBMS study topics")}
+            >
+              💾 DBMS Strategy
+            </button>
+            <button 
+              className="btn btn-secondary" 
+              style={{ fontSize: "0.7rem", padding: "4px 8px", backgroundColor: "#000000", border: "1px solid var(--border-color)", color: "#ffffff" }}
+              onClick={() => handleSendAiMessage("Optimize my prep timeline")}
+            >
+              ⏳ Timeline Balance
+            </button>
+          </div>
+
+          {/* Input field */}
+          <div style={{ display: "flex", gap: "8px" }}>
+            <input 
+              type="text" 
+              placeholder="Ask Gemini to customize plan..." 
+              value={chatInput}
+              onChange={(e) => setChatInput(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && handleSendAiMessage()}
+              style={{ flex: 1, backgroundColor: "#000000", border: "1px solid #ffffff", borderRadius: "4px", padding: "8px 12px", color: "#ffffff", fontSize: "0.85rem" }}
+            />
+            <button 
+              onClick={() => handleSendAiMessage()}
+              className="btn btn-primary"
+              style={{ padding: "8px 16px", backgroundColor: "#000000", border: "1px solid #ffffff", color: "#ffffff" }}
+            >
+              Send
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
