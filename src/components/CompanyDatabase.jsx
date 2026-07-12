@@ -345,11 +345,11 @@ export default function CompanyDatabase({ companies, addExperience }) {
                 {/* Experiences List */}
                 <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
                   {selectedCompany.experiences.map(exp => (
-                    <div key={exp.id} className="card" style={{ padding: "16px", backgroundColor: "#ffffff", border: "1px solid var(--border-color)" }}>
+                    <div key={exp.id} className="card" style={{ padding: "16px", backgroundColor: "#000000", border: "1px solid var(--border-color)", color: "#ffffff" }}>
                       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "8px" }}>
                         <div>
-                          <h5 style={{ margin: 0, fontSize: "0.95rem" }}>{exp.title}</h5>
-                          <span style={{ fontSize: "0.75rem", color: "var(--text-secondary)" }}>Submitted by {exp.user} • {exp.date}</span>
+                          <h5 style={{ margin: 0, fontSize: "0.95rem", color: "#ffffff" }}>{exp.title}</h5>
+                          <span style={{ fontSize: "0.75rem", color: "#cccccc" }}>Submitted by {exp.user} • {exp.date}</span>
                         </div>
                         <span className={`badge ${
                           exp.difficulty === "Easy" ? "badge-success" : 
@@ -359,7 +359,7 @@ export default function CompanyDatabase({ companies, addExperience }) {
                         </span>
                       </div>
 
-                      <p style={{ fontSize: "0.875rem", marginBottom: "12px", whiteSpace: "pre-line" }}>
+                      <p style={{ fontSize: "0.875rem", marginBottom: "12px", whiteSpace: "pre-line", color: "#ffffff" }}>
                         {exp.content}
                       </p>
 
