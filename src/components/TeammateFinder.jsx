@@ -141,7 +141,9 @@ export default function TeammateFinder({ profile }) {
                   gap: "12px", 
                   border: "1px solid var(--border-color)",
                   position: "relative",
-                  animation: "fadeIn 0.3s ease"
+                  animation: "fadeIn 0.3s ease",
+                  backgroundColor: "#000000",
+                  color: "#ffffff"
                 }}
               >
                 {/* Match Score Tag */}
@@ -149,8 +151,8 @@ export default function TeammateFinder({ profile }) {
                   position: "absolute",
                   top: "12px",
                   right: "12px",
-                  backgroundColor: "var(--success-light)",
-                  color: "var(--success)",
+                  backgroundColor: "rgba(16, 185, 129, 0.2)",
+                  color: "#10b981",
                   padding: "4px 8px",
                   borderRadius: "4px",
                   fontSize: "0.75rem",
@@ -160,8 +162,8 @@ export default function TeammateFinder({ profile }) {
                 </div>
 
                 <div>
-                  <h4 style={{ margin: 0 }}>{peer.name}</h4>
-                  <span style={{ fontSize: "0.75rem", color: "var(--text-secondary)" }}>Targets: <strong>{peer.target}</strong></span>
+                  <h4 style={{ margin: 0, color: "#ffffff" }}>{peer.name}</h4>
+                  <span style={{ fontSize: "0.75rem", color: "#cccccc" }}>Targets: <strong>{peer.target}</strong></span>
                 </div>
 
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px", fontSize: "0.8rem", padding: "8px", backgroundColor: "#000000", borderRadius: "4px" }}>
