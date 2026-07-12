@@ -50,6 +50,7 @@ export default function Dashboard({
   const [activeQuestionIdx, setActiveQuestionIdx] = useState(null);
   const [showHintIdx, setShowHintIdx] = useState({});
   const [isTimetableExpanded, setIsTimetableExpanded] = useState(true);
+  const [apiKey, setApiKey] = useState(() => localStorage.getItem("gemini_api_key") || "");
   const [completedTimetableDays, setCompletedTimetableDays] = useState(() => {
     const saved = localStorage.getItem("completed_timetable_days");
     return saved ? JSON.parse(saved) : {};
@@ -239,7 +240,7 @@ export default function Dashboard({
     }, 2000);
   };
 
-  const handleSendAiMessage = (customMsg = null) => {
+  const handleSendAiMessage = async (customMsg = null) => {
     const msgText = customMsg || chatInput;
     if (!msgText.trim()) return;
     
@@ -247,22 +248,62 @@ export default function Dashboard({
     setChatHistory(updatedHistory);
     setChatInput("");
     
-    setTimeout(() => {
-      let reply = "";
-      const lower = msgText.toLowerCase();
+    if (apiKey.trim()) {
+      // Append temporary "Thinking..." response
+      setChatHistory([...updatedHistory, { role: "gemini", text: "Thinking... 🤖" }]);
       
-      if (lower.includes("resource") || lower.includes("study") || lower.includes("today")) {
-        reply = `Here is your customized study plan for Day ${profile.currentDay} (${routine.topic}):\n\n1. Watch the recommended theory video: "${routine.video.title}"\n2. Solve the primary coding problem: "${routine.problem.title}" on LeetCode.\n3. Solve the 5 Past Year Questions (PYQs) listed on your Dashboard.\n\nAdditional Free Resource: GeeksforGeeks placement handout on ${routine.topic}.`;
-      } else if (lower.includes("dbms") || lower.includes("sql")) {
-        reply = `To master DBMS & SQL for placements:\n\n- Study Normalization (1NF, 2NF, 3NF, BCNF) and Transaction ACID properties.\n- Practice top 50 SQL questions on LeetCode (e.g. Joins, Group By, Subqueries).\n- Learn index architectures (B-Trees and B+ Trees) frequently asked in SDE interviews.`;
-      } else if (lower.includes("timeline") || lower.includes("optimize") || lower.includes("days")) {
-        reply = `Since you have selected a ${profile.timelineDays}-day timeline, here is how you should balance it:\n\n- Days 1-30: Core Data Structures (Arrays, Lists, Stacks, Recursion).\n- Days 31-60: Advanced Algorithms (Trees, Graphs, DP) + Core CS (OOPs, DBMS, OS).\n- Days 61-${profile.timelineDays}: Mock Tests, Resume Building, and Mock Interviews.`;
-      } else {
-        reply = `For SDE roles at target companies (like Google/Amazon), ensure you master ${profile.language} concepts, dynamic programming, and system design basics.\n\nLet me know if you would like me to generate a mock interview question or detail an algorithm!`;
+      try {
+        const response = await fetch(
+          `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              contents: [
+                {
+                  role: "user",
+                  parts: [
+                    {
+                      text: `System context: You are Gemini, a world-class SDE placement preparation AI assistant inside PLACIFY. The user is currently on Day ${profile.currentDay} of a ${profile.timelineDays}-day track using ${profile.language}. Their current DSA level is ${profile.dsaLevel} and their weekend specialization track is ${profile.devTrack || "Web Development"}. Today's topic focus is ${routine.topic}.\n\nUser Question: ${msgText}`
+                    }
+                  ]
+                }
+              ]
+            })
+          }
+        );
+        const data = await response.json();
+        if (data.error) {
+          throw new Error(data.error.message || "API Error");
+        }
+        const replyText = data.candidates[0].content.parts[0].text;
+        setChatHistory([...updatedHistory, { role: "gemini", text: replyText }]);
+      } catch (err) {
+        setChatHistory([
+          ...updatedHistory,
+          { role: "gemini", text: `❌ Error calling Gemini API: ${err.message}. Please verify your API Key.` }
+        ]);
       }
-      
-      setChatHistory([...updatedHistory, { role: "gemini", text: reply }]);
-    }, 1000);
+    } else {
+      setTimeout(() => {
+        let reply = "";
+        const lower = msgText.toLowerCase();
+        
+        if (lower.includes("resource") || lower.includes("study") || lower.includes("today")) {
+          reply = `Here is your customized study plan for Day ${profile.currentDay} (${routine.topic}):\n\n1. Watch the recommended theory video: "${routine.video.title}"\n2. Solve the primary coding problem: "${routine.problem.title}" on LeetCode.\n3. Solve the 5 Past Year Questions (PYQs) listed on your Dashboard.\n\nAdditional Free Resource: GeeksforGeeks placement handout on ${routine.topic}.`;
+        } else if (lower.includes("dbms") || lower.includes("sql")) {
+          reply = `To master DBMS & SQL for placements:\n\n- Study Normalization (1NF, 2NF, 3NF, BCNF) and Transaction ACID properties.\n- Practice top 50 SQL questions on LeetCode (e.g. Joins, Group By, Subqueries).\n- Learn index architectures (B-Trees and B+ Trees) frequently asked in SDE interviews.`;
+        } else if (lower.includes("timeline") || lower.includes("optimize") || lower.includes("days")) {
+          reply = `Since you have selected a ${profile.timelineDays}-day timeline, here is how you should balance it:\n\n- Days 1-30: Core Data Structures (Arrays, Lists, Stacks, Recursion).\n- Days 31-60: Advanced Algorithms (Trees, Graphs, DP) + Core CS (OOPs, DBMS, OS).\n- Days 61-${profile.timelineDays}: Mock Tests, Resume Building, and Mock Interviews.`;
+        } else {
+          reply = `For SDE roles at target companies (like Google/Amazon), ensure you master ${profile.language} concepts, dynamic programming, and system design basics.\n\nLet me know if you would like me to generate a mock interview question or detail an algorithm!`;
+        }
+        
+        setChatHistory([...updatedHistory, { role: "gemini", text: reply }]);
+      }, 1000);
+    }
   };
 
   const completedCount = Object.values(todayTasks).filter(Boolean).length;
@@ -1056,6 +1097,32 @@ export default function Dashboard({
             >
               ✕ Close
             </button>
+          </div>
+
+          <div style={{ display: "flex", flexDirection: "column", gap: "6px", backgroundColor: "#0b0f19", padding: "12px", borderRadius: "4px", border: "1px solid var(--border-color)" }}>
+            <label style={{ fontSize: "0.75rem", color: "var(--text-secondary)", fontWeight: "bold" }}>🔑 Google Gemini API Key</label>
+            <input 
+              type="password" 
+              placeholder="Paste your Gemini API Key..." 
+              value={apiKey}
+              onChange={(e) => {
+                setApiKey(e.target.value);
+                localStorage.setItem("gemini_api_key", e.target.value);
+              }}
+              style={{
+                width: "100%",
+                padding: "6px 10px",
+                fontSize: "0.8rem",
+                backgroundColor: "#000000",
+                border: "1px solid var(--border-color)",
+                borderRadius: "4px",
+                color: "#ffffff",
+                outline: "none"
+              }}
+            />
+            <span style={{ fontSize: "0.65rem", color: "var(--text-muted)" }}>
+              Get a free API Key from <a href="https://aistudio.google.com/" target="_blank" rel="noopener noreferrer" style={{ color: "var(--primary)" }}>Google AI Studio</a>.
+            </span>
           </div>
 
           {/* Chat history */}
