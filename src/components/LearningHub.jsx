@@ -614,6 +614,29 @@ export default function LearningHub({ playlists, playlistState, toggleVideoWatch
                       >
                         Open Full Playlist 📚
                       </a>
+
+                      {/* Raw clickable SDE links */}
+                      <div style={{ fontSize: "0.7rem", marginTop: "4px", display: "flex", flexDirection: "column", gap: "4px", textAlign: "left" }}>
+                        <span style={{ color: "var(--text-secondary)" }}>Direct Video Link:</span>
+                        <a 
+                          href={`https://www.youtube.com/watch?v=${activeVid.id}`} 
+                          target="_blank" 
+                          rel="noopener noreferrer" 
+                          style={{ color: "var(--primary)", textDecoration: "underline", wordBreak: "break-all" }}
+                        >
+                          {`https://www.youtube.com/watch?v=${activeVid.id}`}
+                        </a>
+                        <span style={{ color: "var(--text-secondary)", marginTop: "4px" }}>Direct Playlist Link:</span>
+                        <a 
+                          href={activeVid.playlistUrl} 
+                          target="_blank" 
+                          rel="noopener noreferrer" 
+                          style={{ color: "var(--success)", textDecoration: "underline", wordBreak: "break-all" }}
+                        >
+                          {activeVid.playlistUrl}
+                        </a>
+                      </div>
+
                       <div style={{ display: "flex", gap: "8px" }}>
                         <button 
                           className="btn btn-secondary" 
