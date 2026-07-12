@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Calendar, Clock, ExternalLink, Users, PlusCircle, UserPlus, Tag, BookOpen } from "lucide-react";
+import { Calendar, Clock, ExternalLink, Users, PlusCircle, UserPlus, Tag, BookOpen, Trash2 } from "lucide-react";
 
 export default function CalendarTracker({ events }) {
   const [selectedTab, setSelectedTab] = useState("All");
@@ -61,6 +61,10 @@ export default function CalendarTracker({ events }) {
     setNewTeamDesc("");
     setNewTeamContact("");
     setShowTeamForm(false);
+  };
+
+  const handleRemovePost = (postId) => {
+    setTeamPosts(teamPosts.filter(post => post.id !== postId));
   };
 
   return (
@@ -239,7 +243,7 @@ export default function CalendarTracker({ events }) {
               />
             </div>
 
-            <button type="submit" className="btn btn-primary" style={{ alignSelf: "flex-end" }}>
+            <button type="submit" className="btn btn-primary" style={{ alignSelf: "flex-end", backgroundColor: "#ffffff", color: "#000000", border: "1px solid #000000", fontWeight: "bold" }}>
               <UserPlus size={16} /> Publish Post
             </button>
           </form>
@@ -254,7 +258,16 @@ export default function CalendarTracker({ events }) {
                   <h4 style={{ margin: 0, color: "#000000" }}>{post.hackathon}</h4>
                   <span style={{ fontSize: "0.75rem", color: "#000000", fontWeight: "bold" }}>Posted by {post.creator}</span>
                 </div>
-                <Users size={18} style={{ color: "var(--text-muted)" }} />
+                <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+                  <Users size={18} style={{ color: "var(--text-muted)" }} />
+                  <button 
+                    onClick={() => handleRemovePost(post.id)}
+                    style={{ border: "none", backgroundColor: "transparent", cursor: "pointer", color: "var(--danger)", padding: "4px", display: "flex", alignItems: "center" }}
+                    title="Remove Post"
+                  >
+                    <Trash2 size={16} />
+                  </button>
+                </div>
               </div>
               
               <p style={{ fontSize: "0.875rem", marginBottom: "12px", minHeight: "60px", color: "#000000" }}>{post.desc}</p>
