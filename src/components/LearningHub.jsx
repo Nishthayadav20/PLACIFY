@@ -111,8 +111,17 @@ export default function LearningHub({ playlists, playlistState, toggleVideoWatch
       result = langBlock[keys[0]];
     }
     
+    let playlistUrl = "https://www.youtube.com";
+    if (cleanE.includes("babbar")) playlistUrl = "https://www.youtube.com/playlist?list=PLDzeHZWIZsTrytAR3SpOMBc0y30e0FiAK";
+    else if (cleanE.includes("striver")) playlistUrl = "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_B1y";
+    else if (cleanE.includes("kunal")) playlistUrl = "https://www.youtube.com/playlist?list=PL9gnSGHSqcnr_DxHsP7AW9ftq0AtAyYqJ";
+    else if (cleanE.includes("college")) playlistUrl = "https://www.youtube.com/playlist?list=PLfqMhTWNBTe3LtFWg91dxgLYxpsb95HC1";
+    else if (cleanE.includes("harry")) playlistUrl = "https://www.youtube.com/playlist?list=PLu0W_9lII9ahIappRPN0gEE31dz5OySSg";
+    else if (cleanE.includes("army")) playlistUrl = "https://www.youtube.com/playlist?list=PLQEaGQc_RNYN1V1H39p-8T_fL2Pgz71b7";
+
     return {
       ...result,
+      playlistUrl,
       thumbnail: `https://img.youtube.com/vi/${result.id}/mqdefault.jpg`
     };
   };
@@ -595,6 +604,15 @@ export default function LearningHub({ playlists, playlistState, toggleVideoWatch
                         style={{ width: "100%", justifyContent: "center", display: "flex", gap: "8px", backgroundColor: "var(--danger)", borderColor: "var(--danger)", color: "#ffffff", fontWeight: "bold" }}
                       >
                         Play Video on YouTube ↗
+                      </a>
+                      <a 
+                        href={activeVid.playlistUrl} 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="btn btn-secondary"
+                        style={{ width: "100%", justifyContent: "center", display: "flex", gap: "8px", backgroundColor: "#000000", border: "1px solid #ffffff", color: "#ffffff", fontWeight: "bold" }}
+                      >
+                        Open Full Playlist 📚
                       </a>
                       <div style={{ display: "flex", gap: "8px" }}>
                         <button 
