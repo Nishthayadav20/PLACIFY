@@ -10,6 +10,8 @@ export default function Onboarding({ onComplete, onBack }) {
   const [dsaLevel, setDsaLevel] = useState("Beginner");
   const [timelineDays, setTimelineDays] = useState(90);
   const [language, setLanguage] = useState("C++");
+  const [dailyHours, setDailyHours] = useState(4);
+  const [devTrack, setDevTrack] = useState("Web Development");
   const [errorMsg, setErrorMsg] = useState("");
   const [isAuthenticating, setIsAuthenticating] = useState(false);
 
@@ -67,6 +69,11 @@ export default function Onboarding({ onComplete, onBack }) {
       return;
     }
 
+    if (Number(dailyHours) < 4) {
+      setErrorMsg("Daily study routine requires a minimum of 4 hours.");
+      return;
+    }
+
     onComplete({
       name,
       github: github.trim() || "github.com/username",
@@ -76,6 +83,8 @@ export default function Onboarding({ onComplete, onBack }) {
       dsaLevel,
       timelineDays: Number(timelineDays),
       language,
+      dailyHours: Number(dailyHours),
+      devTrack,
       currentDay: 1,
       isLoggedIn: true
     });
@@ -317,6 +326,34 @@ export default function Onboarding({ onComplete, onBack }) {
                   {lang}
                 </button>
               ))}
+            </div>
+          </div>
+
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
+            <div>
+              <label style={{ fontSize: "0.9rem", fontWeight: 600, color: "#ffffff", display: "block", marginBottom: "6px" }}>Daily Study Hours (Min 4) *</label>
+              <input 
+                type="number" 
+                className="search-input" 
+                style={{ width: "100%", backgroundColor: "#000000", border: "1px solid #ffffff", color: "#ffffff" }}
+                value={dailyHours}
+                onChange={(e) => setDailyHours(Math.max(1, Number(e.target.value)))}
+                min={4}
+                required 
+              />
+            </div>
+            <div>
+              <label style={{ fontSize: "0.9rem", fontWeight: 600, color: "#ffffff", display: "block", marginBottom: "6px" }}>Preferred Dev Specialization *</label>
+              <select
+                style={{ width: "100%", padding: "10px", backgroundColor: "#000000", border: "1px solid #ffffff", color: "#ffffff", borderRadius: "4px" }}
+                value={devTrack}
+                onChange={(e) => setDevTrack(e.target.value)}
+              >
+                <option value="Web Development">Web Development</option>
+                <option value="App Development">App Development</option>
+                <option value="Machine Learning">Machine Learning</option>
+                <option value="AWS Cloud & DevOps">AWS Cloud & DevOps</option>
+              </select>
             </div>
           </div>
 

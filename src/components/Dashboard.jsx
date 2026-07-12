@@ -459,6 +459,137 @@ export default function Dashboard({
         </button>
       </div>
 
+      {/* Tailored Weekly Study Timetable (NEW) */}
+      <div className="card" style={{ marginBottom: "32px", borderTop: "4px solid var(--primary)", backgroundColor: "#000000", border: "1px solid var(--border-color)", padding: "20px" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px", flexWrap: "wrap", gap: "10px" }}>
+          <div>
+            <span className="badge badge-primary" style={{ marginBottom: "6px" }}>Personalized Routine Plan</span>
+            <h2 style={{ color: "#ffffff", margin: 0 }}>Tailored Weekly Timetable ({profile.dailyHours || 4} Hrs/Day)</h2>
+            <p style={{ fontSize: "0.8rem", color: "var(--text-secondary)", margin: "4px 0 0 0" }}>
+              Customized track for <strong>{profile.dsaLevel} Level</strong> with weekend specialization in <strong>{profile.devTrack || "Web Development"}</strong>.
+            </p>
+          </div>
+          <div style={{ display: "flex", gap: "10px" }}>
+            <span className="badge badge-success" style={{ padding: "6px 12px", fontSize: "0.75rem", fontWeight: "bold" }}>
+              Weekdays: DSA + Aptitude
+            </span>
+            <span className="badge badge-warning" style={{ padding: "6px 12px", fontSize: "0.75rem", fontWeight: "bold", backgroundColor: "rgba(255, 215, 0, 0.15)", color: "#ffd700", border: "1px solid #ffd700" }}>
+              Weekends: {profile.devTrack || "Web Development"} + DSA
+            </span>
+          </div>
+        </div>
+
+        {/* Timetable Table */}
+        <div style={{ overflowX: "auto" }}>
+          <table style={{ width: "100%", borderCollapse: "collapse", color: "#ffffff", fontSize: "0.85rem", textAlign: "left" }}>
+            <thead>
+              <tr style={{ borderBottom: "2px solid var(--border-color)", backgroundColor: "rgba(255, 255, 255, 0.02)" }}>
+                <th style={{ padding: "12px 16px", fontWeight: "bold" }}>Day</th>
+                <th style={{ padding: "12px 16px", fontWeight: "bold" }}>Core Topics & Lectures</th>
+                <th style={{ padding: "12px 16px", fontWeight: "bold" }}>Practice Problems Target</th>
+                <th style={{ padding: "12px 16px", fontWeight: "bold" }}>Daily Hours Distribution</th>
+              </tr>
+            </thead>
+            <tbody>
+              {/* Monday */}
+              <tr style={{ borderBottom: "1px solid rgba(255, 255, 255, 0.05)" }}>
+                <td style={{ padding: "12px 16px", fontWeight: "bold", color: "var(--primary)" }}>Monday</td>
+                <td style={{ padding: "12px 16px" }}>
+                  <strong>DSA:</strong> Basic Arrays & Strings (Lecture: Striver A-Z Arrays)<br />
+                  <span style={{ fontSize: "0.75rem", color: "var(--text-secondary)" }}><strong>Aptitude:</strong> Quantitative Percentages & Averages</span>
+                </td>
+                <td style={{ padding: "12px 16px" }}>Solve 3 Array Problems + 5 Aptitude MCQs</td>
+                <td style={{ padding: "12px 16px" }}>
+                  ⏱️ {Math.max(2.5, ((profile.dailyHours || 4) * 0.6)).toFixed(1)} hrs DSA | {Math.max(1.5, ((profile.dailyHours || 4) * 0.4)).toFixed(1)} hrs Aptitude
+                </td>
+              </tr>
+              {/* Tuesday */}
+              <tr style={{ borderBottom: "1px solid rgba(255, 255, 255, 0.05)" }}>
+                <td style={{ padding: "12px 16px", fontWeight: "bold", color: "var(--primary)" }}>Tuesday</td>
+                <td style={{ padding: "12px 16px" }}>
+                  <strong>DSA:</strong> Pointers & Recursion Basics (Lecture: Babbar Recursion)<br />
+                  <span style={{ fontSize: "0.75rem", color: "var(--text-secondary)" }}><strong>Aptitude:</strong> Logical Blood Relations & Direction sense</span>
+                </td>
+                <td style={{ padding: "12px 16px" }}>Solve 2 Recursion Problems + 5 Logical Puzzles</td>
+                <td style={{ padding: "12px 16px" }}>
+                  ⏱️ {Math.max(2.5, ((profile.dailyHours || 4) * 0.6)).toFixed(1)} hrs DSA | {Math.max(1.5, ((profile.dailyHours || 4) * 0.4)).toFixed(1)} hrs Aptitude
+                </td>
+              </tr>
+              {/* Wednesday */}
+              <tr style={{ borderBottom: "1px solid rgba(255, 255, 255, 0.05)" }}>
+                <td style={{ padding: "12px 16px", fontWeight: "bold", color: "var(--primary)" }}>Wednesday</td>
+                <td style={{ padding: "12px 16px" }}>
+                  <strong>DSA:</strong> Singly Linked List Insertion (Lecture: Kunal LL)<br />
+                  <span style={{ fontSize: "0.75rem", color: "var(--text-secondary)" }}><strong>Aptitude:</strong> Quantitative Profit, Loss & Discounts</span>
+                </td>
+                <td style={{ padding: "12px 16px" }}>Solve 3 Linked List Problems + 5 Aptitude MCQs</td>
+                <td style={{ padding: "12px 16px" }}>
+                  ⏱️ {Math.max(2.5, ((profile.dailyHours || 4) * 0.6)).toFixed(1)} hrs DSA | {Math.max(1.5, ((profile.dailyHours || 4) * 0.4)).toFixed(1)} hrs Aptitude
+                </td>
+              </tr>
+              {/* Thursday */}
+              <tr style={{ borderBottom: "1px solid rgba(255, 255, 255, 0.05)" }}>
+                <td style={{ padding: "12px 16px", fontWeight: "bold", color: "var(--primary)" }}>Thursday</td>
+                <td style={{ padding: "12px 16px" }}>
+                  <strong>DSA:</strong> Stacks & Queues Implementation (Lecture: Coders Army)<br />
+                  <span style={{ fontSize: "0.75rem", color: "var(--text-secondary)" }}><strong>Aptitude:</strong> Logical Syllogisms & Seating Arrangement</span>
+                </td>
+                <td style={{ padding: "12px 16px" }}>Solve 2 Stack/Queue Problems + 5 Syllogism Questions</td>
+                <td style={{ padding: "12px 16px" }}>
+                  ⏱️ {Math.max(2.5, ((profile.dailyHours || 4) * 0.6)).toFixed(1)} hrs DSA | {Math.max(1.5, ((profile.dailyHours || 4) * 0.4)).toFixed(1)} hrs Aptitude
+                </td>
+              </tr>
+              {/* Friday */}
+              <tr style={{ borderBottom: "1px solid rgba(255, 255, 255, 0.05)" }}>
+                <td style={{ padding: "12px 16px", fontWeight: "bold", color: "var(--primary)" }}>Friday</td>
+                <td style={{ padding: "12px 16px" }}>
+                  <strong>DSA:</strong> Merge Sort & Quick Sort (Lecture: Striver Sorting)<br />
+                  <span style={{ fontSize: "0.75rem", color: "var(--text-secondary)" }}><strong>Aptitude:</strong> Quantitative Time, Speed & Distance</span>
+                </td>
+                <td style={{ padding: "12px 16px" }}>Solve 3 Sorting Problems + 5 Velocity MCQs</td>
+                <td style={{ padding: "12px 16px" }}>
+                  ⏱️ {Math.max(2.5, ((profile.dailyHours || 4) * 0.6)).toFixed(1)} hrs DSA | {Math.max(1.5, ((profile.dailyHours || 4) * 0.4)).toFixed(1)} hrs Aptitude
+                </td>
+              </tr>
+              {/* Saturday */}
+              <tr style={{ borderBottom: "1px solid rgba(255, 255, 255, 0.05)", backgroundColor: "rgba(255, 215, 0, 0.02)" }}>
+                <td style={{ padding: "12px 16px", fontWeight: "bold", color: "#ffd700" }}>Saturday</td>
+                <td style={{ padding: "12px 16px" }}>
+                  <strong>DEV:</strong> {
+                    (profile.devTrack || "Web Development") === "Web Development" ? "Frontend: Component Lifecycle & React Hooks" :
+                    (profile.devTrack || "Web Development") === "App Development" ? "Mobile UI: Flutter Widgets & Screen Layouts" :
+                    (profile.devTrack || "Web Development") === "Machine Learning" ? "Data Prep: NumPy & Pandas Exploratory Analysis" :
+                    "Cloud: AWS EC2 Virtual Machines & VPC Setup"
+                  }<br />
+                  <span style={{ fontSize: "0.75rem", color: "var(--text-secondary)" }}><strong>Lecture:</strong> Specialization roadmap video course</span>
+                </td>
+                <td style={{ padding: "12px 16px" }}>Assemble Dev Project UI + 1 Weekly Mock Contest</td>
+                <td style={{ padding: "12px 16px" }}>
+                  ⏱️ {Math.max(3.0, ((profile.dailyHours || 4) * 0.7)).toFixed(1)} hrs Dev | {Math.max(1.0, ((profile.dailyHours || 4) * 0.3)).toFixed(1)} hrs Contest
+                </td>
+              </tr>
+              {/* Sunday */}
+              <tr style={{ backgroundColor: "rgba(255, 215, 0, 0.02)" }}>
+                <td style={{ padding: "12px 16px", fontWeight: "bold", color: "#ffd700" }}>Sunday</td>
+                <td style={{ padding: "12px 16px" }}>
+                  <strong>DEV:</strong> {
+                    (profile.devTrack || "Web Development") === "Web Development" ? "Backend: Node.js Express REST API integration" :
+                    (profile.devTrack || "Web Development") === "App Development" ? "Mobile APIs: Firebase DB & Network Integration" :
+                    (profile.devTrack || "Web Development") === "Machine Learning" ? "Model Training: Regression models in Scikit-Learn" :
+                    "DevOps: Docker containers & GitHub Actions CI/CD"
+                  }<br />
+                  <span style={{ fontSize: "0.75rem", color: "var(--text-secondary)" }}><strong>Lecture:</strong> Database setup & continuous deployment course</span>
+                </td>
+                <td style={{ padding: "12px 16px" }}>Deploy weekend project code on GitHub + Revise DSA mistakes</td>
+                <td style={{ padding: "12px 16px" }}>
+                  ⏱️ {Math.max(3.0, ((profile.dailyHours || 4) * 0.7)).toFixed(1)} hrs Dev | {Math.max(1.0, ((profile.dailyHours || 4) * 0.3)).toFixed(1)} hrs DSA Revise
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
       {/* Daily Past Year Interview Questions (5 Tasks) */}
       <div className="card" style={{ marginBottom: "32px", borderTop: "4px solid var(--success)" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "16px" }}>
