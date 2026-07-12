@@ -72,13 +72,13 @@ export default function App() {
   });
 
   const [companies, setCompanies] = useState(() => {
-    const saved = localStorage.getItem("company_list");
-    return saved ? JSON.parse(saved) : mockCompanies;
+    localStorage.setItem("company_list", JSON.stringify(mockCompanies));
+    return mockCompanies;
   });
 
   const [playlists, setPlaylists] = useState(() => {
-    const saved = localStorage.getItem("playlist_list");
-    return saved ? JSON.parse(saved) : mockPlaylists;
+    localStorage.setItem("playlist_list", JSON.stringify(mockPlaylists));
+    return mockPlaylists;
   });
 
   // Default initial active view based on session type
