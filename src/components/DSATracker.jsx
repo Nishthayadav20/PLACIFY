@@ -35,41 +35,41 @@ export default function DSATracker({ dsaSheet, dsaState, toggleProblemCompleted,
             href="https://takeuforward.org/strivers-a-z-dsa-course-sheet-code-studio-problems/" 
             target="_blank" 
             rel="noopener noreferrer"
-            className="btn btn-secondary"
-            style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: "0.85rem", padding: "10px 14px", backgroundColor: "#000000" }}
+            className="btn"
+            style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: "0.85rem", padding: "10px 14px", backgroundColor: "#ffd700", color: "#000000", fontWeight: "bold", border: "none" }}
           >
             <span>Striver's A-Z DSA Sheet</span>
-            <ExternalLink size={14} />
+            <ExternalLink size={14} color="#000000" />
           </a>
           <a 
             href="https://www.geeksforgeeks.org/dsa-sheet-by-love-babbar/" 
             target="_blank" 
             rel="noopener noreferrer"
-            className="btn btn-secondary"
-            style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: "0.85rem", padding: "10px 14px", backgroundColor: "#000000" }}
+            className="btn"
+            style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: "0.85rem", padding: "10px 14px", backgroundColor: "#ffd700", color: "#000000", fontWeight: "bold", border: "none" }}
           >
             <span>Love Babbar 450 Sheet</span>
-            <ExternalLink size={14} />
+            <ExternalLink size={14} color="#000000" />
           </a>
           <a 
             href="https://github.com/kunal-kushwaha/DSA-Bootcamp-Java" 
             target="_blank" 
             rel="noopener noreferrer"
-            className="btn btn-secondary"
-            style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: "0.85rem", padding: "10px 14px", backgroundColor: "#000000" }}
+            className="btn"
+            style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: "0.85rem", padding: "10px 14px", backgroundColor: "#ffd700", color: "#000000", fontWeight: "bold", border: "none" }}
           >
             <span>Kunal Kushwaha Java Sheet</span>
-            <ExternalLink size={14} />
+            <ExternalLink size={14} color="#000000" />
           </a>
           <a 
             href="https://neetcode.io/practice" 
             target="_blank" 
             rel="noopener noreferrer"
-            className="btn btn-secondary"
-            style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: "0.85rem", padding: "10px 14px", backgroundColor: "#000000" }}
+            className="btn"
+            style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: "0.85rem", padding: "10px 14px", backgroundColor: "#ffd700", color: "#000000", fontWeight: "bold", border: "none" }}
           >
             <span>NeetCode 150 Tracker</span>
-            <ExternalLink size={14} />
+            <ExternalLink size={14} color="#000000" />
           </a>
         </div>
       </div>
