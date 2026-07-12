@@ -562,35 +562,112 @@ export default function LearningHub({ playlists, playlistState, toggleVideoWatch
                         alt={video.title}
                         style={{ width: "80px", height: "45px", objectFit: "cover", borderRadius: "4px" }}
                       />
-                      <div style={{ overflow: "hidden" }}>
+                      <div style={{ overflow: "hidden", flex: 1 }}>
                         <h5 style={{ margin: 0, fontSize: "0.75rem", color: "#ffffff", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
                           {video.title}
                         </h5>
                         <span style={{ fontSize: "0.65rem", color: "var(--text-muted)", display: "block" }}>{video.creator}</span>
                         {video.views && <span style={{ fontSize: "0.6rem", color: "var(--primary)", display: "block", fontWeight: "bold" }}>🔥 {video.views}</span>}
                       </div>
+
+                      {/* YouTube Redirect Arrow */}
+                      <a 
+                        href={`https://www.youtube.com/watch?v=${video.id}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          color: "var(--danger)",
+                          padding: "0 6px",
+                          fontSize: "1.1rem",
+                          textDecoration: "none",
+                          fontWeight: "bold"
+                        }}
+                        title="Watch directly on YouTube"
+                      >
+                        ➔
+                      </a>
                     </div>
                   ))}
                 </div>
 
-                {/* Right: Embedded Video Player */}
-                <div style={{ flex: 1.5, position: "relative", backgroundColor: "#000000" }}>
-                  {selectedYtVideo ? (
-                    <iframe
-                      title="Live YouTube Search Player"
-                      width="100%"
-                      height="100%"
-                      src={`https://www.youtube.com/embed/${selectedYtVideo}?autoplay=1`}
-                      frameBorder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                    ></iframe>
-                  ) : (
-                    <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%", color: "var(--text-muted)", fontSize: "0.85rem" }}>
-                      Select a video to play
+                {/* Right: Premium Video Preview Card */}
+                {(() => {
+                  const activeVid = liveVideos.find(v => v.id === selectedYtVideo) || liveVideos[0];
+                  return activeVid ? (
+                    <div style={{ flex: 1.5, display: "flex", flexDirection: "column", padding: "16px", backgroundColor: "#000000", justifyContent: "space-between" }}>
+                      <div style={{ position: "relative", width: "100%", height: "160px", borderRadius: "6px", overflow: "hidden", border: "1px solid var(--border-color)" }}>
+                        <img 
+                          src={activeVid.thumbnail} 
+                          alt={activeVid.title} 
+                          style={{ width: "100%", height: "100%", objectFit: "cover" }} 
+                        />
+                        <a 
+                          href={`https://www.youtube.com/watch?v=${activeVid.id}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{
+                            position: "absolute",
+                            top: 0, left: 0, right: 0, bottom: 0,
+                            backgroundColor: "rgba(0,0,0,0.3)",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            textDecoration: "none"
+                          }}
+                        >
+                          <div style={{
+                            width: "50px",
+                            height: "50px",
+                            borderRadius: "50%",
+                            backgroundColor: "var(--danger)",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            boxShadow: "0 4px 15px rgba(239, 68, 68, 0.4)",
+                            color: "#ffffff",
+                            fontSize: "1.5rem"
+                          }}>
+                            ▶
+                          </div>
+                        </a>
+                      </div>
+                      
+                      <div style={{ marginTop: "12px" }}>
+                        <h4 style={{ margin: "0 0 4px 0", fontSize: "0.9rem", color: "#ffffff" }}>{activeVid.title}</h4>
+                        <span style={{ fontSize: "0.75rem", color: "var(--text-secondary)", display: "block" }}>Creator: {activeVid.creator}</span>
+                        {activeVid.views && <span style={{ fontSize: "0.75rem", color: "var(--primary)", fontWeight: "bold" }}>Views: {activeVid.views}</span>}
+                      </div>
+
+                      <a 
+                        href={`https://www.youtube.com/watch?v=${activeVid.id}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="btn btn-primary"
+                        style={{ 
+                          marginTop: "12px", 
+                          width: "100%", 
+                          justifyContent: "center", 
+                          display: "flex", 
+                          gap: "8px",
+                          backgroundColor: "var(--danger)",
+                          borderColor: "var(--danger)",
+                          color: "#ffffff",
+                          fontWeight: "bold"
+                        }}
+                      >
+                        Play Lesson on YouTube ↗
+                      </a>
                     </div>
-                  )}
-                </div>
+                  ) : (
+                    <div style={{ flex: 1.5, display: "flex", alignItems: "center", justifyContent: "center", color: "var(--text-muted)", fontSize: "0.85rem" }}>
+                      Select a video to preview
+                    </div>
+                  );
+                })()}
               </div>
             ) : (
               <div style={{ flex: 1, padding: "40px", textAlign: "center", color: "var(--text-muted)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
