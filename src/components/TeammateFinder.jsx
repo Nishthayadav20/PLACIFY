@@ -82,7 +82,17 @@ export default function TeammateFinder({ profile }) {
 
           <button 
             className="btn btn-primary"
-            style={{ width: "100%", justifyContent: "center", display: "flex", gap: "8px", marginTop: "10px" }}
+            style={{ 
+              width: "100%", 
+              justifyContent: "center", 
+              display: "flex", 
+              gap: "8px", 
+              marginTop: "10px",
+              backgroundColor: "#000000",
+              color: "#ffffff",
+              border: "1px solid #ffffff",
+              fontWeight: "bold"
+            }}
             onClick={runMatchingAlgorithm}
             disabled={isMatching}
           >
