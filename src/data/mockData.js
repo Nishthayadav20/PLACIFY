@@ -677,6 +677,121 @@ export const mockCompanies = [
         date: "October 2026"
       }
     ]
+  },
+  {
+    id: "c-11",
+    name: "Cognizant",
+    logo: "Co",
+    color: "#000048",
+    ctc: "4.0 - 8.5 LPA",
+    cgpaCutoff: 6.0,
+    branchesAllowed: ["All B.Tech Branches"],
+    hiringRounds: ["GenC/GenC Elevate Assessment", "Coding Round", "Technical Interview", "HR Interview"],
+    visitingCollege: "On-Campus",
+    role: "GenC/GenC Elevate Developer",
+    experiences: [
+      {
+        id: "exp-11-1",
+        user: "Sneha Rao",
+        title: "Cognizant Developer On-Campus",
+        tags: ["Arrays", "OOPs", "DBMS"],
+        content: "Focused on Java basics, inheritance, SQL queries (joins, group by), and simple string array reversals. HR round was basic resume evaluation.",
+        difficulty: "Easy",
+        date: "October 2026"
+      }
+    ]
+  },
+  {
+    id: "c-12",
+    name: "Razorpay",
+    logo: "Rz",
+    color: "#0A2540",
+    ctc: "22 - 28 LPA",
+    cgpaCutoff: 7.5,
+    branchesAllowed: ["CSE", "IT", "ECE"],
+    hiringRounds: ["Online Coding Test", "Tech Round 1 (DSA)", "Tech Round 2 (System Design / Machine Coding)", "Managerial HR"],
+    visitingCollege: "Off-Campus / Pool Campus",
+    role: "Software Development Engineer - 1",
+    experiences: [
+      {
+        id: "exp-12-1",
+        user: "Akash Verma",
+        title: "SDE-1 Interview Experience",
+        tags: ["LRU Cache", "System Design"],
+        content: "Asked to implement an LRU Cache with custom get/set and handle concurrency. Second round was designing a scalable billing system ledger.",
+        difficulty: "Hard",
+        date: "November 2026"
+      }
+    ]
+  },
+  {
+    id: "c-13",
+    name: "Rapipay",
+    logo: "Rp",
+    color: "#FF4500",
+    ctc: "8 - 12 LPA",
+    cgpaCutoff: 7.0,
+    branchesAllowed: ["CSE", "IT", "ECE", "EE"],
+    hiringRounds: ["Aptitude & Basic Coding", "Technical Round 1", "Technical Round 2", "HR Round"],
+    visitingCollege: "On-Campus",
+    role: "Associate Software Engineer",
+    experiences: [
+      {
+        id: "exp-13-1",
+        user: "Mohit Dev",
+        title: "ASE Interview",
+        tags: ["Java", "Spring Boot", "SQL"],
+        content: "Interview focused heavily on Java OOPs concepts, REST APIs, and simple string reversals. Basic SQL queries were asked on indexing.",
+        difficulty: "Easy",
+        date: "November 2026"
+      }
+    ]
+  },
+  {
+    id: "c-14",
+    name: "Juspay",
+    logo: "Ju",
+    color: "#4B0082",
+    ctc: "21 - 27 LPA",
+    cgpaCutoff: 7.0,
+    branchesAllowed: ["All B.Tech Branches"],
+    hiringRounds: ["Online Coding Challenge (3 Hard Questions)", "Hackathon Round (24hr)", "Technical Interview", "HR Round"],
+    visitingCollege: "Off-Campus / Pool Campus",
+    role: "Member Technical Staff",
+    experiences: [
+      {
+        id: "exp-14-1",
+        user: "Tushar Sen",
+        title: "Juspay MTS Experience",
+        tags: ["Graphs", "Trees", "Concurrency"],
+        content: "Got questions on Graph traversals (find shortest path with blocking nodes). The hackathon round was highly intensive, coding in FP paradigms.",
+        difficulty: "Hard",
+        date: "December 2026"
+      }
+    ]
+  },
+  {
+    id: "c-15",
+    name: "JTG (Josh Technology Group)",
+    logo: "Jt",
+    color: "#2C3E50",
+    ctc: "10 - 15 LPA",
+    cgpaCutoff: 7.0,
+    branchesAllowed: ["CSE", "IT", "ECE"],
+    hiringRounds: ["Coding Test 1", "Coding Test 2", "Technical Round 1", "Technical Round 2", "Director Round"],
+    visitingCollege: "On-Campus",
+    role: "Software Developer",
+    experiences: [
+      {
+        id: "exp-15-1",
+        user: "Pooja Roy",
+        title: "Software Developer Interview",
+        tags: ["DSA", "DBMS", "Algorithms"],
+        content: "First coding round was standard. Tech rounds focused heavily on computer networks, pointers, memory allocation, and array sorting.",
+        difficulty: "Medium",
+        date: "December 2026"
+      }
+    ]
   }
 ];
 

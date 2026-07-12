@@ -96,6 +96,46 @@ export default function ReferralCorner() {
       linkedin: "https://www.linkedin.com/in/aditya-das-accenture",
       color: "#A100FF",
       template: "Hi Aditya, I am a B.Tech CS graduate seeking a referral for the Associate Software Engineer role at Accenture. I have strong foundations in DBMS, OS, and OOPs. Here is my resume: [Resume Link]. Thank you!"
+    },
+    {
+      id: "hr-10",
+      name: "Nisha Jain",
+      title: "Senior Tech Recruiter",
+      company: "Razorpay",
+      type: "Product-Based",
+      linkedin: "https://www.linkedin.com/in/nisha-jain-razorpay",
+      color: "#0A2540",
+      template: "Hello Nisha, I am seeking a referral for the SDE-1 role at Razorpay. I have built secure payment gateways and solved 400+ problems on LeetCode. Would love to share my portfolio: [Portfolio Link]. Thank you!"
+    },
+    {
+      id: "hr-11",
+      name: "Deepak Singhal",
+      title: "HR Head",
+      company: "Rapipay",
+      type: "Product-Based",
+      linkedin: "https://www.linkedin.com/in/deepak-singhal-rapipay",
+      color: "#FF4500",
+      template: "Dear Deepak, I am a software engineer seeking an Associate Software Engineer role referral at Rapipay. I have experience in Java, Spring Boot, and database management. Here is my resume: [Resume Link]. Thanks!"
+    },
+    {
+      id: "hr-12",
+      name: "Shruti Malhotra",
+      title: "Lead Talent Manager",
+      company: "Juspay",
+      type: "Product-Based",
+      linkedin: "https://www.linkedin.com/in/shruti-malhotra-juspay",
+      color: "#4B0082",
+      template: "Hi Shruti, I hope you are doing well. I am a passionate programmer seeking a referral for the Member Technical Staff role at Juspay. I love solving complex Graph algorithms. My profile: [Profile Link]. Thank you!"
+    },
+    {
+      id: "hr-13",
+      name: "Rahul Mehra",
+      title: "Head of Recruitment",
+      company: "JTG (Josh Technology Group)",
+      type: "Product-Based",
+      linkedin: "https://www.linkedin.com/in/rahul-mehra-jtg",
+      color: "#2C3E50",
+      template: "Hello Rahul, I am highly interested in the Software Developer role at Josh Technology Group. I have solid foundations in Data Structures, OS, and Networks. Please review my profile for a referral: [Resume Link]. Thanks!"
     }
   ];
 
