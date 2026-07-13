@@ -122,9 +122,15 @@ export default function LearningHub({ playlists, playlistState, toggleVideoWatch
     else if (cleanE.includes("saini") || cleanE.includes("akshay")) playlistUrl = "https://www.youtube.com/playlist?list=PLlasXeu85E9cQ32gLCgSeGzyVFAgSZg14";
     else if (cleanE.includes("roadside")) playlistUrl = "https://www.youtube.com/playlist?list=PLKhlp2qtUcSaCVJElJ9JAG7JgRE0JDJyT";
 
+    const sanitizeUrl = (urlStr) => {
+      if (!urlStr) return "";
+      // Remove non-ASCII characters (like en-dashes U+2013)
+      return urlStr.replace(/[^\x20-\x7E]/g, "").trim();
+    };
+
     return {
       ...result,
-      playlistUrl,
+      playlistUrl: sanitizeUrl(playlistUrl),
       thumbnail: `https://img.youtube.com/vi/${result.id}/mqdefault.jpg`
     };
   };
