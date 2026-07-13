@@ -103,9 +103,10 @@ export default function Onboarding({ onComplete, onBack }) {
       alignItems: "center",
       justifyContent: "center",
       backgroundImage: "url('/proud-bg.jpeg')",
-      backgroundSize: "cover",
+      backgroundSize: "contain",
       backgroundPosition: "center",
       backgroundRepeat: "no-repeat",
+      backgroundColor: "#000000",
       color: "#ffffff",
       padding: "20px",
       position: "relative"
