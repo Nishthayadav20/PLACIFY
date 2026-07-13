@@ -2,6 +2,10 @@
 
 **SUCCESS IS JUST NEXT STEP AWAY !!!**
 
+🔗 **Live Link**: [placify-three.vercel.app](https://placify-three.vercel.app/)
+
+---
+
 PLACIFY is a premium, feature-rich SDE placement preparation companion and dashboard. Designed for aspiring software engineers, it streamlines daily routines, tracks DSA progress, schedules mock assessments, and provides a continuous SDE mentor in the form of **TechGuru**, a customized Gemini-powered AI assistant.
 
 ---
