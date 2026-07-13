@@ -120,11 +120,11 @@ export default function Onboarding({ onComplete, onBack }) {
       }} />
 
       <div className="card" style={{
-        maxWidth: "600px",
+        maxWidth: "520px",
         width: "100%",
         backgroundColor: "rgba(0, 0, 0, 0.85)",
         border: "1px solid var(--border-color)",
-        padding: "40px",
+        padding: "24px",
         borderRadius: "8px",
         zIndex: 2,
         backdropFilter: "blur(4px)"
@@ -142,29 +142,29 @@ export default function Onboarding({ onComplete, onBack }) {
               display: "inline-flex",
               alignItems: "center",
               gap: "6px",
-              fontSize: "0.9rem",
-              padding: "0 0 20px 0",
+              fontSize: "0.85rem",
+              padding: "0 0 12px 0",
               fontWeight: 500
             }}
             onMouseEnter={(e) => e.target.style.color = "#ffffff"}
             onMouseLeave={(e) => e.target.style.color = "#cbd5e1"}
           >
-            <ArrowLeft size={16} /> Back to Home
+            <ArrowLeft size={14} /> Back to Home
           </button>
         )}
 
         {/* Title */}
-        <div style={{ textAlign: "center", marginBottom: "32px" }}>
+        <div style={{ textAlign: "center", marginBottom: "16px" }}>
           {/* Logo Representation P</> */}
           <div style={{
-            fontSize: "2.8rem",
+            fontSize: "2rem",
             fontWeight: "900",
             fontFamily: "var(--font-headings)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             gap: "2px",
-            marginBottom: "16px"
+            marginBottom: "8px"
           }}>
             <span style={{ color: "var(--success)" }}>P</span>
             <span style={{ display: "flex", alignItems: "center", gap: "1px" }}>
@@ -173,46 +173,47 @@ export default function Onboarding({ onComplete, onBack }) {
               <span style={{ color: "var(--danger)" }}>&gt;</span>
             </span>
           </div>
-          <h1 style={{ fontSize: "2rem", marginBottom: "8px", color: "#ffffff" }}>Welcome to PLACIFY</h1>
-          <p style={{ color: "#cbd5e1" }}>Set up your profile, load your coding accounts, and start your tailored routine.</p>
+          <h1 style={{ fontSize: "1.5rem", marginBottom: "4px", color: "#ffffff" }}>Welcome to PLACIFY</h1>
+          <p style={{ color: "#cbd5e1", fontSize: "0.75rem", margin: 0 }}>Set up your SDE profile to initialize your dashboard.</p>
         </div>
 
         {errorMsg && (
           <div className="badge badge-danger" style={{ 
             width: "100%", 
             justifyContent: "center", 
-            padding: "10px", 
-            marginBottom: "20px",
+            padding: "8px", 
+            marginBottom: "12px",
             borderRadius: "var(--radius-sm)",
-            textTransform: "none"
+            textTransform: "none",
+            fontSize: "0.75rem"
           }}>
             {errorMsg}
           </div>
         )}
 
-        <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+        <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
           {/* GitHub OAuth Secure Integration */}
-          <div style={{ borderBottom: "1px solid var(--border-color)", paddingBottom: "20px" }}>
+          <div style={{ borderBottom: "1px solid var(--border-color)", paddingBottom: "12px" }}>
             <button 
               type="button" 
               className="btn btn-secondary" 
               onClick={handleGithubOAuth}
-              style={{ width: "100%", justifyContent: "center", display: "flex", gap: "10px", padding: "12px", border: "1px solid #ffffff", backgroundColor: "#000000", color: "#ffffff", fontWeight: "bold" }}
+              style={{ width: "100%", justifyContent: "center", display: "flex", gap: "8px", padding: "8px 12px", fontSize: "0.8rem", border: "1px solid #ffffff", backgroundColor: "#000000", color: "#ffffff", fontWeight: "bold" }}
               disabled={isAuthenticating}
             >
-              <Github size={20} />
-              {isAuthenticating ? "Connecting securely via GitHub OAuth..." : "Autofill via Secure GitHub OAuth"}
+              <Github size={16} />
+              {isAuthenticating ? "Connecting securely..." : "Autofill via Secure GitHub OAuth"}
             </button>
           </div>
 
           {/* Name */}
           <div>
-            <label style={{ fontSize: "0.9rem", fontWeight: 600, display: "block", marginBottom: "6px", color: "#ffffff" }}>Full Name *</label>
+            <label style={{ fontSize: "0.8rem", fontWeight: 600, display: "block", marginBottom: "4px", color: "#ffffff" }}>Full Name *</label>
             <input 
               type="text" 
               className="search-input" 
               placeholder="e.g. Nishtha Yadav"
-              style={{ width: "100%", backgroundColor: "#000000", border: "1px solid #ffffff", color: "#ffffff" }}
+              style={{ width: "100%", padding: "8px 10px", fontSize: "0.8rem", backgroundColor: "#000000", border: "1px solid #ffffff", color: "#ffffff" }}
               value={name} 
               onChange={(e) => setName(e.target.value)} 
               required 
@@ -221,51 +222,51 @@ export default function Onboarding({ onComplete, onBack }) {
 
           {/* Social Profiles Grid */}
           <div>
-            <label style={{ fontSize: "0.9rem", fontWeight: 600, display: "block", marginBottom: "8px", color: "#ffffff" }}>
-              Coding Profiles (GitHub & LeetCode * required, others optional)
+            <label style={{ fontSize: "0.8rem", fontWeight: 600, display: "block", marginBottom: "4px", color: "#ffffff" }}>
+              Coding Profiles (GitHub & LeetCode * required)
             </label>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
-              <div style={{ display: "flex", alignItems: "center", border: "1px solid #ffffff", borderRadius: "var(--radius-sm)", padding: "0 10px", backgroundColor: "#000000" }}>
-                <Github size={16} style={{ color: "#ffffff", marginRight: "8px" }} />
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px" }}>
+              <div style={{ display: "flex", alignItems: "center", border: "1px solid #ffffff", borderRadius: "var(--radius-sm)", padding: "0 8px", backgroundColor: "#000000" }}>
+                <Github size={14} style={{ color: "#ffffff", marginRight: "6px" }} />
                 <input 
                   type="text" 
-                  placeholder="GitHub Username *" 
-                  style={{ border: "none", outline: "none", padding: "10px 0", width: "100%", fontSize: "0.85rem", backgroundColor: "transparent", color: "#ffffff" }}
+                  placeholder="GitHub *" 
+                  style={{ border: "none", outline: "none", padding: "6px 0", width: "100%", fontSize: "0.75rem", backgroundColor: "transparent", color: "#ffffff" }}
                   value={github}
                   onChange={(e) => setGithub(e.target.value)}
                   required
                 />
               </div>
 
-              <div style={{ display: "flex", alignItems: "center", border: "1px solid #ffffff", borderRadius: "var(--radius-sm)", padding: "0 10px", backgroundColor: "#000000" }}>
-                <Code size={16} style={{ color: "#ffffff", marginRight: "8px" }} />
+              <div style={{ display: "flex", alignItems: "center", border: "1px solid #ffffff", borderRadius: "var(--radius-sm)", padding: "0 8px", backgroundColor: "#000000" }}>
+                <Code size={14} style={{ color: "#ffffff", marginRight: "6px" }} />
                 <input 
                   type="text" 
-                  placeholder="LeetCode Username *" 
-                  style={{ border: "none", outline: "none", padding: "10px 0", width: "100%", fontSize: "0.85rem", backgroundColor: "transparent", color: "#ffffff" }}
+                  placeholder="LeetCode *" 
+                  style={{ border: "none", outline: "none", padding: "6px 0", width: "100%", fontSize: "0.75rem", backgroundColor: "transparent", color: "#ffffff" }}
                   value={leetcode}
                   onChange={(e) => setLeetcode(e.target.value)}
                   required
                 />
               </div>
 
-              <div style={{ display: "flex", alignItems: "center", border: "1px solid #ffffff", borderRadius: "var(--radius-sm)", padding: "0 10px", backgroundColor: "#000000" }}>
-                <Award size={16} style={{ color: "#ffffff", marginRight: "8px" }} />
+              <div style={{ display: "flex", alignItems: "center", border: "1px solid #ffffff", borderRadius: "var(--radius-sm)", padding: "0 8px", backgroundColor: "#000000" }}>
+                <Award size={14} style={{ color: "#ffffff", marginRight: "6px" }} />
                 <input 
                   type="text" 
-                  placeholder="HackerRank Username" 
-                  style={{ border: "none", outline: "none", padding: "10px 0", width: "100%", fontSize: "0.85rem", backgroundColor: "transparent", color: "#ffffff" }}
+                  placeholder="HackerRank" 
+                  style={{ border: "none", outline: "none", padding: "6px 0", width: "100%", fontSize: "0.75rem", backgroundColor: "transparent", color: "#ffffff" }}
                   value={hackerrank}
                   onChange={(e) => setHackerrank(e.target.value)}
                 />
               </div>
 
-              <div style={{ display: "flex", alignItems: "center", border: "1px solid #ffffff", borderRadius: "var(--radius-sm)", padding: "0 10px", backgroundColor: "#000000" }}>
-                <Terminal size={16} style={{ color: "#ffffff", marginRight: "8px" }} />
+              <div style={{ display: "flex", alignItems: "center", border: "1px solid #ffffff", borderRadius: "var(--radius-sm)", padding: "0 8px", backgroundColor: "#000000" }}>
+                <Terminal size={14} style={{ color: "#ffffff", marginRight: "6px" }} />
                 <input 
                   type="text" 
-                  placeholder="CodeChef Username" 
-                  style={{ border: "none", outline: "none", padding: "10px 0", width: "100%", fontSize: "0.85rem", backgroundColor: "transparent", color: "#ffffff" }}
+                  placeholder="CodeChef" 
+                  style={{ border: "none", outline: "none", padding: "6px 0", width: "100%", fontSize: "0.75rem", backgroundColor: "transparent", color: "#ffffff" }}
                   value={codechef}
                   onChange={(e) => setCodechef(e.target.value)}
                 />
@@ -273,103 +274,82 @@ export default function Onboarding({ onComplete, onBack }) {
             </div>
           </div>
 
-          {/* Level Selector */}
-          <div>
-            <label style={{ fontSize: "0.9rem", fontWeight: 600, display: "block", marginBottom: "6px", color: "#ffffff" }}>Your DSA Level *</label>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "8px" }}>
-              {["Beginner", "Basic", "Intermediate", "Advanced"].map(lvl => (
-                <button
-                  key={lvl}
-                  type="button"
-                  style={{ 
-                    padding: "8px 0", 
-                    width: "100%", 
-                    fontSize: "0.85rem",
-                    backgroundColor: dsaLevel === lvl ? "#ffffff" : "#000000",
-                    color: dsaLevel === lvl ? "#000000" : "#ffffff",
-                    border: "1px solid #ffffff",
-                    borderRadius: "4px",
-                    cursor: "pointer",
-                    fontWeight: dsaLevel === lvl ? "bold" : "normal"
-                  }}
-                  onClick={() => setDsaLevel(lvl)}
-                >
-                  {lvl}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Timeline Days */}
-          <div>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "6px" }}>
-              <label style={{ fontSize: "0.9rem", fontWeight: 600, color: "#ffffff" }}>Target Days to Complete DSA *</label>
-              <span style={{ fontSize: "0.75rem", color: "var(--danger)", fontWeight: 600 }}>{getMinDaysHint()}</span>
-            </div>
-            <input 
-              type="number" 
-              className="search-input" 
-              style={{ width: "100%", backgroundColor: "#000000", border: "1px solid #ffffff", color: "#ffffff" }}
-              value={timelineDays}
-              onChange={(e) => setTimelineDays(e.target.value)}
-              min={dsaLevel === "Advanced" ? 45 : dsaLevel === "Intermediate" ? 60 : 90}
-              required 
-            />
-          </div>
-
-          {/* Language Selector */}
-          <div>
-            <label style={{ fontSize: "0.9rem", fontWeight: 600, display: "block", marginBottom: "6px", color: "#ffffff" }}>Preferred Programming Language *</label>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "8px" }}>
-              {["C++", "Java", "Python", "JavaScript"].map(lang => (
-                <button
-                  key={lang}
-                  type="button"
-                  style={{ 
-                    padding: "8px 0", 
-                    width: "100%", 
-                    fontSize: "0.85rem",
-                    backgroundColor: language === lang ? "#ffffff" : "#000000",
-                    color: language === lang ? "#000000" : "#ffffff",
-                    border: "1px solid #ffffff",
-                    borderRadius: "4px",
-                    cursor: "pointer",
-                    fontWeight: language === lang ? "bold" : "normal"
-                  }}
-                  onClick={() => setLanguage(lang)}
-                >
-                  {lang}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
+          {/* Level Selector (Dropdown) */}
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
             <div>
-              <label style={{ fontSize: "0.9rem", fontWeight: 600, color: "#ffffff", display: "block", marginBottom: "6px" }}>Daily Study Hours (Min 4) *</label>
+              <label style={{ fontSize: "0.8rem", fontWeight: 600, display: "block", marginBottom: "4px", color: "#ffffff" }}>DSA Level *</label>
+              <select
+                style={{ width: "100%", padding: "8px", backgroundColor: "#000000", border: "1px solid #ffffff", color: "#ffffff", borderRadius: "4px", fontSize: "0.8rem" }}
+                value={dsaLevel}
+                onChange={(e) => setDsaLevel(e.target.value)}
+              >
+                <option value="Beginner">Beginner</option>
+                <option value="Basic">Basic</option>
+                <option value="Intermediate">Intermediate</option>
+                <option value="Advanced">Advanced</option>
+              </select>
+            </div>
+
+            {/* Timeline Days */}
+            <div>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "4px" }}>
+                <label style={{ fontSize: "0.8rem", fontWeight: 600, color: "#ffffff" }}>Target Days *</label>
+                <span style={{ fontSize: "0.65rem", color: "var(--danger)", fontWeight: 600 }}>{getMinDaysHint()}</span>
+              </div>
               <input 
                 type="number" 
                 className="search-input" 
-                style={{ width: "100%", backgroundColor: "#000000", border: "1px solid #ffffff", color: "#ffffff" }}
+                style={{ width: "100%", padding: "8px 10px", fontSize: "0.8rem", backgroundColor: "#000000", border: "1px solid #ffffff", color: "#ffffff" }}
+                value={timelineDays}
+                onChange={(e) => setTimelineDays(e.target.value)}
+                min={dsaLevel === "Advanced" ? 45 : dsaLevel === "Intermediate" ? 60 : 90}
+                required 
+              />
+            </div>
+          </div>
+
+          {/* Language Selector (Dropdown) */}
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
+            <div>
+              <label style={{ fontSize: "0.8rem", fontWeight: 600, display: "block", marginBottom: "4px", color: "#ffffff" }}>Language *</label>
+              <select
+                style={{ width: "100%", padding: "8px", backgroundColor: "#000000", border: "1px solid #ffffff", color: "#ffffff", borderRadius: "4px", fontSize: "0.8rem" }}
+                value={language}
+                onChange={(e) => setLanguage(e.target.value)}
+              >
+                <option value="C++">C++</option>
+                <option value="Java">Java</option>
+                <option value="Python">Python</option>
+                <option value="JavaScript">JavaScript</option>
+              </select>
+            </div>
+
+            <div>
+              <label style={{ fontSize: "0.8rem", fontWeight: 600, color: "#ffffff", display: "block", marginBottom: "4px" }}>Daily Hours (Min 4) *</label>
+              <input 
+                type="number" 
+                className="search-input" 
+                style={{ width: "100%", padding: "8px 10px", fontSize: "0.8rem", backgroundColor: "#000000", border: "1px solid #ffffff", color: "#ffffff" }}
                 value={dailyHours}
                 onChange={(e) => setDailyHours(Math.max(1, Number(e.target.value)))}
                 min={4}
                 required 
               />
             </div>
-            <div>
-              <label style={{ fontSize: "0.9rem", fontWeight: 600, color: "#ffffff", display: "block", marginBottom: "6px" }}>Preferred Dev Specialization *</label>
-              <select
-                style={{ width: "100%", padding: "10px", backgroundColor: "#000000", border: "1px solid #ffffff", color: "#ffffff", borderRadius: "4px" }}
-                value={devTrack}
-                onChange={(e) => setDevTrack(e.target.value)}
-              >
-                <option value="Web Development">Web Development</option>
-                <option value="App Development">App Development</option>
-                <option value="Machine Learning">Machine Learning</option>
-                <option value="AWS Cloud & DevOps">AWS Cloud & DevOps</option>
-              </select>
-            </div>
+          </div>
+
+          <div>
+            <label style={{ fontSize: "0.8rem", fontWeight: 600, color: "#ffffff", display: "block", marginBottom: "4px" }}>Preferred Dev Specialization *</label>
+            <select
+              style={{ width: "100%", padding: "8px", backgroundColor: "#000000", border: "1px solid #ffffff", color: "#ffffff", borderRadius: "4px", fontSize: "0.8rem" }}
+              value={devTrack}
+              onChange={(e) => setDevTrack(e.target.value)}
+            >
+              <option value="Web Development">Web Development</option>
+              <option value="App Development">App Development</option>
+              <option value="Machine Learning">Machine Learning</option>
+              <option value="AWS Cloud & DevOps">AWS Cloud & DevOps</option>
+            </select>
           </div>
 
           {/* Submit */}
@@ -377,9 +357,9 @@ export default function Onboarding({ onComplete, onBack }) {
             type="submit" 
             style={{ 
               width: "100%", 
-              padding: "12px", 
-              fontSize: "1rem", 
-              marginTop: "12px",
+              padding: "10px", 
+              fontSize: "0.95rem", 
+              marginTop: "4px",
               backgroundColor: "#ffffff",
               color: "#000000",
               border: "1px solid #ffffff",
