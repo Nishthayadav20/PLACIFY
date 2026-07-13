@@ -2,7 +2,7 @@
 
 **SUCCESS IS JUST NEXT STEP AWAY !!!**
 
-🔗 **Live Link**: [placify-three.vercel.app](https://placify-three.vercel.app/)
+🔗 **Live Link**: [placify-rho-three.vercel.app](https://placify-rho-three.vercel.app/)
 
 ---
 
