@@ -112,12 +112,15 @@ export default function LearningHub({ playlists, playlistState, toggleVideoWatch
     }
     
     let playlistUrl = "https://www.youtube.com";
-    if (cleanE.includes("babbar")) playlistUrl = "https://www.youtube.com/playlist?list=PLDzeHZWIZsTrytAR3SpOMBc0y30e0FiAK";
-    else if (cleanE.includes("striver")) playlistUrl = "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_B1y";
-    else if (cleanE.includes("kunal")) playlistUrl = "https://www.youtube.com/playlist?list=PL9gnSGHSqcnr_DxHsP7AW9ftq0AtAyYqJ";
-    else if (cleanE.includes("college")) playlistUrl = "https://www.youtube.com/playlist?list=PLfqMhTWNBTe3LtFWg91dxgLYxpsb95HC1";
-    else if (cleanE.includes("harry")) playlistUrl = "https://www.youtube.com/playlist?list=PLu0W_9lII9ahIappRPN0gEE31dz5OySSg";
+    if (cleanE.includes("babbar")) playlistUrl = "https://www.youtube.com/playlist?list=PLDzeHZWIZsTryvtKBemfi6Qj5WYjRYnFg";
+    else if (cleanE.includes("striver")) playlistUrl = "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m21w1dA31T47mjYX";
+    else if (cleanE.includes("kunal")) playlistUrl = "https://www.youtube.com/playlist?list=PL9gnSGHSqcnr_DxHsP7gSn15g30tbkAyi";
+    else if (cleanE.includes("college")) playlistUrl = "https://www.youtube.com/playlist?list=PLfqMhYy_bDFzyODS_Xp-6X9sI7hA9B5_u";
+    else if (cleanE.includes("harry")) playlistUrl = "https://www.youtube.com/playlist?list=PLu0W_9lII9agpFUAlPFe_VNSlXW5uE4YL";
     else if (cleanE.includes("army")) playlistUrl = "https://www.youtube.com/playlist?list=PLQEaGQc_RNYN1V1H39p-8T_fL2Pgz71b7";
+    else if (cleanE.includes("neetcode")) playlistUrl = "https://www.youtube.com/playlist?list=PLot-Xpkr5xvrk69zPjdfPcoV3Fz3a_D3W";
+    else if (cleanE.includes("saini") || cleanE.includes("akshay")) playlistUrl = "https://www.youtube.com/playlist?list=PLlasXeu85E9cQ32gLCgSeGzyVFAgSZg14";
+    else if (cleanE.includes("roadside")) playlistUrl = "https://www.youtube.com/playlist?list=PLKhlp2qtUcSaCVJElJ9JAG7JgRE0JDJyT";
 
     return {
       ...result,
